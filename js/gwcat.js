@@ -143,7 +143,7 @@ GWCat.prototype.loadData = function(){
 		return this;
 	} // End default ajax() function
 
-	function parseData(dataIn,attr,_gw,nocallback=false){
+	function parseData(dataIn,attr,_gw,loadGwosc=true){
 		_gw.loaded++;
 		_gw.datadict=dataIn.datadict;
 		newlinks={}
@@ -195,12 +195,23 @@ GWCat.prototype.loadData = function(){
 		_gw.length = _gw.data.length;
 
 		_gw.log(_gw.loaded+'/'+_gw.toLoad+'local data loaded:',_gw.data);
-        console.log('events loaded');
-        if (nocallback){console.log('no callback');}
-		if (_gw.loaded==_gw.toLoad){
+        if (loadGwosc){
+            _gw.log('reading gwosc')
+            ajax(_gw.gwoscFile,{
+                "dataType": "json",
+    			"this": _gw,
+    			"error": function(error,attr) {
+    				_gw.log('gwosc events error:',error,attr);
+                },
+                "success": function(gwoscData,attr){
+                    _gw.log('gwoscData',gwoscData)
+                    parseGWOSC(gwoscData,attr,_gw);
+                }
+            });
+        }else if (_gw.loaded==_gw.toLoad){
 			_gw.orderData('GPS');
-            // return _gw.callback(_gw);
-            if (nocallback){console.log('no callback');return;}else{return _gw.callback(_gw);}
+            return _gw.callback(_gw);
+            // if (loadGwosc){console.log('no callback');return;}else{return _gw.callback(_gw);}
 		}
 	}
     function parseGWOSC(gwoscData,attr,_gw){
@@ -259,7 +270,6 @@ GWCat.prototype.loadData = function(){
         }
         _gw.log(_gw.datagwosc[0]);
         _gw.log(_gw.loaded+'/'+_gw.toLoad+'GWOSC data loaded:',_gw.datagwosc);
-        console.log('gwosc loaded');
         if (_gw.loaded==_gw.toLoad){
             _gw.data=_gw.datagwosc;
             _gw.setLinks();
@@ -283,34 +293,35 @@ GWCat.prototype.loadData = function(){
 
     } else if (this.datasrc=="gwosc"){
         // need to also load GWOSC data as well
+        var _gw=this;
         this.toLoad += 1;
         this.log('toLoad:',this.toLoad)
         this.log('reading default')
         this.gwoscdata=[];
         ajax(this.fileIn,{
 			"dataType": "json",
-			"this": this,
+			"this": _gw,
 			"error": function(error,attr) {
-				this.log('events error:',error,attr);
+				_gw.log('events error:',error,attr);
 				//alert("Fatal error loading input file: '"+attr.url+"'. Sorry!");
 			},
 			"success": function(dataIn,attr){
-                this.log('fileIn',dataIn)
-				parseData(dataIn,attr,this,nocallback=true);
+                _gw.log('fileIn',dataIn)
+				parseData(dataIn,attr,_gw,loadGwosc=true);
 			}
 		});
-        this.log('reading gwosc')
-        ajax(this.gwoscFile,{
-            "dataType": "json",
-			"this": this,
-			"error": function(error,attr) {
-				this.log('gwosc events error:',error,attr);
-            },
-            "success": function(gwoscData,attr){
-                this.log('gwoscData',gwoscData)
-                parseGWOSC(gwoscData,attr,this);
-            }
-        });
+        // _gw.log('reading gwosc')
+        // ajax(_gw.gwoscFile,{
+        //     "dataType": "json",
+		// 	"this": _gw,
+		// 	"error": function(error,attr) {
+		// 		_gw.log('gwosc events error:',error,attr);
+        //     },
+        //     "success": function(gwoscData,attr){
+        //         _gw.log('gwoscData',gwoscData)
+        //         parseGWOSC(gwoscData,attr,_gw);
+        //     }
+        // });
         // this.testFile="https://www.gw-openscience.org/archive/links/O1/L1/1126051217/1127051217/json/index.html";
         // d3.json(this.testFile, function(error, dataIn) {
         //     if (error){
