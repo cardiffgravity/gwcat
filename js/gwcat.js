@@ -143,7 +143,7 @@ GWCat.prototype.loadData = function(){
 		return this;
 	} // End default ajax() function
 
-	function parseData(dataIn,attr,_gw){
+	function parseData(dataIn,attr,_gw,nocallback=false){
 		_gw.loaded++;
 		_gw.datadict=dataIn.datadict;
 		newlinks={}
@@ -195,9 +195,12 @@ GWCat.prototype.loadData = function(){
 		_gw.length = _gw.data.length;
 
 		_gw.log(_gw.loaded+'/'+_gw.toLoad+'local data loaded:',_gw.data);
+        console.log('events loaded');
+        if (nocallback){console.log('no callback');}
 		if (_gw.loaded==_gw.toLoad){
 			_gw.orderData('GPS');
-			return _gw.callback(_gw);
+            return _gw.callback(_gw);
+            // if (nocallback){console.log('no callback');return;}else{return _gw.callback(_gw);}
 		}
 	}
     function parseGWOSC(gwoscData,attr,_gw){
@@ -256,6 +259,7 @@ GWCat.prototype.loadData = function(){
         }
         _gw.log(_gw.datagwosc[0]);
         _gw.log(_gw.loaded+'/'+_gw.toLoad+'GWOSC data loaded:',_gw.datagwosc);
+        console.log('gwosc loaded');
         if (_gw.loaded==_gw.toLoad){
             _gw.data=_gw.datagwosc;
             _gw.setLinks();
@@ -292,7 +296,7 @@ GWCat.prototype.loadData = function(){
 			},
 			"success": function(dataIn,attr){
                 this.log('fileIn',dataIn)
-				parseData(dataIn,attr,this);
+				parseData(dataIn,attr,this,nocallback=true);
 			}
 		});
         this.log('reading gwosc')
