@@ -199,8 +199,8 @@ GWCat.prototype.loadData = function(){
         if (nocallback){console.log('no callback');}
 		if (_gw.loaded==_gw.toLoad){
 			_gw.orderData('GPS');
-            return _gw.callback(_gw);
-            // if (nocallback){console.log('no callback');return;}else{return _gw.callback(_gw);}
+            // return _gw.callback(_gw);
+            if (nocallback){console.log('no callback');return;}else{return _gw.callback(_gw);}
 		}
 	}
     function parseGWOSC(gwoscData,attr,_gw){
