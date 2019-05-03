@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 import numpy as np
+from astropy.time import Time
 import os
 
 def compareElement(el1,el2,verbose=False):
@@ -74,6 +75,118 @@ def dataframe2jsonEvent(evIn,params,verbose=False):
                 if verbose: print('ERROR: unknown type for {} [{}]'.format(param,pv))
     return(evOut)
 
+def paramConv(param):
+    # convert from gwosc parameter format to gwcat parameter format
+    if not 'best' in param:
+        pOut=param
+    elif not 'err' in param:
+        pOut={'best':param['best']}
+    elif type(param['err'])==str:
+        if param['err']=='lowerbound':
+            pOut={'upper':param['best']}
+        elif param['err']=='upperbound':
+            pOut={'upper':param['best']}
+    else:
+        pOut={'best':param['best'],'err':param['err']}
+    return(pOut)
+
+def gwosc2cat(gwoscIn):
+    # convert dataset from gwosc to gwcat format
+    catOut={}
+    for e in gwoscIn:
+        print('converting event',e)
+        catOut[e]={}
+        # basic parameter conversions
+        # conv = gwosc-name : gwcat-name
+        conv={
+            'mass1':'M1',
+            'mass2':'M2',
+            'E_rad':'Erad',
+            'L_peak':'lpeak',
+            'distance':'DL',
+            'redshift':'z',
+            'sky_size':'deltaOmega',
+            'mfinal':'Mfinal',
+            'mchirp':'Mchirp',
+            'chi_eff':'chi',
+            'a_final':'af',
+            'tc':'GPS'
+        }
+        for c in conv:
+            if c in gwoscIn[e]:
+                param=gwoscIn[e][c]
+                catOut[e][conv[c]]=paramConv(param)
+
+        # convert parameters in 'files'
+        if 'files' in gwoscIn[e]:
+            if 'ObsRun' in gwoscIn[e]['files']:
+                catOut[e]['obs']=paramConv(gwoscIn[e]['files']['ObsRun'])
+            if 'EventName' in gwoscIn[e]['files']:
+                catOut[e]['name']=paramConv(gwoscIn[e]['files']['EventName'])
+                if catOut[e]['name'][0]=='G':
+                    catOut[e]['type']='GW'
+                    catOut[e]['conf']='GW'
+                else:
+                    catOut[e]['type']='LVT'
+                    catOut[e]['conf']='LVT'
+            # convert UTC
+            if 'PeakAmpGPS' in gwoscIn[e]['files']:
+                dtIn=Time(gwoscIn[e]['files']['PeakAmpGPS'],format='gps')
+                dtOut=Time(dtIn,format='iso')
+                catOut[e]['UTC']={'best':dtOut}
+        # convert object type based on masses
+        if 'M1' in catOut[e] and 'M2' in catOut[e]:
+            if catOut[e]['M1']['best']<3 and catOut[e]['M2']['best']<3:
+                catOut[e]['objType']={'best':'BNS'}
+            else:
+                catOut[e]['objType']={'best':'BBH'}
+
+        # convert FAR and SNR (priority pycbc - gstlal - cwb)
+        try:
+            if gwoscIn[e]['far_pycbc']['best']!='NA':
+                catOut[e]['FAR']={'best':gwoscIn[e]['far_pycbc']['best'],'fartype':'pycbc'}
+        except:
+            try:
+                if gwoscIn[e]['far_gstlal']['best']!='NA':
+                    catOut[e]['FAR']={'best':gwoscIn[e]['far_gstlal']['best'],'fartype':'gstlal'}
+            except:
+                if gwoscIn[e]['far_cwb']['best']!='NA':
+                    catOut[e]['FAR']={'best':gwoscIn[e]['far_cwb']['best'],'fartype':'cwb'}
+        if gwoscIn[e]['snr_pycbc']['best']!='NA':
+            catOut[e]['rho']={'best':gwoscIn[e]['snr_pycbc']['best'],'fartype':'pycbc'}
+        elif gwoscIn[e]['far_gstlal']['best']!='NA':
+            catOut[e]['rho']={'best':gwoscIn[e]['snr_gstlal']['best'],'fartype':'gstlal'}
+        elif gwoscIn[e]['far_cwb']['best']!='NA':
+            catOut[e]['rho']={'best':gwoscIn[e]['snr_cwb']['best'],'fartype':'cwb'}
+
+    return(catOut)
+
+def getSupereventList():
+    from ligo.gracedb.rest import GraceDb,GraceDbBasic
+    service_url = 'https://gracedb.ligo.org/api/'
+    client = GraceDbBasic(service_url)
+
+    # Retrieve an iterator for events matching a query.
+    events = client.superevents('far < 1.0e-4')
+    # For each event in the search results, add the graceid
+    # and chirp mass to a dictionary.
+    results = {}
+    for event in events:
+        sid = event['superevent_id']
+        results[sid]={id:event['superevent_id']}
+        results[sid]['far']=event['far']
+        filename = 'bayestar.fits'
+        print('downloading {} for superevent {}'.format(filename,sid))
+        clFits=GraceDbBasic(service_url)
+        outFilename = '{}_{}'.format(sid,filename)
+        fout=open(outFilename,'w')
+        r = clFits.files(sid,filename)
+        fout.write(r.read())
+        fout.close()
+
+    return(results)
+
+
 class GWCat(object):
     def __init__(self,fileIn='../data/events.json'):
         """Initialise catalogue from input file
@@ -84,6 +197,12 @@ class GWCat(object):
         self.datadict=eventsIn['datadict']
         self.cols=list(self.datadict.keys())
         self.links=eventsIn['links']
+        self.json2dataframe()
+        return
+
+    def importGwosc(self,gwoscIn):
+        catData=gwosc2cat(gwoscIn)
+        self.data=catData
         self.json2dataframe()
         return
 
@@ -107,22 +226,36 @@ class GWCat(object):
 
         # convert data into events DataFrame
         data=self.data
+        if verbose:
+            print(self.data)
+            print(data)
         dataOut={}
         series={}
         for d in self.cols:
+            if verbose:
+                print('col:',d)
             dataOut[d]={}
             dataOut[d+'_valtype']={}
             dataOut[d+'_errp']={}
             dataOut[d+'_errm']={}
             for e in data:
+                if verbose:
+                    print('event',e,data[e])
                 if d not in data[e]:
                     continue
                 if 'best' in data[e][d]:
                     dataOut[d][e]=data[e][d]['best']
                     if 'err' in data[e][d]:
-                        dataOut[d+'_valtype'][e]='bestfit'
-                        dataOut[d+'_errp'][e]=data[e][d]['err'][0]
-                        dataOut[d+'_errm'][e]=data[e][d]['err'][1]
+                        if data[e][d]['err']=='lowerbound':
+                            dataOut[d][e]=data[e][d]['best']
+                            dataOut[d+'_valtype'][e]='lower'
+                        elif data[e][d]['err']=='upperbound':
+                            dataOut[d][e]=data[e][d]['best']
+                            dataOut[d+'_valtype'][e]='upper'
+                        elif type(data[e][d]['err']) == list:
+                            dataOut[d+'_valtype'][e]='bestfit'
+                            dataOut[d+'_errp'][e]=np.max(data[e][d]['err'])
+                            dataOut[d+'_errm'][e]=np.min(data[e][d]['err'])
                     else:
                         dataOut[d+'_valtype'][e]='value'
                 elif 'lim' in data[e][d]:
