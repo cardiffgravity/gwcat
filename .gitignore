@@ -1,3 +1,4 @@
 *.pyc
 python/test/*
 gwosc/*
+*.fits
