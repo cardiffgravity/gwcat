@@ -270,20 +270,21 @@ GWCat.prototype.loadData = function(){
         }
         _gw.log(_gw.datagwosc[0]);
         _gw.log(_gw.loaded+'/'+_gw.toLoad+'GWOSC data loaded:',_gw.datagwosc);
-        if (loadGraceDB){
-            _gw.log('reading graceDB')
-            ajax(_gw.gracedbFile,{
-                "dataType": "json",
-    			"this": _gw,
-    			"error": function(error,attr) {
-    				_gw.log('gracedb events error:',error,attr);
-                },
-                "success": function(gracedbData,attr){
-                    _gw.log('gwoscData',gracedbData)
-                    parseGraceDB(gracedbData,attr,_gw,);
-                }
-            });
-        }else if (_gw.loaded==_gw.toLoad){
+        // if (loadGraceDB){
+        //     _gw.log('reading graceDB')
+        //     ajax(_gw.gracedbFile,{
+        //         "dataType": "json",
+    	// 		"this": _gw,
+    	// 		"error": function(error,attr) {
+    	// 			_gw.log('gracedb events error:',error,attr);
+        //         },
+        //         "success": function(gracedbData,attr){
+        //             _gw.log('gwoscData',gracedbData)
+        //             parseGraceDB(gracedbData,attr,_gw,);
+        //         }
+        //     });
+        // }else 
+        if (_gw.loaded==_gw.toLoad){
             _gw.data=_gw.datagwosc;
             _gw.setLinks();
 			_gw.orderData('GPS');
