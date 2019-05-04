@@ -143,7 +143,7 @@ GWCat.prototype.loadData = function(){
 		return this;
 	} // End default ajax() function
 
-	function parseData(dataIn,attr,_gw,loadGwosc=true,loadGraceDB=true){
+	function parseData(dataIn,attr,_gw,loadGwosc=true,loadGraceDB=false){
 		_gw.loaded++;
 		_gw.datadict=dataIn.datadict;
 		newlinks={}
