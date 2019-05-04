@@ -3,6 +3,10 @@ import pandas as pd
 import numpy as np
 from astropy.time import Time
 import os
+from . import gwosc
+from . import gracedb
+# import gracedb
+# import gwosc
 
 def compareElement(el1,el2,verbose=False):
     if type(el1)!=type(el2):
@@ -75,93 +79,6 @@ def dataframe2jsonEvent(evIn,params,verbose=False):
                 if verbose: print('ERROR: unknown type for {} [{}]'.format(param,pv))
     return(evOut)
 
-def paramConv(param):
-    # convert from gwosc parameter format to gwcat parameter format
-    if not 'best' in param:
-        pOut=param
-    elif not 'err' in param:
-        pOut={'best':param['best']}
-    elif type(param['err'])==str:
-        if param['err']=='lowerbound':
-            pOut={'upper':param['best']}
-        elif param['err']=='upperbound':
-            pOut={'upper':param['best']}
-    else:
-        pOut={'best':param['best'],'err':param['err']}
-    return(pOut)
-
-def gwosc2cat(gwoscIn):
-    # convert dataset from gwosc to gwcat format
-    catOut={}
-    for e in gwoscIn:
-        print('converting event',e)
-        catOut[e]={}
-        # basic parameter conversions
-        # conv = gwosc-name : gwcat-name
-        conv={
-            'mass1':'M1',
-            'mass2':'M2',
-            'E_rad':'Erad',
-            'L_peak':'lpeak',
-            'distance':'DL',
-            'redshift':'z',
-            'sky_size':'deltaOmega',
-            'mfinal':'Mfinal',
-            'mchirp':'Mchirp',
-            'chi_eff':'chi',
-            'a_final':'af',
-            'tc':'GPS'
-        }
-        for c in conv:
-            if c in gwoscIn[e]:
-                param=gwoscIn[e][c]
-                catOut[e][conv[c]]=paramConv(param)
-
-        # convert parameters in 'files'
-        if 'files' in gwoscIn[e]:
-            if 'ObsRun' in gwoscIn[e]['files']:
-                catOut[e]['obs']=paramConv(gwoscIn[e]['files']['ObsRun'])
-            if 'EventName' in gwoscIn[e]['files']:
-                catOut[e]['name']=paramConv(gwoscIn[e]['files']['EventName'])
-                if catOut[e]['name'][0]=='G':
-                    catOut[e]['type']='GW'
-                    catOut[e]['conf']='GW'
-                else:
-                    catOut[e]['type']='LVT'
-                    catOut[e]['conf']='LVT'
-            # convert UTC
-            if 'PeakAmpGPS' in gwoscIn[e]['files']:
-                dtIn=Time(gwoscIn[e]['files']['PeakAmpGPS'],format='gps')
-                dtOut=Time(dtIn,format='iso')
-                catOut[e]['UTC']={'best':dtOut}
-        # convert object type based on masses
-        if 'M1' in catOut[e] and 'M2' in catOut[e]:
-            if catOut[e]['M1']['best']<3 and catOut[e]['M2']['best']<3:
-                catOut[e]['objType']={'best':'BNS'}
-            else:
-                catOut[e]['objType']={'best':'BBH'}
-
-        # convert FAR and SNR (priority pycbc - gstlal - cwb)
-        try:
-            if gwoscIn[e]['far_pycbc']['best']!='NA':
-                catOut[e]['FAR']={'best':gwoscIn[e]['far_pycbc']['best'],'fartype':'pycbc'}
-        except:
-            try:
-                if gwoscIn[e]['far_gstlal']['best']!='NA':
-                    catOut[e]['FAR']={'best':gwoscIn[e]['far_gstlal']['best'],'fartype':'gstlal'}
-            except:
-                if gwoscIn[e]['far_cwb']['best']!='NA':
-                    catOut[e]['FAR']={'best':gwoscIn[e]['far_cwb']['best'],'fartype':'cwb'}
-        if gwoscIn[e]['snr_pycbc']['best']!='NA':
-            catOut[e]['rho']={'best':gwoscIn[e]['snr_pycbc']['best'],'fartype':'pycbc'}
-        elif gwoscIn[e]['far_gstlal']['best']!='NA':
-            catOut[e]['rho']={'best':gwoscIn[e]['snr_gstlal']['best'],'fartype':'gstlal'}
-        elif gwoscIn[e]['far_cwb']['best']!='NA':
-            catOut[e]['rho']={'best':gwoscIn[e]['snr_cwb']['best'],'fartype':'cwb'}
-
-    return(catOut)
-
-
 class GWCat(object):
     def __init__(self,fileIn='../data/events.json'):
         """Initialise catalogue from input file
@@ -173,12 +90,22 @@ class GWCat(object):
         self.cols=list(self.datadict.keys())
         self.links=eventsIn['links']
         self.json2dataframe()
+        self.meta={'created':Time.now().isot}
         return
 
-    def importGwosc(self,gwoscIn):
-        catData=gwosc2cat(gwoscIn)
+    def importGwosc(self,gwoscIn,verbose=False):
+        catData=gwosc.gwosc2cat(gwoscIn['data'])
         self.data=catData
         self.json2dataframe()
+        self.meta['gwosc']=gwoscIn['meta']
+        return
+
+    def importGraceDB(self,gracedbIn,verbose=False):
+        gdbData=gracedb.gracedb2cat(gracedbIn['data'])
+        for g in gdbData:
+            self.data[g]=gdbData[g]
+        self.json2dataframe()
+        self.meta['graceDB']=gracedbIn['meta']
         return
 
     def json2dataframe(self,verbose=False):
@@ -434,7 +361,7 @@ class GWCat(object):
             * fileout [string]: filename to write all data to
             * dir [string OPTIONAL]: directory to write files to. Default=''
         """
-        alldata={'datadict':self.datadict,'data':self.data,'links':self.links}
+        alldata={'meta':self.meta,'datadict':self.datadict,'data':self.data,'links':self.links}
         if verbose: print('Writing data to JSON: {}'.format(os.path.join(dir,fileout)))
         json.dump(alldata,open(os.path.join(dir,fileout),'w'),indent=4)
 

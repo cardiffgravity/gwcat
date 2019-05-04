@@ -143,7 +143,7 @@ GWCat.prototype.loadData = function(){
 		return this;
 	} // End default ajax() function
 
-	function parseData(dataIn,attr,_gw,loadGwosc=true){
+	function parseData(dataIn,attr,_gw,loadGwosc=true,loadGraceDB=true){
 		_gw.loaded++;
 		_gw.datadict=dataIn.datadict;
 		newlinks={}
@@ -277,6 +277,9 @@ GWCat.prototype.loadData = function(){
 			return _gw.callback(_gw);
 		}
     }
+
+    function parseGraceDB(gracedbData,attr)
+
 	// Load the data file
     if (this.datasrc=='local'){
 		ajax(this.fileIn,{
