@@ -205,7 +205,7 @@ GWCat.prototype.loadData = function(){
                 },
                 "success": function(gwoscData,attr){
                     _gw.log('gwoscData',gwoscData)
-                    parseGWOSC(gwoscData,attr,_gw);
+                    parseGWOSC(gwoscData,attr,_gw,loadGraceDB=loadGraceDB);
                 }
             });
         }else if (_gw.loaded==_gw.toLoad){
@@ -214,7 +214,7 @@ GWCat.prototype.loadData = function(){
             // if (loadGwosc){console.log('no callback');return;}else{return _gw.callback(_gw);}
 		}
 	}
-    function parseGWOSC(gwoscData,attr,_gw){
+    function parseGWOSC(gwoscData,attr,_gw,loadGraceDB){
         _gw.loaded++
         _gw.gwoscIn=gwoscData;
         gwosc2cat={
@@ -270,7 +270,20 @@ GWCat.prototype.loadData = function(){
         }
         _gw.log(_gw.datagwosc[0]);
         _gw.log(_gw.loaded+'/'+_gw.toLoad+'GWOSC data loaded:',_gw.datagwosc);
-        if (_gw.loaded==_gw.toLoad){
+        if (loadGraceDB){
+            _gw.log('reading graceDB')
+            ajax(_gw.gracedbFile,{
+                "dataType": "json",
+    			"this": _gw,
+    			"error": function(error,attr) {
+    				_gw.log('gracedb events error:',error,attr);
+                },
+                "success": function(gracedbData,attr){
+                    _gw.log('gwoscData',gracedbData)
+                    parseGraceDB(gracedbData,attr,_gw,);
+                }
+            });
+        }else if (_gw.loaded==_gw.toLoad){
             _gw.data=_gw.datagwosc;
             _gw.setLinks();
 			_gw.orderData('GPS');
@@ -278,7 +291,19 @@ GWCat.prototype.loadData = function(){
 		}
     }
 
-    function parseGraceDB(gracedbData,attr)
+    function parseGraceDB(gracedbData,attr,_gw){
+        _gw.loaded++;
+        _gw.gracedbIn=gracedbData;
+        gracedb2cat={
+
+        }
+        if (_gw.loaded==_gw.toLoad){
+            _gw.data=_gw.datagwosc;
+            _gw.setLinks();
+			_gw.orderData('GPS');
+			return _gw.callback(_gw);
+		}
+    }
 
 	// Load the data file
     if (this.datasrc=='local'){
