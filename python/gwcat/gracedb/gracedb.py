@@ -30,7 +30,7 @@ def gracedb2cat(gdb,verbose=False):
         if 'hdr' in gdbIn[g]:
             hdr=gdbIn[g]['hdr']
             if 'DISTMEAN' in hdr and 'DISTSTD' in hdr:
-                catOut[g]['distance']={
+                catOut[g]['DL']={
                     'best':float(hdr['DISTMEAN']),
                     'err':[-float(hdr['DISTSTD']),float(hdr['DISTSTD'])]
                 }
