@@ -1,6 +1,6 @@
 {
     "meta": {
-        "created": "2019-05-05T23:16:15.011",
+        "created": "2019-05-05T23:20:34.941",
         "gwosc": {
             "retrieved": "2019-05-04T23:01:42.646",
             "src": "https://www.gw-openscience.org/catalog/GWTC-1-confident/filelist/"
@@ -252,7 +252,9 @@
             "GPS": {
                 "best": 1126259462.4
             },
-            "obsrun": "O1",
+            "obsrun": {
+                "best": "O1"
+            },
             "name": "GW150914",
             "type": "GW",
             "conf": "GW",
@@ -351,7 +353,9 @@
             "GPS": {
                 "best": 1128678900.4
             },
-            "obsrun": "O1",
+            "obsrun": {
+                "best": "O1"
+            },
             "name": "GW151012",
             "type": "GW",
             "conf": "GW",
@@ -450,7 +454,9 @@
             "GPS": {
                 "best": 1135136350.6
             },
-            "obsrun": "O1",
+            "obsrun": {
+                "best": "O1"
+            },
             "name": "GW151226",
             "type": "GW",
             "conf": "GW",
@@ -549,7 +555,9 @@
             "GPS": {
                 "best": 1167559936.6
             },
-            "obsrun": "O2",
+            "obsrun": {
+                "best": "O2"
+            },
             "name": "GW170104",
             "type": "GW",
             "conf": "GW",
@@ -648,7 +656,9 @@
             "GPS": {
                 "best": 1180922494.5
             },
-            "obsrun": "O2",
+            "obsrun": {
+                "best": "O2"
+            },
             "name": "GW170608",
             "type": "GW",
             "conf": "GW",
@@ -747,7 +757,9 @@
             "GPS": {
                 "best": 1185389807.3
             },
-            "obsrun": "O2",
+            "obsrun": {
+                "best": "O2"
+            },
             "name": "GW170729",
             "type": "GW",
             "conf": "GW",
@@ -846,7 +858,9 @@
             "GPS": {
                 "best": 1186302519.8
             },
-            "obsrun": "O2",
+            "obsrun": {
+                "best": "O2"
+            },
             "name": "GW170809",
             "type": "GW",
             "conf": "GW",
@@ -945,7 +959,9 @@
             "GPS": {
                 "best": 1186741861.5
             },
-            "obsrun": "O2",
+            "obsrun": {
+                "best": "O2"
+            },
             "name": "GW170814",
             "type": "GW",
             "conf": "GW",
@@ -1028,7 +1044,9 @@
             "GPS": {
                 "best": 1187008882.4
             },
-            "obsrun": "O2",
+            "obsrun": {
+                "best": "O2"
+            },
             "name": "GW170817",
             "type": "GW",
             "conf": "GW",
@@ -1127,7 +1145,9 @@
             "GPS": {
                 "best": 1187058327.1
             },
-            "obsrun": "O2",
+            "obsrun": {
+                "best": "O2"
+            },
             "name": "GW170818",
             "type": "GW",
             "conf": "GW",
@@ -1222,7 +1242,9 @@
             "GPS": {
                 "best": 1187529256.5
             },
-            "obsrun": "O2",
+            "obsrun": {
+                "best": "O2"
+            },
             "name": "GW170823",
             "type": "GW",
             "conf": "GW",
