@@ -1,6 +1,6 @@
 {
     "meta": {
-        "created": "2019-05-05T10:40:35.811",
+        "created": "2019-05-05T23:16:15.011",
         "gwosc": {
             "retrieved": "2019-05-04T23:01:42.646",
             "src": "https://www.gw-openscience.org/catalog/GWTC-1-confident/filelist/"
@@ -252,7 +252,7 @@
             "GPS": {
                 "best": 1126259462.4
             },
-            "obs": "O1",
+            "obsrun": "O1",
             "name": "GW150914",
             "type": "GW",
             "conf": "GW",
@@ -351,7 +351,7 @@
             "GPS": {
                 "best": 1128678900.4
             },
-            "obs": "O1",
+            "obsrun": "O1",
             "name": "GW151012",
             "type": "GW",
             "conf": "GW",
@@ -450,7 +450,7 @@
             "GPS": {
                 "best": 1135136350.6
             },
-            "obs": "O1",
+            "obsrun": "O1",
             "name": "GW151226",
             "type": "GW",
             "conf": "GW",
@@ -549,7 +549,7 @@
             "GPS": {
                 "best": 1167559936.6
             },
-            "obs": "O2",
+            "obsrun": "O2",
             "name": "GW170104",
             "type": "GW",
             "conf": "GW",
@@ -648,7 +648,7 @@
             "GPS": {
                 "best": 1180922494.5
             },
-            "obs": "O2",
+            "obsrun": "O2",
             "name": "GW170608",
             "type": "GW",
             "conf": "GW",
@@ -747,7 +747,7 @@
             "GPS": {
                 "best": 1185389807.3
             },
-            "obs": "O2",
+            "obsrun": "O2",
             "name": "GW170729",
             "type": "GW",
             "conf": "GW",
@@ -846,7 +846,7 @@
             "GPS": {
                 "best": 1186302519.8
             },
-            "obs": "O2",
+            "obsrun": "O2",
             "name": "GW170809",
             "type": "GW",
             "conf": "GW",
@@ -945,7 +945,7 @@
             "GPS": {
                 "best": 1186741861.5
             },
-            "obs": "O2",
+            "obsrun": "O2",
             "name": "GW170814",
             "type": "GW",
             "conf": "GW",
@@ -1028,7 +1028,7 @@
             "GPS": {
                 "best": 1187008882.4
             },
-            "obs": "O2",
+            "obsrun": "O2",
             "name": "GW170817",
             "type": "GW",
             "conf": "GW",
@@ -1127,7 +1127,7 @@
             "GPS": {
                 "best": 1187058327.1
             },
-            "obs": "O2",
+            "obsrun": "O2",
             "name": "GW170818",
             "type": "GW",
             "conf": "GW",
@@ -1222,7 +1222,7 @@
             "GPS": {
                 "best": 1187529256.5
             },
-            "obs": "O2",
+            "obsrun": "O2",
             "name": "GW170823",
             "type": "GW",
             "conf": "GW",
@@ -1246,7 +1246,7 @@
         },
         "S190503bf": {
             "name": "S190503bf",
-            "ObsRun": {
+            "obsrun": {
                 "best": "O3"
             },
             "type": "Candidate",
@@ -1286,7 +1286,7 @@
         },
         "S190426c": {
             "name": "S190426c",
-            "ObsRun": {
+            "obsrun": {
                 "best": "O3"
             },
             "type": "Candidate",
@@ -1326,7 +1326,7 @@
         },
         "S190425z": {
             "name": "S190425z",
-            "ObsRun": {
+            "obsrun": {
                 "best": "O3"
             },
             "type": "Candidate",
@@ -1363,7 +1363,7 @@
         },
         "S190421ar": {
             "name": "S190421ar",
-            "ObsRun": {
+            "obsrun": {
                 "best": "O3"
             },
             "type": "Candidate",
@@ -1400,7 +1400,7 @@
         },
         "S190412m": {
             "name": "S190412m",
-            "ObsRun": {
+            "obsrun": {
                 "best": "O3"
             },
             "type": "Candidate",
@@ -1440,7 +1440,7 @@
         },
         "S190408an": {
             "name": "S190408an",
-            "ObsRun": {
+            "obsrun": {
                 "best": "O3"
             },
             "type": "Candidate",

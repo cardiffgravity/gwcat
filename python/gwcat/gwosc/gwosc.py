@@ -50,7 +50,7 @@ def gwosc2cat(gwosc,verbose=False):
         # convert parameters in 'files'
         if 'files' in gwoscIn[e]:
             if 'ObsRun' in gwoscIn[e]['files']:
-                catOut[e]['obs']=paramConv(gwoscIn[e]['files']['ObsRun'])
+                catOut[e]['obsrun']=paramConv(gwoscIn[e]['files']['ObsRun'])
             if 'eventName' in gwoscIn[e]['files']:
                 catOut[e]['name']=paramConv(gwoscIn[e]['files']['eventName'])
                 if catOut[e]['name'][0]=='G':

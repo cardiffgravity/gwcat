@@ -17,7 +17,7 @@ def gracedb2cat(gdb,verbose=False):
         if verbose: print('importing GraceDB event {}'.format(g))
         catOut[g]={}
         if 'superevent_id' in gdbIn[g]: catOut[g]['name']=gdbIn[g]['superevent_id']
-        catOut[g]['ObsRun']={'best':'O3'}
+        catOut[g]['obsrun']={'best':'O3'}
         catOut[g]['type']='Candidate'
         catOut[g]['conf']='Candidate'
         if 't_0' in gdbIn[g]:
@@ -69,6 +69,7 @@ def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False)
     # For each event in the search results, add the graceid
     # and chirp mass to a dictionary.
     results = {}
+    links = {}
     for event in events:
         sid = event['superevent_id']
         results[sid]=event
@@ -170,6 +171,7 @@ def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False)
     if verbose: print('Retrieved data for {} events'.format(len(results)))
 
     cat={'meta':{'retrieved':Time.now().isot,'src':service_url},'data':results}
+
     if export:
         if dirOut==None:
             dirOut='../../data/'
