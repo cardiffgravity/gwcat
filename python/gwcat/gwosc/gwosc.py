@@ -8,7 +8,7 @@ def paramConv(param):
         pOut={'best':param['best']}
     elif type(param['err'])==str:
         if param['err']=='lowerbound':
-            pOut={'upper':param['best']}
+            pOut={'lower':param['best']}
         elif param['err']=='upperbound':
             pOut={'upper':param['best']}
     else:
@@ -116,6 +116,7 @@ def getGwosc(url='',verbose=True,export=False,dirOut=None,fileOut=None,indent=2)
     gwoscdata={'meta':{'retrieved':Time.now().isot,'src':url}}
     for s in gwoscread:
         gwoscdata[s]=gwoscread[s]
+
     if verbose: print('Retrieved data for {} events'.format(len(gwoscdata['data'])))
 
     if export:

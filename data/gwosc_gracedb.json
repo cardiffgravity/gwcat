@@ -1,6 +1,6 @@
 {
     "meta": {
-        "created": "2019-05-04T23:03:52.888",
+        "created": "2019-05-05T10:40:35.811",
         "gwosc": {
             "retrieved": "2019-05-04T23:01:42.646",
             "src": "https://www.gw-openscience.org/catalog/GWTC-1-confident/filelist/"
@@ -983,10 +983,10 @@
                 ]
             },
             "Erad": {
-                "upper": 0.04
+                "lower": 0.04
             },
             "lpeak": {
-                "upper": 0.1
+                "lower": 0.1
             },
             "DL": {
                 "best": 40.0,
