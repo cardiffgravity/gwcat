@@ -1,6 +1,6 @@
 {
   "meta": {
-    "retrieved": "2019-05-04T23:02:05.858",
+    "retrieved": "2019-05-05T23:38:15.818",
     "src": "https://gracedb.ligo.org/api/"
   },
   "data": {
@@ -61,6 +61,10 @@
         "https://gracedb.ligo.org/api/superevents/S190503bf/files/bayestar.fits"
       ],
       "htmlfile": [
+        "bayestar.html",
+        "https://gracedb.ligo.org/api/superevents/S190503bf/files/bayestar.html"
+      ],
+      "htmlfile2": [
         "bayestar.html",
         "https://gracedb.ligo.org/api/superevents/S190503bf/files/bayestar.html"
       ],
@@ -236,8 +240,8 @@
         "https://gracedb.ligo.org/api/superevents/S190426c/files/LALInference1.html"
       ],
       "htmlfile2": [
-        "bayestar.html",
-        "https://gracedb.ligo.org/api/superevents/S190426c/files/bayestar.html"
+        "bayestar1.html",
+        "https://gracedb.ligo.org/api/superevents/S190426c/files/bayestar1.html"
       ],
       "hdr": {
         "SIMPLE": "True",
@@ -282,12 +286,12 @@
         "VCSREV": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
         "DATE-BLD": "2019-03-26T18:11:21",
         "MOC": "True",
-        "OBJECT": "G330686",
-        "REFERENC": "https://gracedb.ligo.org/events/G330686",
+        "OBJECT": "G330687",
+        "REFERENC": "https://gracedb.ligo.org/events/G330687",
         "INSTRUME": "H1,L1,V1",
-        "RUNTIME": "10.0",
-        "LOGBCI": "7.270313972464784",
-        "LOGBSN": "11.56607502808833"
+        "RUNTIME": "12.0",
+        "LOGBCI": "8.109052223800997",
+        "LOGBSN": "14.2270271375247"
       },
       "xml": {
         "Packet_Type": "152",
@@ -387,6 +391,10 @@
         "LALInference.html",
         "https://gracedb.ligo.org/api/superevents/S190425z/files/LALInference.html"
       ],
+      "htmlfile2": [
+        "bayestar.html",
+        "https://gracedb.ligo.org/api/superevents/S190425z/files/bayestar.html"
+      ],
       "hdr": {
         "SIMPLE": "True",
         "BITPIX": "8",
@@ -428,7 +436,14 @@
         "DISTSTD": "41.3733570000998",
         "VCSVERS": "ligo.skymap 0.1.6",
         "VCSREV": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
-        "DATE-BLD": "2019-03-26T18:11:21"
+        "DATE-BLD": "2019-03-26T18:11:21",
+        "MOC": "True",
+        "OBJECT": "G330561",
+        "REFERENC": "https://gracedb.ligo.org/events/G330561",
+        "INSTRUME": "L1,V1",
+        "RUNTIME": "9.0",
+        "LOGBCI": "0.7583604436436318",
+        "LOGBSN": "36.26212123126514"
       },
       "xml": {
         "Packet_Type": "152",
@@ -536,6 +551,10 @@
         "LALInference.html",
         "https://gracedb.ligo.org/api/superevents/S190421ar/files/LALInference.html"
       ],
+      "htmlfile2": [
+        "bayestar.html",
+        "https://gracedb.ligo.org/api/superevents/S190421ar/files/bayestar.html"
+      ],
       "hdr": {
         "SIMPLE": "True",
         "BITPIX": "8",
@@ -577,7 +596,14 @@
         "DISTSTD": "534.6075375270634",
         "VCSVERS": "ligo.skymap 0.1.6",
         "VCSREV": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
-        "DATE-BLD": "2019-03-26T18:11:21"
+        "DATE-BLD": "2019-03-26T18:11:21",
+        "MOC": "True",
+        "OBJECT": "G330308",
+        "REFERENC": "https://gracedb.ligo.org/events/G330308",
+        "INSTRUME": "H1,L1",
+        "RUNTIME": "5.0",
+        "LOGBCI": "5.167424736773889",
+        "LOGBSN": "19.4907249064735"
       },
       "xml": {
         "Packet_Type": "152",
@@ -676,6 +702,10 @@
         "https://gracedb.ligo.org/api/superevents/S190412m/files/bayestar.fits"
       ],
       "htmlfile": [
+        "bayestar.html",
+        "https://gracedb.ligo.org/api/superevents/S190412m/files/bayestar.html"
+      ],
+      "htmlfile2": [
         "bayestar.html",
         "https://gracedb.ligo.org/api/superevents/S190412m/files/bayestar.html"
       ],
@@ -814,6 +844,10 @@
         "https://gracedb.ligo.org/api/superevents/S190408an/files/bayestar.fits"
       ],
       "htmlfile": [
+        "bayestar.html",
+        "https://gracedb.ligo.org/api/superevents/S190408an/files/bayestar.html"
+      ],
+      "htmlfile2": [
         "bayestar.html",
         "https://gracedb.ligo.org/api/superevents/S190408an/files/bayestar.html"
       ],

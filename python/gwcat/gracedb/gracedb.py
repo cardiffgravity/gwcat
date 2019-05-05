@@ -108,8 +108,8 @@ def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False)
             h+=1
         html2Found=False
         h2=0
-        while not html2Found and h<len(htmlsrch2):
-            htmlfile2='{}.html'.format(htmlsrch2[h])
+        while not html2Found and h2<len(htmlsrch2):
+            htmlfile2='{}.html'.format(htmlsrch2[h2])
             if htmlfile2 in files:
                 results[sid]['htmlfile2']=[htmlfile2,results[sid]['files'][htmlfile2]]
                 html2Found=True
