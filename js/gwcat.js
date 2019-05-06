@@ -5,19 +5,22 @@ function GWCat(callback,inp){
     this.length = 0;	// Quick alias for length of catalogue
 
     this.loadData();
+
     return this;
 }
 
 GWCat.prototype.init = function(){
     // set default parameters
-    this.log('inp',this.inp);
+    // this.log('inp',this.inp);
     // console.log('inp',this.inp);
-    this.debug = (this.inp && (this.inp.debug||this.inp.debug==false)) ? this.inp.debug : true;
+    this.debug = (this.inp && (this.inp.debug||this.inp.debug==false)) ? this.inp.debug : false;
+    this.log('inp',this.inp);
     // console.log('debug',this.debug);
     this.datasrc = (this.inp && this.inp.datasrc) ? this.inp.datasrc : "local";
-    this.fileIn = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "data/events.json";
+    this.fileIn = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "http://gwcat.cardiffgravity.org/data/gwosc_gracedb.json";
     this.gwoscFile = (this.inp && this.inp.gwoscFile) ? this.inp.gwoscFile : "data/gwosc.json";
     this.loadMethod = (this.inp && this.inp.loadMethod) ? this.inp.loadMethod : "";
+    this.confirmedOnly = (this.inp && this.inp.confirmedOnly||this.inp.confirmedOnly==false) ? this.inp.confirmedOnly : true;
     return this;
 }
 
@@ -56,6 +59,22 @@ GWCat.prototype.setLinks = function(){
     }
 
     return this;
+}
+
+GWCat.prototype.filterData = function(){
+    this.log('confirmedOnly',this.confirmedOnly)
+    if (this.confirmedOnly){
+        this.log('skipping candidates from ',this.data.length)
+        dataConf=[];
+        for (i in this.data){
+            if (this.data[i]['conf']!='Candidate'){
+                dataConf.push(this.data[i]);
+            }else{
+                this.log('skipping ',this.data[i].name);
+            }
+        }
+        this.data=dataConf;
+    }
 }
 
 GWCat.prototype.loadData = function(){
@@ -143,7 +162,7 @@ GWCat.prototype.loadData = function(){
 		return this;
 	} // End default ajax() function
 
-	function parseData(dataIn,attr,_gw,loadGwosc=true,loadGraceDB=false){
+	function parseData(dataIn,attr,_gw,loadGwosc=false,loadGraceDB=false){
 		_gw.loaded++;
 		_gw.datadict=dataIn.datadict;
 		newlinks={}
@@ -166,18 +185,18 @@ GWCat.prototype.loadData = function(){
         _gw.links=dataIn.links;
 		for (e in dataIn.data){
 			dataIn.data[e].name=e;
-			if (dataIn.data[e].type){
-				dataIn.data[e].type=dataIn.data[e].type.best
-			}else{
-				if (e[0]=='G'){t='GW'}
-				else if (e[0]=='L'){t='LVT'}
-				else{t=''}
-				dataIn.data[e].type=t;
-			}
-			if (e[0]=='G'){c='GW'}
-			else if (e[0]=='L'){c='LVT'}
-			else{c=''}
-			dataIn.data[e].conf=c;
+			// if (dataIn.data[e].type){
+			// 	dataIn.data[e].type=dataIn.data[e].type.best
+			// }else{
+			// 	if (e[0]=='G'){t='GW'}
+			// 	else if (e[0]=='L'){t='LVT'}
+			// 	else{t=''}
+			// 	dataIn.data[e].type=t;
+			// }
+			// if (e[0]=='G'){c='GW'}
+			// else if (e[0]=='L'){c='LVT'}
+			// else{c=''}
+			// dataIn.data[e].conf=c;
 			if ((dataIn.links[e]) && (dataIn.links[e].LOSCData)){
 				link=dataIn.links[e].LOSCData;
 				link.url=link.url;
@@ -210,6 +229,7 @@ GWCat.prototype.loadData = function(){
             });
         }else if (_gw.loaded==_gw.toLoad){
 			_gw.orderData('GPS');
+            _gw.filterData();
             return _gw.callback(_gw);
             // if (loadGwosc){console.log('no callback');return;}else{return _gw.callback(_gw);}
 		}
@@ -283,24 +303,11 @@ GWCat.prototype.loadData = function(){
         //             parseGraceDB(gracedbData,attr,_gw,);
         //         }
         //     });
-        // }else 
+        // }else
         if (_gw.loaded==_gw.toLoad){
             _gw.data=_gw.datagwosc;
             _gw.setLinks();
-			_gw.orderData('GPS');
-			return _gw.callback(_gw);
-		}
-    }
-
-    function parseGraceDB(gracedbData,attr,_gw){
-        _gw.loaded++;
-        _gw.gracedbIn=gracedbData;
-        gracedb2cat={
-
-        }
-        if (_gw.loaded==_gw.toLoad){
-            _gw.data=_gw.datagwosc;
-            _gw.setLinks();
+            _gw.filterData();
 			_gw.orderData('GPS');
 			return _gw.callback(_gw);
 		}
@@ -339,27 +346,6 @@ GWCat.prototype.loadData = function(){
 				parseData(dataIn,attr,_gw,loadGwosc=true);
 			}
 		});
-        // _gw.log('reading gwosc')
-        // ajax(_gw.gwoscFile,{
-        //     "dataType": "json",
-		// 	"this": _gw,
-		// 	"error": function(error,attr) {
-		// 		_gw.log('gwosc events error:',error,attr);
-        //     },
-        //     "success": function(gwoscData,attr){
-        //         _gw.log('gwoscData',gwoscData)
-        //         parseGWOSC(gwoscData,attr,_gw);
-        //     }
-        // });
-        // this.testFile="https://www.gw-openscience.org/archive/links/O1/L1/1126051217/1127051217/json/index.html";
-        // d3.json(this.testFile, function(error, dataIn) {
-        //     if (error){
-        //         console.log('events error:',error,dataIn);
-        //         alert("Fatal error loading test file: '"+this.testFile+"'. Sorry!");
-        //     } else {
-	    //         this.log('testData:',testData);
-	    //     }
-        // });
     } else if (this.loadMethod=="d3"){
         d3.json(_gw.fileIn, function(error, dataIn) {
             if (error){
@@ -510,7 +496,9 @@ GWCat.prototype.getNegError = function(event,param){
 
 GWCat.prototype.getNominal = function(event,param){
     valType=this.getParamType(event,param);
-    if (valType=='lim'){
+    if (valType==''){
+        return Number.NaN
+    }else if (valType=='lim'){
         lim=this.getValue(event,param,'lim');
         nom=0.5*(lim[0]+lim[1])
     }else{
@@ -520,7 +508,9 @@ GWCat.prototype.getNominal = function(event,param){
 
 GWCat.prototype.getMinVal = function(event,param){
     valType=this.getParamType(event,param);
-    if (valType=='lim'){
+    if (valType==''){
+        return Number.NaN;
+    }else if (valType=='lim'){
         return this.getLim(event,param)[0];
     }else if(valType=='best'){
         if (this.hasError(event,param)){
@@ -537,7 +527,9 @@ GWCat.prototype.getMinVal = function(event,param){
 
 GWCat.prototype.getMaxVal = function(event,param){
     valType=this.getParamType(event,param);
-    if (valType=='lim'){
+    if (valType==''){
+        return  Number.NaN;
+    }else if (valType=='lim'){
         return this.getLim(event,param)[1];
     }else if(valType=='best'){
         if (this.hasError(event,param)){

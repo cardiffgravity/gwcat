@@ -145,7 +145,7 @@
         <li class="unittest"><code><div class="input">gwcat.getValue("GW170817","Erad","lower") + " " + gwcat.paramUnit("Erad")</div>// Expect: <span class="expect">0.04 M_sun c^2</span><br />// Return: <span class="output">ERROR</span></code></li>
 		<li class="unittest"><p>Return a text description of the parameter.</p><code><div class="input">gwcat.paramName("chi")</div>// Expect: <span class="expect">Effective inspiral spin</span><br />// Return: <span class="output">ERROR</span></code></li>
 		<li class="unittest"><code><div class="input">gwcat.paramUnit("lpeak")</div>// Expect: <span class="expect">10^56 erg s^-1</span><br />// Return: <span class="output">ERROR</span></code></li>
-        <li class="unittest"><p>Get the URL of the open data</p><code><div class="input">gwcat.getOpenData("GW150914")['url']</div>// Expect: <span class="expect">https://www.gw-openscience.org/catalog/GWTC-1-confident/single/GW150914</span><br />// Return: <span class="output">ERROR</span></code></li>
+        <li class="unittest"><p>Get the URL of the open data</p><code><div class="input">gwcat.getOpenData("GW150914")['url']</div>// Expect: <span class="expect">https://www.gw-openscience.org/catalog/GWTC-1-confident/single/GW150914/</span><br />// Return: <span class="output">ERROR</span></code></li>
 		<li class="unittest"><p>Get the earliest gravitational wave. To do this we explicitly order the catalogue by the UTC of the event.</p><pre><div class="input">function earliestGW(){
 	gwcat.orderData("UTC");
 	return gwcat.data[0].name;
@@ -172,7 +172,8 @@ earliestGW();</div>// Expect: <span class="expect">GW150914</span><br />// Retur
 			}
 			S('#message').html('It loads! :-) <a href="#tests">Passed '+pass+' of '+n+' tests</a>');
 		}
-		var gwcat = new GWCat(runTests,{datasrc:'gwosc'});
+		// var gwcat = new GWCat(runTests,{fileIn:'data/gwosc_gracedb.json',confirmedOnly:true});
+        var gwcat = new GWCat(runTests);
 	</script>
 </body>
 </html>
