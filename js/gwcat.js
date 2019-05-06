@@ -20,7 +20,7 @@ GWCat.prototype.init = function(){
     this.fileIn = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "http://gwcat.cardiffgravity.org/data/gwosc_gracedb.json";
     this.gwoscFile = (this.inp && this.inp.gwoscFile) ? this.inp.gwoscFile : "data/gwosc.json";
     this.loadMethod = (this.inp && this.inp.loadMethod) ? this.inp.loadMethod : "";
-    this.confirmedOnly = (this.inp && this.inp.confirmedOnly||this.inp.confirmedOnly==false) ? this.inp.confirmedOnly : true;
+    this.confirmedOnly = (this.inp && this.inp.hasOwnProperty('confirmedOnly')) ? this.inp.confirmedOnly : true;
     return this;
 }
 
