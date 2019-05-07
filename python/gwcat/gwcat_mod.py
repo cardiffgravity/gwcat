@@ -8,6 +8,20 @@ from . import gracedb
 # import gracedb
 # import gwosc
 
+def json2jsonp(fileIn,fileOut=None,verbose=True):
+    if fileOut==None:
+        fileOut=fileIn.replace('json','jsonp')
+    if verbose:print('reading JSON from {}'.format(fileIn))
+    if verbose:print('writing JSONP to {}'.format(fileOut))
+    fIn=open(fileIn,'r')
+    fOut=open(fileOut,'w')
+    lines=fIn.readlines()
+    lines[0]='catdata('+lines[0]
+    lines[-1]=lines[-1]+');'
+    for l in lines:
+        fOut.write(l)
+    fOut.close()
+
 def compareElement(el1,el2,verbose=False):
     if type(el1)!=type(el2):
         # types are different
