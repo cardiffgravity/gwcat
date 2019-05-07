@@ -1,4 +1,4 @@
-function catdata(data){console.log(data);var datain=data;return(data)}
+// function catdata(data){console.log(data);var datain=data;return(data)}
 
 function GWCat(callback,inp){
     this.inp = inp;
@@ -20,6 +20,7 @@ GWCat.prototype.init = function(){
     // console.log('debug',this.debug);
     this.datasrc = (this.inp && this.inp.datasrc) ? this.inp.datasrc : "local";
     this.fileIn = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "http://gwcat.cardiffgravity.org/data/gwosc_gracedb.json";
+    this.fileInJsonp = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "http://gwcat.cardiffgravity.org/data/gwosc_gracedb.jsonp";
     this.gwoscFile = (this.inp && this.inp.gwoscFile) ? this.inp.gwoscFile : "data/gwosc.json";
     this.loadMethod = (this.inp && this.inp.loadMethod) ? this.inp.loadMethod : "";
     this.confirmedOnly = (this.inp && this.inp.hasOwnProperty('confirmedOnly')) ? this.inp.confirmedOnly : true;
@@ -105,7 +106,6 @@ GWCat.prototype.loadData = function(){
 		if(attrs['dataType']=="jsonp"){
             if(typeof attrs['callback']==="string") cb = attrs['callback'];
             else cb = 'fn_'+(new Date()).getTime();
-			cb = 'fn_'+(new Date()).getTime();
 			window[cb] = function(rsp){
 				if(typeof attrs.success==="function") attrs.success.call((attrs['this'] ? attrs['this'] : this), rsp, attrs);
 			};
@@ -319,34 +319,41 @@ GWCat.prototype.loadData = function(){
 
 	// Load the data file
     if (this.datasrc=='local'){
-		ajax(this.fileIn,{
-			"dataType": "json",
-			"this": this,
-			"error": function(error,attr) {
-				this.log('events error:',error,attr);
-				//alert("Fatal error loading input file: '"+attr.url+"'. Sorry!");
-			},
-			"success": function(dataIn,attr){
-				parseData(dataIn,attr,this);
-			}
-		});
-
-    } if (this.datasrc=='localp'){
-        console.log('reading jsonp');
-        ajax(this.fileIn,{
-			"dataType": "jsonp",
-			"this": this,
-            "callback":"catdata",
-			"error": function(error,attr) {
-				this.log('events error:',error,attr);
-				//alert("Fatal error loading input file: '"+attr.url+"'. Sorry!");
-			},
-			"success": function(dataIn,attr){
-                console.log('jsonp read',dataIn);
-				parseData(dataIn,attr,this);
-			}
-		});
-
+        host=window.location.host;
+        if (this.loadMethod=='jsonp'){method='jsonp'}
+        else if (host==""){method='json'}
+        else if (this.fileIn.indexOf(host)>0){method='json'}
+        else {method='jsonp'}
+        console.log('method',method)
+        if (method=='json'){
+            console.log('same/no domain');
+            ajax(this.fileIn,{
+    			"dataType": "json",
+    			"this": this,
+    			"error": function(error,attr) {
+    				this.log('events error:',error,attr);
+    				//alert("Fatal error loading input file: '"+attr.url+"'. Sorry!");
+    			},
+    			"success": function(dataIn,attr){
+    				parseData(dataIn,attr,this);
+    			}
+    		});
+        }else{
+            console.log('cross domain. reading jsonp');
+            ajax(this.fileInJsonp,{
+    			"dataType": "jsonp",
+    			"this": this,
+                "callback":"catdata",
+    			"error": function(error,attr) {
+    				this.log('events error:',error,attr);
+    				//alert("Fatal error loading input file: '"+attr.url+"'. Sorry!");
+    			},
+    			"success": function(dataIn,attr){
+                    console.log('jsonp read',dataIn);
+    				parseData(dataIn,attr,this);
+    			}
+    		});
+        }
     } else if (this.datasrc=="gwosc"){
         // need to also load GWOSC data as well
         var _gw=this;
@@ -366,15 +373,6 @@ GWCat.prototype.loadData = function(){
 				parseData(dataIn,attr,_gw,loadGwosc=true);
 			}
 		});
-    } else if (this.loadMethod=="d3"){
-        d3.json(_gw.fileIn, function(error, dataIn) {
-            if (error){
-                console.log('events error:',error,dataIn);
-                alert("Fatal error loading input file: '"+_gw.fileIn+"'. Sorry!");
-            } else {
-	            parseData(dataIn,{ 'url':_gw.fileIn },_gw);
-	        }
-        });
     }
 
     return this;
