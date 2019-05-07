@@ -324,9 +324,8 @@ GWCat.prototype.loadData = function(){
         else if (host==""){method='jsonp'}
         else if (this.fileIn.indexOf(host)>0){method='json'}
         else {method='jsonp'}
-        console.log('method',method)
         if (method=='json'){
-            console.log('same/no domain');
+            this.log('loading '+this.fileIn+' using json method (same domain)')
             ajax(this.fileIn,{
     			"dataType": "json",
     			"this": this,
@@ -339,7 +338,7 @@ GWCat.prototype.loadData = function(){
     			}
     		});
         }else{
-            console.log('cross domain. reading jsonp');
+            this.log('Loading '+this.fileInJsonp+' using jsonp method (cross domain)')
             ajax(this.fileInJsonp,{
     			"dataType": "jsonp",
     			"this": this,
@@ -349,8 +348,7 @@ GWCat.prototype.loadData = function(){
     				//alert("Fatal error loading input file: '"+attr.url+"'. Sorry!");
     			},
     			"success": function(dataIn,attr){
-                    console.log('jsonp read',dataIn);
-    				parseData(dataIn,attr,this);
+                    parseData(dataIn,attr,this);
     			}
     		});
         }
