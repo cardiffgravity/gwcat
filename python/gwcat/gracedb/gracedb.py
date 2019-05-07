@@ -1,5 +1,5 @@
 import os
-from ligo.gracedb.rest import GraceDb,GraceDbBasic
+from ligo.gracedb.rest import GraceDb
 from numpy import argmax
 import json
 import requests
@@ -31,11 +31,9 @@ def gracedb2cat(gdb,verbose=False):
             hdr=gdbIn[g]['hdr']
             if 'DISTMEAN' in hdr and 'DISTSTD' in hdr:
                 catOut[g]['DL']={
-                    'best':float(hdr['DISTMEAN']),
-                    'err':[-float(hdr['DISTSTD']),float(hdr['DISTSTD'])]
+                    'best':float(hdr['DISTMEAN']['value']),
+                    'err':[-float(hdr['DISTSTD']['value']),float(hdr['DISTSTD']['value'])]
                 }
-            if 'LOGBSN' in hdr:
-                catOut[g]['rho']={'best':float(hdr['LOGBSN'])}
         if 'xml' in gdbIn[g]:
             xml=gdbIn[g]['xml']
             if 'Instruments' in xml:
@@ -61,11 +59,12 @@ def gracedb2cat(gdb,verbose=False):
 def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False):
 
     service_url = 'https://gracedb.ligo.org/api/'
-    if verbose: print('Retrieving GraceDB data from {}',format(service_url))
-    client = GraceDbBasic(service_url)
+    if verbose: print('Retrieving GraceDB data from {}'.format(service_url))
+    client = GraceDb(service_url,force_noauth=True)
 
     # Retrieve an iterator for events matching a query.
     events = client.superevents('far < 1.0e-4')
+    # if verbose: print('retrieved {} events'.format(len(events)))
     # For each event in the search results, add the graceid
     # and chirp mass to a dictionary.
     results = {}
@@ -95,7 +94,7 @@ def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False)
             if mapfile in files:
                 results[sid]['mapfile']=[mapfile,results[sid]['files'][mapfile]]
                 mapFound=True
-                if verbose: print('  found {}'.format(mapfile))
+                # if verbose: print('  found {}'.format(mapfile))
             m+=1
         htmlFound=False
         h=0
@@ -104,7 +103,7 @@ def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False)
             if htmlfile in files:
                 results[sid]['htmlfile']=[htmlfile,results[sid]['files'][htmlfile]]
                 htmlFound=True
-                if verbose: print('  found {}'.format(htmlfile))
+                # if verbose: print('  found {}'.format(htmlfile))
             h+=1
         html2Found=False
         h2=0
@@ -113,7 +112,7 @@ def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False)
             if htmlfile2 in files:
                 results[sid]['htmlfile2']=[htmlfile2,results[sid]['files'][htmlfile2]]
                 html2Found=True
-                if verbose: print('  found {}'.format(htmlfile2))
+                # if verbose: print('  found {}'.format(htmlfile2))
             h2+=1
         # if 'LALInference1.fits' in files:
         #     results[sid]['mapfile']=['LALInference1.fits',results[sid]['files']['LALInference1.fits']]
@@ -134,7 +133,11 @@ def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False)
         for tr in trs:
             tds=tr.find_all('td')
             if len(tds)>2:
-                hdr[tds[0].text]=tds[1].text
+                hdr[tds[0].text]={
+                    'value':tds[1].text,
+                    'src':results[sid]['htmlfile'][0]}
+                if len(tds)>=3:
+                    hdr[tds[0].text]['comment']=tds[2].text
 
         # parse HTML2
         if 'htmlfile2' in results[sid]:
@@ -147,7 +150,11 @@ def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False)
                 tds=tr.find_all('td')
                 if len(tds)>2:
                     if not tds[0].text in hdr:
-                        hdr[tds[0].text]=tds[1].text
+                        hdr[tds[0].text]={
+                            'value':tds[1].text,
+                            'src':results[sid]['htmlfile2'][0]}
+                        if len(tds)>=3:
+                            hdr[tds[0].text]['comment']=tds[2].text
         results[sid]['hdr']=hdr
 
         # parse XML

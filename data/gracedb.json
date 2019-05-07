@@ -1,6 +1,6 @@
 {
   "meta": {
-    "retrieved": "2019-05-05T23:38:15.818",
+    "retrieved": "2019-05-07T15:04:27.229",
     "src": "https://gracedb.ligo.org/api/"
   },
   "data": {
@@ -69,53 +69,241 @@
         "https://gracedb.ligo.org/api/superevents/S190503bf/files/bayestar.html"
       ],
       "hdr": {
-        "SIMPLE": "True",
-        "BITPIX": "8",
-        "NAXIS": "2",
-        "EXTEND": "True",
-        "XTENSION": "BINTABLE",
-        "NAXIS1": "40",
-        "NAXIS2": "19200",
-        "PCOUNT": "0",
-        "GCOUNT": "1",
-        "TFIELDS": "5",
-        "TTYPE1": "UNIQ",
-        "TFORM1": "K",
-        "TZERO1": "9223372036854775808",
-        "TTYPE2": "PROBDENSITY",
-        "TFORM2": "D",
-        "TUNIT2": "sr-1",
-        "TTYPE3": "DISTMU",
-        "TFORM3": "D",
-        "TUNIT3": "Mpc",
-        "TTYPE4": "DISTSIGMA",
-        "TFORM4": "D",
-        "TUNIT4": "Mpc",
-        "TTYPE5": "DISTNORM",
-        "TFORM5": "D",
-        "TUNIT5": "Mpc-2",
-        "MOC": "True",
-        "PIXTYPE": "HEALPIX",
-        "ORDERING": "NUNIQ",
-        "COORDSYS": "C",
-        "MOCORDER": "9",
-        "INDXSCHM": "EXPLICIT",
-        "OBJECT": "G331315",
-        "REFERENC": "https://gracedb.ligo.org/events/G331315",
-        "INSTRUME": "H1,L1,V1",
-        "DATE-OBS": "2019-05-03T18:54:04.289517",
-        "MJD-OBS": "58606.78754964704",
-        "DATE": "2019-05-03T19:00:50.000000",
-        "CREATOR": "BAYESTAR",
-        "ORIGIN": "LIGO/Virgo",
-        "RUNTIME": "12.0",
-        "DISTMEAN": "421.1083077868971",
-        "DISTSTD": "104.5330786728482",
-        "LOGBCI": "6.541413914304101",
-        "LOGBSN": "25.40820244824707",
-        "VCSVERS": "ligo.skymap 0.1.6",
-        "VCSREV": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
-        "DATE-BLD": "2019-03-26T18:11:21"
+        "SIMPLE": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": "conforms to FITS standard"
+        },
+        "BITPIX": {
+          "value": "8",
+          "src": "bayestar.html",
+          "comment": "array data type"
+        },
+        "NAXIS": {
+          "value": "2",
+          "src": "bayestar.html",
+          "comment": "number of array dimensions"
+        },
+        "EXTEND": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "XTENSION": {
+          "value": "BINTABLE",
+          "src": "bayestar.html",
+          "comment": "binary table extension"
+        },
+        "NAXIS1": {
+          "value": "40",
+          "src": "bayestar.html",
+          "comment": "length of dimension 1"
+        },
+        "NAXIS2": {
+          "value": "19200",
+          "src": "bayestar.html",
+          "comment": "length of dimension 2"
+        },
+        "PCOUNT": {
+          "value": "0",
+          "src": "bayestar.html",
+          "comment": "number of group parameters"
+        },
+        "GCOUNT": {
+          "value": "1",
+          "src": "bayestar.html",
+          "comment": "number of groups"
+        },
+        "TFIELDS": {
+          "value": "5",
+          "src": "bayestar.html",
+          "comment": "number of table fields"
+        },
+        "TTYPE1": {
+          "value": "UNIQ",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM1": {
+          "value": "K",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TZERO1": {
+          "value": "9223372036854775808",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE2": {
+          "value": "PROBDENSITY",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM2": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT2": {
+          "value": "sr-1",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE3": {
+          "value": "DISTMU",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM3": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT3": {
+          "value": "Mpc",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE4": {
+          "value": "DISTSIGMA",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM4": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT4": {
+          "value": "Mpc",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE5": {
+          "value": "DISTNORM",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM5": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT5": {
+          "value": "Mpc-2",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "MOC": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "PIXTYPE": {
+          "value": "HEALPIX",
+          "src": "bayestar.html",
+          "comment": "HEALPIX pixelisation"
+        },
+        "ORDERING": {
+          "value": "NUNIQ",
+          "src": "bayestar.html",
+          "comment": "Pixel ordering scheme: RING, NESTED, or NUNIQ"
+        },
+        "COORDSYS": {
+          "value": "C",
+          "src": "bayestar.html",
+          "comment": "Ecliptic, Galactic or Celestial (equatorial)"
+        },
+        "MOCORDER": {
+          "value": "9",
+          "src": "bayestar.html",
+          "comment": "MOC resolution (best order)"
+        },
+        "INDXSCHM": {
+          "value": "EXPLICIT",
+          "src": "bayestar.html",
+          "comment": "Indexing: IMPLICIT or EXPLICIT"
+        },
+        "OBJECT": {
+          "value": "G331315",
+          "src": "bayestar.html",
+          "comment": "Unique identifier for this event"
+        },
+        "REFERENC": {
+          "value": "https://gracedb.ligo.org/events/G331315",
+          "src": "bayestar.html",
+          "comment": "URL of this event"
+        },
+        "INSTRUME": {
+          "value": "H1,L1,V1",
+          "src": "bayestar.html",
+          "comment": "Instruments that triggered this event"
+        },
+        "DATE-OBS": {
+          "value": "2019-05-03T18:54:04.289517",
+          "src": "bayestar.html",
+          "comment": "UTC date of the observation"
+        },
+        "MJD-OBS": {
+          "value": "58606.78754964704",
+          "src": "bayestar.html",
+          "comment": "modified Julian date of the observation"
+        },
+        "DATE": {
+          "value": "2019-05-03T19:00:50.000000",
+          "src": "bayestar.html",
+          "comment": "UTC date of file creation"
+        },
+        "CREATOR": {
+          "value": "BAYESTAR",
+          "src": "bayestar.html",
+          "comment": "Program that created this file"
+        },
+        "ORIGIN": {
+          "value": "LIGO/Virgo",
+          "src": "bayestar.html",
+          "comment": "Organization responsible for this FITS file"
+        },
+        "RUNTIME": {
+          "value": "12.0",
+          "src": "bayestar.html",
+          "comment": "Runtime in seconds of the CREATOR program"
+        },
+        "DISTMEAN": {
+          "value": "421.1083077868971",
+          "src": "bayestar.html",
+          "comment": "Posterior mean distance (Mpc)"
+        },
+        "DISTSTD": {
+          "value": "104.5330786728482",
+          "src": "bayestar.html",
+          "comment": "Posterior standard deviation of distance (Mpc)"
+        },
+        "LOGBCI": {
+          "value": "6.541413914304101",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: coherent vs. incoherent"
+        },
+        "LOGBSN": {
+          "value": "25.40820244824707",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: signal vs. noise"
+        },
+        "VCSVERS": {
+          "value": "ligo.skymap 0.1.6",
+          "src": "bayestar.html",
+          "comment": "Software version"
+        },
+        "VCSREV": {
+          "value": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
+          "src": "bayestar.html",
+          "comment": "Software revision (Git)"
+        },
+        "DATE-BLD": {
+          "value": "2019-03-26T18:11:21",
+          "src": "bayestar.html",
+          "comment": "Software build date"
+        }
       },
       "xml": {
         "Packet_Type": "151",
@@ -244,54 +432,246 @@
         "https://gracedb.ligo.org/api/superevents/S190426c/files/bayestar1.html"
       ],
       "hdr": {
-        "SIMPLE": "True",
-        "BITPIX": "8",
-        "NAXIS": "2",
-        "EXTEND": "True",
-        "XTENSION": "BINTABLE",
-        "NAXIS1": "40",
-        "NAXIS2": "16896",
-        "PCOUNT": "0",
-        "GCOUNT": "1",
-        "TFIELDS": "5",
-        "TTYPE1": "UNIQ",
-        "TFORM1": "K",
-        "TZERO1": "9223372036854775808",
-        "TTYPE2": "PROBDENSITY",
-        "TFORM2": "D",
-        "TUNIT2": "sr-1",
-        "TTYPE3": "DISTMU",
-        "TFORM3": "D",
-        "TUNIT3": "Mpc",
-        "TTYPE4": "DISTSIGMA",
-        "TFORM4": "D",
-        "TUNIT4": "Mpc",
-        "TTYPE5": "DISTNORM",
-        "TFORM5": "D",
-        "TUNIT5": "Mpc-2",
-        "NEST": "True",
-        "PIXTYPE": "HEALPIX",
-        "ORDERING": "NUNIQ",
-        "COORDSYS": "C",
-        "MOCORDER": "9",
-        "INDXSCHM": "EXPLICIT",
-        "DATE-OBS": "2019-04-26T15:21:55.358626",
-        "MJD-OBS": "58599.64022405804",
-        "DATE": "2019-04-27T06:15:06.697143",
-        "CREATOR": "ligo-skymap-from-samples",
-        "ORIGIN": "LIGO/Virgo",
-        "DISTMEAN": "376.7172912569309",
-        "DISTSTD": "100.4395515449489",
-        "VCSVERS": "ligo.skymap 0.1.6",
-        "VCSREV": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
-        "DATE-BLD": "2019-03-26T18:11:21",
-        "MOC": "True",
-        "OBJECT": "G330687",
-        "REFERENC": "https://gracedb.ligo.org/events/G330687",
-        "INSTRUME": "H1,L1,V1",
-        "RUNTIME": "12.0",
-        "LOGBCI": "8.109052223800997",
-        "LOGBSN": "14.2270271375247"
+        "SIMPLE": {
+          "value": "True",
+          "src": "LALInference1.html",
+          "comment": "conforms to FITS standard"
+        },
+        "BITPIX": {
+          "value": "8",
+          "src": "LALInference1.html",
+          "comment": "array data type"
+        },
+        "NAXIS": {
+          "value": "2",
+          "src": "LALInference1.html",
+          "comment": "number of array dimensions"
+        },
+        "EXTEND": {
+          "value": "True",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "XTENSION": {
+          "value": "BINTABLE",
+          "src": "LALInference1.html",
+          "comment": "binary table extension"
+        },
+        "NAXIS1": {
+          "value": "40",
+          "src": "LALInference1.html",
+          "comment": "length of dimension 1"
+        },
+        "NAXIS2": {
+          "value": "16896",
+          "src": "LALInference1.html",
+          "comment": "length of dimension 2"
+        },
+        "PCOUNT": {
+          "value": "0",
+          "src": "LALInference1.html",
+          "comment": "number of group parameters"
+        },
+        "GCOUNT": {
+          "value": "1",
+          "src": "LALInference1.html",
+          "comment": "number of groups"
+        },
+        "TFIELDS": {
+          "value": "5",
+          "src": "LALInference1.html",
+          "comment": "number of table fields"
+        },
+        "TTYPE1": {
+          "value": "UNIQ",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TFORM1": {
+          "value": "K",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TZERO1": {
+          "value": "9223372036854775808",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TTYPE2": {
+          "value": "PROBDENSITY",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TFORM2": {
+          "value": "D",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TUNIT2": {
+          "value": "sr-1",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TTYPE3": {
+          "value": "DISTMU",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TFORM3": {
+          "value": "D",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TUNIT3": {
+          "value": "Mpc",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TTYPE4": {
+          "value": "DISTSIGMA",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TFORM4": {
+          "value": "D",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TUNIT4": {
+          "value": "Mpc",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TTYPE5": {
+          "value": "DISTNORM",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TFORM5": {
+          "value": "D",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "TUNIT5": {
+          "value": "Mpc-2",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "NEST": {
+          "value": "True",
+          "src": "LALInference1.html",
+          "comment": ""
+        },
+        "PIXTYPE": {
+          "value": "HEALPIX",
+          "src": "LALInference1.html",
+          "comment": "HEALPIX pixelisation"
+        },
+        "ORDERING": {
+          "value": "NUNIQ",
+          "src": "LALInference1.html",
+          "comment": "Pixel ordering scheme: RING, NESTED, or NUNIQ"
+        },
+        "COORDSYS": {
+          "value": "C",
+          "src": "LALInference1.html",
+          "comment": "Ecliptic, Galactic or Celestial (equatorial)"
+        },
+        "MOCORDER": {
+          "value": "9",
+          "src": "LALInference1.html",
+          "comment": "MOC resolution (best order)"
+        },
+        "INDXSCHM": {
+          "value": "EXPLICIT",
+          "src": "LALInference1.html",
+          "comment": "Indexing: IMPLICIT or EXPLICIT"
+        },
+        "DATE-OBS": {
+          "value": "2019-04-26T15:21:55.358626",
+          "src": "LALInference1.html",
+          "comment": "UTC date of the observation"
+        },
+        "MJD-OBS": {
+          "value": "58599.64022405804",
+          "src": "LALInference1.html",
+          "comment": "modified Julian date of the observation"
+        },
+        "DATE": {
+          "value": "2019-04-27T06:15:06.697143",
+          "src": "LALInference1.html",
+          "comment": "UTC date of file creation"
+        },
+        "CREATOR": {
+          "value": "ligo-skymap-from-samples",
+          "src": "LALInference1.html",
+          "comment": "Program that created this file"
+        },
+        "ORIGIN": {
+          "value": "LIGO/Virgo",
+          "src": "LALInference1.html",
+          "comment": "Organization responsible for this FITS file"
+        },
+        "DISTMEAN": {
+          "value": "376.7172912569309",
+          "src": "LALInference1.html",
+          "comment": "Posterior mean distance (Mpc)"
+        },
+        "DISTSTD": {
+          "value": "100.4395515449489",
+          "src": "LALInference1.html",
+          "comment": "Posterior standard deviation of distance (Mpc)"
+        },
+        "VCSVERS": {
+          "value": "ligo.skymap 0.1.6",
+          "src": "LALInference1.html",
+          "comment": "Software version"
+        },
+        "VCSREV": {
+          "value": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
+          "src": "LALInference1.html",
+          "comment": "Software revision (Git)"
+        },
+        "DATE-BLD": {
+          "value": "2019-03-26T18:11:21",
+          "src": "LALInference1.html",
+          "comment": "Software build date"
+        },
+        "MOC": {
+          "value": "True",
+          "src": "bayestar1.html",
+          "comment": ""
+        },
+        "OBJECT": {
+          "value": "G330687",
+          "src": "bayestar1.html",
+          "comment": "Unique identifier for this event"
+        },
+        "REFERENC": {
+          "value": "https://gracedb.ligo.org/events/G330687",
+          "src": "bayestar1.html",
+          "comment": "URL of this event"
+        },
+        "INSTRUME": {
+          "value": "H1,L1,V1",
+          "src": "bayestar1.html",
+          "comment": "Instruments that triggered this event"
+        },
+        "RUNTIME": {
+          "value": "12.0",
+          "src": "bayestar1.html",
+          "comment": "Runtime in seconds of the CREATOR program"
+        },
+        "LOGBCI": {
+          "value": "8.109052223800997",
+          "src": "bayestar1.html",
+          "comment": "Log Bayes factor: coherent vs. incoherent"
+        },
+        "LOGBSN": {
+          "value": "14.2270271375247",
+          "src": "bayestar1.html",
+          "comment": "Log Bayes factor: signal vs. noise"
+        }
       },
       "xml": {
         "Packet_Type": "152",
@@ -396,54 +776,246 @@
         "https://gracedb.ligo.org/api/superevents/S190425z/files/bayestar.html"
       ],
       "hdr": {
-        "SIMPLE": "True",
-        "BITPIX": "8",
-        "NAXIS": "2",
-        "EXTEND": "True",
-        "XTENSION": "BINTABLE",
-        "NAXIS1": "40",
-        "NAXIS2": "16896",
-        "PCOUNT": "0",
-        "GCOUNT": "1",
-        "TFIELDS": "5",
-        "TTYPE1": "UNIQ",
-        "TFORM1": "K",
-        "TZERO1": "9223372036854775808",
-        "TTYPE2": "PROBDENSITY",
-        "TFORM2": "D",
-        "TUNIT2": "sr-1",
-        "TTYPE3": "DISTMU",
-        "TFORM3": "D",
-        "TUNIT3": "Mpc",
-        "TTYPE4": "DISTSIGMA",
-        "TFORM4": "D",
-        "TUNIT4": "Mpc",
-        "TTYPE5": "DISTNORM",
-        "TFORM5": "D",
-        "TUNIT5": "Mpc-2",
-        "NEST": "True",
-        "PIXTYPE": "HEALPIX",
-        "ORDERING": "NUNIQ",
-        "COORDSYS": "C",
-        "MOCORDER": "8",
-        "INDXSCHM": "EXPLICIT",
-        "DATE-OBS": "2019-04-25T08:18:05.012524",
-        "MJD-OBS": "58598.34589134868",
-        "DATE": "2019-04-26T03:26:13.344298",
-        "CREATOR": "ligo-skymap-from-samples",
-        "ORIGIN": "LIGO/Virgo",
-        "DISTMEAN": "156.1439917314773",
-        "DISTSTD": "41.3733570000998",
-        "VCSVERS": "ligo.skymap 0.1.6",
-        "VCSREV": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
-        "DATE-BLD": "2019-03-26T18:11:21",
-        "MOC": "True",
-        "OBJECT": "G330561",
-        "REFERENC": "https://gracedb.ligo.org/events/G330561",
-        "INSTRUME": "L1,V1",
-        "RUNTIME": "9.0",
-        "LOGBCI": "0.7583604436436318",
-        "LOGBSN": "36.26212123126514"
+        "SIMPLE": {
+          "value": "True",
+          "src": "LALInference.html",
+          "comment": "conforms to FITS standard"
+        },
+        "BITPIX": {
+          "value": "8",
+          "src": "LALInference.html",
+          "comment": "array data type"
+        },
+        "NAXIS": {
+          "value": "2",
+          "src": "LALInference.html",
+          "comment": "number of array dimensions"
+        },
+        "EXTEND": {
+          "value": "True",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "XTENSION": {
+          "value": "BINTABLE",
+          "src": "LALInference.html",
+          "comment": "binary table extension"
+        },
+        "NAXIS1": {
+          "value": "40",
+          "src": "LALInference.html",
+          "comment": "length of dimension 1"
+        },
+        "NAXIS2": {
+          "value": "16896",
+          "src": "LALInference.html",
+          "comment": "length of dimension 2"
+        },
+        "PCOUNT": {
+          "value": "0",
+          "src": "LALInference.html",
+          "comment": "number of group parameters"
+        },
+        "GCOUNT": {
+          "value": "1",
+          "src": "LALInference.html",
+          "comment": "number of groups"
+        },
+        "TFIELDS": {
+          "value": "5",
+          "src": "LALInference.html",
+          "comment": "number of table fields"
+        },
+        "TTYPE1": {
+          "value": "UNIQ",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM1": {
+          "value": "K",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TZERO1": {
+          "value": "9223372036854775808",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE2": {
+          "value": "PROBDENSITY",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM2": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT2": {
+          "value": "sr-1",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE3": {
+          "value": "DISTMU",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM3": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT3": {
+          "value": "Mpc",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE4": {
+          "value": "DISTSIGMA",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM4": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT4": {
+          "value": "Mpc",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE5": {
+          "value": "DISTNORM",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM5": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT5": {
+          "value": "Mpc-2",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "NEST": {
+          "value": "True",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "PIXTYPE": {
+          "value": "HEALPIX",
+          "src": "LALInference.html",
+          "comment": "HEALPIX pixelisation"
+        },
+        "ORDERING": {
+          "value": "NUNIQ",
+          "src": "LALInference.html",
+          "comment": "Pixel ordering scheme: RING, NESTED, or NUNIQ"
+        },
+        "COORDSYS": {
+          "value": "C",
+          "src": "LALInference.html",
+          "comment": "Ecliptic, Galactic or Celestial (equatorial)"
+        },
+        "MOCORDER": {
+          "value": "8",
+          "src": "LALInference.html",
+          "comment": "MOC resolution (best order)"
+        },
+        "INDXSCHM": {
+          "value": "EXPLICIT",
+          "src": "LALInference.html",
+          "comment": "Indexing: IMPLICIT or EXPLICIT"
+        },
+        "DATE-OBS": {
+          "value": "2019-04-25T08:18:05.012524",
+          "src": "LALInference.html",
+          "comment": "UTC date of the observation"
+        },
+        "MJD-OBS": {
+          "value": "58598.34589134868",
+          "src": "LALInference.html",
+          "comment": "modified Julian date of the observation"
+        },
+        "DATE": {
+          "value": "2019-04-26T03:26:13.344298",
+          "src": "LALInference.html",
+          "comment": "UTC date of file creation"
+        },
+        "CREATOR": {
+          "value": "ligo-skymap-from-samples",
+          "src": "LALInference.html",
+          "comment": "Program that created this file"
+        },
+        "ORIGIN": {
+          "value": "LIGO/Virgo",
+          "src": "LALInference.html",
+          "comment": "Organization responsible for this FITS file"
+        },
+        "DISTMEAN": {
+          "value": "156.1439917314773",
+          "src": "LALInference.html",
+          "comment": "Posterior mean distance (Mpc)"
+        },
+        "DISTSTD": {
+          "value": "41.3733570000998",
+          "src": "LALInference.html",
+          "comment": "Posterior standard deviation of distance (Mpc)"
+        },
+        "VCSVERS": {
+          "value": "ligo.skymap 0.1.6",
+          "src": "LALInference.html",
+          "comment": "Software version"
+        },
+        "VCSREV": {
+          "value": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
+          "src": "LALInference.html",
+          "comment": "Software revision (Git)"
+        },
+        "DATE-BLD": {
+          "value": "2019-03-26T18:11:21",
+          "src": "LALInference.html",
+          "comment": "Software build date"
+        },
+        "MOC": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "OBJECT": {
+          "value": "G330561",
+          "src": "bayestar.html",
+          "comment": "Unique identifier for this event"
+        },
+        "REFERENC": {
+          "value": "https://gracedb.ligo.org/events/G330561",
+          "src": "bayestar.html",
+          "comment": "URL of this event"
+        },
+        "INSTRUME": {
+          "value": "L1,V1",
+          "src": "bayestar.html",
+          "comment": "Instruments that triggered this event"
+        },
+        "RUNTIME": {
+          "value": "9.0",
+          "src": "bayestar.html",
+          "comment": "Runtime in seconds of the CREATOR program"
+        },
+        "LOGBCI": {
+          "value": "0.7583604436436318",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: coherent vs. incoherent"
+        },
+        "LOGBSN": {
+          "value": "36.26212123126514",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: signal vs. noise"
+        }
       },
       "xml": {
         "Packet_Type": "152",
@@ -556,54 +1128,246 @@
         "https://gracedb.ligo.org/api/superevents/S190421ar/files/bayestar.html"
       ],
       "hdr": {
-        "SIMPLE": "True",
-        "BITPIX": "8",
-        "NAXIS": "2",
-        "EXTEND": "True",
-        "XTENSION": "BINTABLE",
-        "NAXIS1": "40",
-        "NAXIS2": "16896",
-        "PCOUNT": "0",
-        "GCOUNT": "1",
-        "TFIELDS": "5",
-        "TTYPE1": "UNIQ",
-        "TFORM1": "K",
-        "TZERO1": "9223372036854775808",
-        "TTYPE2": "PROBDENSITY",
-        "TFORM2": "D",
-        "TUNIT2": "sr-1",
-        "TTYPE3": "DISTMU",
-        "TFORM3": "D",
-        "TUNIT3": "Mpc",
-        "TTYPE4": "DISTSIGMA",
-        "TFORM4": "D",
-        "TUNIT4": "Mpc",
-        "TTYPE5": "DISTNORM",
-        "TFORM5": "D",
-        "TUNIT5": "Mpc-2",
-        "NEST": "True",
-        "PIXTYPE": "HEALPIX",
-        "ORDERING": "NUNIQ",
-        "COORDSYS": "C",
-        "MOCORDER": "8",
-        "INDXSCHM": "EXPLICIT",
-        "DATE-OBS": "2019-04-21T21:38:56.241502",
-        "MJD-OBS": "58594.90203983222",
-        "DATE": "2019-05-03T07:33:43.416122",
-        "CREATOR": "ligo-skymap-from-samples",
-        "ORIGIN": "LIGO/Virgo",
-        "DISTMEAN": "1628.384784412257",
-        "DISTSTD": "534.6075375270634",
-        "VCSVERS": "ligo.skymap 0.1.6",
-        "VCSREV": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
-        "DATE-BLD": "2019-03-26T18:11:21",
-        "MOC": "True",
-        "OBJECT": "G330308",
-        "REFERENC": "https://gracedb.ligo.org/events/G330308",
-        "INSTRUME": "H1,L1",
-        "RUNTIME": "5.0",
-        "LOGBCI": "5.167424736773889",
-        "LOGBSN": "19.4907249064735"
+        "SIMPLE": {
+          "value": "True",
+          "src": "LALInference.html",
+          "comment": "conforms to FITS standard"
+        },
+        "BITPIX": {
+          "value": "8",
+          "src": "LALInference.html",
+          "comment": "array data type"
+        },
+        "NAXIS": {
+          "value": "2",
+          "src": "LALInference.html",
+          "comment": "number of array dimensions"
+        },
+        "EXTEND": {
+          "value": "True",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "XTENSION": {
+          "value": "BINTABLE",
+          "src": "LALInference.html",
+          "comment": "binary table extension"
+        },
+        "NAXIS1": {
+          "value": "40",
+          "src": "LALInference.html",
+          "comment": "length of dimension 1"
+        },
+        "NAXIS2": {
+          "value": "16896",
+          "src": "LALInference.html",
+          "comment": "length of dimension 2"
+        },
+        "PCOUNT": {
+          "value": "0",
+          "src": "LALInference.html",
+          "comment": "number of group parameters"
+        },
+        "GCOUNT": {
+          "value": "1",
+          "src": "LALInference.html",
+          "comment": "number of groups"
+        },
+        "TFIELDS": {
+          "value": "5",
+          "src": "LALInference.html",
+          "comment": "number of table fields"
+        },
+        "TTYPE1": {
+          "value": "UNIQ",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM1": {
+          "value": "K",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TZERO1": {
+          "value": "9223372036854775808",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE2": {
+          "value": "PROBDENSITY",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM2": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT2": {
+          "value": "sr-1",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE3": {
+          "value": "DISTMU",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM3": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT3": {
+          "value": "Mpc",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE4": {
+          "value": "DISTSIGMA",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM4": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT4": {
+          "value": "Mpc",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE5": {
+          "value": "DISTNORM",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM5": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT5": {
+          "value": "Mpc-2",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "NEST": {
+          "value": "True",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "PIXTYPE": {
+          "value": "HEALPIX",
+          "src": "LALInference.html",
+          "comment": "HEALPIX pixelisation"
+        },
+        "ORDERING": {
+          "value": "NUNIQ",
+          "src": "LALInference.html",
+          "comment": "Pixel ordering scheme: RING, NESTED, or NUNIQ"
+        },
+        "COORDSYS": {
+          "value": "C",
+          "src": "LALInference.html",
+          "comment": "Ecliptic, Galactic or Celestial (equatorial)"
+        },
+        "MOCORDER": {
+          "value": "8",
+          "src": "LALInference.html",
+          "comment": "MOC resolution (best order)"
+        },
+        "INDXSCHM": {
+          "value": "EXPLICIT",
+          "src": "LALInference.html",
+          "comment": "Indexing: IMPLICIT or EXPLICIT"
+        },
+        "DATE-OBS": {
+          "value": "2019-04-21T21:38:56.241502",
+          "src": "LALInference.html",
+          "comment": "UTC date of the observation"
+        },
+        "MJD-OBS": {
+          "value": "58594.90203983222",
+          "src": "LALInference.html",
+          "comment": "modified Julian date of the observation"
+        },
+        "DATE": {
+          "value": "2019-05-03T07:33:43.416122",
+          "src": "LALInference.html",
+          "comment": "UTC date of file creation"
+        },
+        "CREATOR": {
+          "value": "ligo-skymap-from-samples",
+          "src": "LALInference.html",
+          "comment": "Program that created this file"
+        },
+        "ORIGIN": {
+          "value": "LIGO/Virgo",
+          "src": "LALInference.html",
+          "comment": "Organization responsible for this FITS file"
+        },
+        "DISTMEAN": {
+          "value": "1628.384784412257",
+          "src": "LALInference.html",
+          "comment": "Posterior mean distance (Mpc)"
+        },
+        "DISTSTD": {
+          "value": "534.6075375270634",
+          "src": "LALInference.html",
+          "comment": "Posterior standard deviation of distance (Mpc)"
+        },
+        "VCSVERS": {
+          "value": "ligo.skymap 0.1.6",
+          "src": "LALInference.html",
+          "comment": "Software version"
+        },
+        "VCSREV": {
+          "value": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
+          "src": "LALInference.html",
+          "comment": "Software revision (Git)"
+        },
+        "DATE-BLD": {
+          "value": "2019-03-26T18:11:21",
+          "src": "LALInference.html",
+          "comment": "Software build date"
+        },
+        "MOC": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "OBJECT": {
+          "value": "G330308",
+          "src": "bayestar.html",
+          "comment": "Unique identifier for this event"
+        },
+        "REFERENC": {
+          "value": "https://gracedb.ligo.org/events/G330308",
+          "src": "bayestar.html",
+          "comment": "URL of this event"
+        },
+        "INSTRUME": {
+          "value": "H1,L1",
+          "src": "bayestar.html",
+          "comment": "Instruments that triggered this event"
+        },
+        "RUNTIME": {
+          "value": "5.0",
+          "src": "bayestar.html",
+          "comment": "Runtime in seconds of the CREATOR program"
+        },
+        "LOGBCI": {
+          "value": "5.167424736773889",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: coherent vs. incoherent"
+        },
+        "LOGBSN": {
+          "value": "19.4907249064735",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: signal vs. noise"
+        }
       },
       "xml": {
         "Packet_Type": "152",
@@ -710,53 +1474,241 @@
         "https://gracedb.ligo.org/api/superevents/S190412m/files/bayestar.html"
       ],
       "hdr": {
-        "SIMPLE": "True",
-        "BITPIX": "8",
-        "NAXIS": "2",
-        "EXTEND": "True",
-        "XTENSION": "BINTABLE",
-        "NAXIS1": "40",
-        "NAXIS2": "19200",
-        "PCOUNT": "0",
-        "GCOUNT": "1",
-        "TFIELDS": "5",
-        "TTYPE1": "UNIQ",
-        "TFORM1": "K",
-        "TZERO1": "9223372036854775808",
-        "TTYPE2": "PROBDENSITY",
-        "TFORM2": "D",
-        "TUNIT2": "sr-1",
-        "TTYPE3": "DISTMU",
-        "TFORM3": "D",
-        "TUNIT3": "Mpc",
-        "TTYPE4": "DISTSIGMA",
-        "TFORM4": "D",
-        "TUNIT4": "Mpc",
-        "TTYPE5": "DISTNORM",
-        "TFORM5": "D",
-        "TUNIT5": "Mpc-2",
-        "MOC": "True",
-        "PIXTYPE": "HEALPIX",
-        "ORDERING": "NUNIQ",
-        "COORDSYS": "C",
-        "MOCORDER": "10",
-        "INDXSCHM": "EXPLICIT",
-        "OBJECT": "G329483",
-        "REFERENC": "https://gracedb.ligo.org/events/G329483",
-        "INSTRUME": "H1,L1,V1",
-        "DATE-OBS": "2019-04-12T05:30:44.166588",
-        "MJD-OBS": "58585.2296778539",
-        "DATE": "2019-04-12T05:31:53.000000",
-        "CREATOR": "BAYESTAR",
-        "ORIGIN": "LIGO/Virgo",
-        "RUNTIME": "20.0",
-        "DISTMEAN": "812.178744887329",
-        "DISTSTD": "194.1409825351498",
-        "LOGBCI": "11.52926915627994",
-        "LOGBSN": "87.2377114641354",
-        "VCSVERS": "ligo.skymap 0.1.6",
-        "VCSREV": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
-        "DATE-BLD": "2019-03-26T18:11:21"
+        "SIMPLE": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": "conforms to FITS standard"
+        },
+        "BITPIX": {
+          "value": "8",
+          "src": "bayestar.html",
+          "comment": "array data type"
+        },
+        "NAXIS": {
+          "value": "2",
+          "src": "bayestar.html",
+          "comment": "number of array dimensions"
+        },
+        "EXTEND": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "XTENSION": {
+          "value": "BINTABLE",
+          "src": "bayestar.html",
+          "comment": "binary table extension"
+        },
+        "NAXIS1": {
+          "value": "40",
+          "src": "bayestar.html",
+          "comment": "length of dimension 1"
+        },
+        "NAXIS2": {
+          "value": "19200",
+          "src": "bayestar.html",
+          "comment": "length of dimension 2"
+        },
+        "PCOUNT": {
+          "value": "0",
+          "src": "bayestar.html",
+          "comment": "number of group parameters"
+        },
+        "GCOUNT": {
+          "value": "1",
+          "src": "bayestar.html",
+          "comment": "number of groups"
+        },
+        "TFIELDS": {
+          "value": "5",
+          "src": "bayestar.html",
+          "comment": "number of table fields"
+        },
+        "TTYPE1": {
+          "value": "UNIQ",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM1": {
+          "value": "K",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TZERO1": {
+          "value": "9223372036854775808",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE2": {
+          "value": "PROBDENSITY",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM2": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT2": {
+          "value": "sr-1",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE3": {
+          "value": "DISTMU",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM3": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT3": {
+          "value": "Mpc",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE4": {
+          "value": "DISTSIGMA",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM4": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT4": {
+          "value": "Mpc",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE5": {
+          "value": "DISTNORM",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM5": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT5": {
+          "value": "Mpc-2",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "MOC": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "PIXTYPE": {
+          "value": "HEALPIX",
+          "src": "bayestar.html",
+          "comment": "HEALPIX pixelisation"
+        },
+        "ORDERING": {
+          "value": "NUNIQ",
+          "src": "bayestar.html",
+          "comment": "Pixel ordering scheme: RING, NESTED, or NUNIQ"
+        },
+        "COORDSYS": {
+          "value": "C",
+          "src": "bayestar.html",
+          "comment": "Ecliptic, Galactic or Celestial (equatorial)"
+        },
+        "MOCORDER": {
+          "value": "10",
+          "src": "bayestar.html",
+          "comment": "MOC resolution (best order)"
+        },
+        "INDXSCHM": {
+          "value": "EXPLICIT",
+          "src": "bayestar.html",
+          "comment": "Indexing: IMPLICIT or EXPLICIT"
+        },
+        "OBJECT": {
+          "value": "G329483",
+          "src": "bayestar.html",
+          "comment": "Unique identifier for this event"
+        },
+        "REFERENC": {
+          "value": "https://gracedb.ligo.org/events/G329483",
+          "src": "bayestar.html",
+          "comment": "URL of this event"
+        },
+        "INSTRUME": {
+          "value": "H1,L1,V1",
+          "src": "bayestar.html",
+          "comment": "Instruments that triggered this event"
+        },
+        "DATE-OBS": {
+          "value": "2019-04-12T05:30:44.166588",
+          "src": "bayestar.html",
+          "comment": "UTC date of the observation"
+        },
+        "MJD-OBS": {
+          "value": "58585.2296778539",
+          "src": "bayestar.html",
+          "comment": "modified Julian date of the observation"
+        },
+        "DATE": {
+          "value": "2019-04-12T05:31:53.000000",
+          "src": "bayestar.html",
+          "comment": "UTC date of file creation"
+        },
+        "CREATOR": {
+          "value": "BAYESTAR",
+          "src": "bayestar.html",
+          "comment": "Program that created this file"
+        },
+        "ORIGIN": {
+          "value": "LIGO/Virgo",
+          "src": "bayestar.html",
+          "comment": "Organization responsible for this FITS file"
+        },
+        "RUNTIME": {
+          "value": "20.0",
+          "src": "bayestar.html",
+          "comment": "Runtime in seconds of the CREATOR program"
+        },
+        "DISTMEAN": {
+          "value": "812.178744887329",
+          "src": "bayestar.html",
+          "comment": "Posterior mean distance (Mpc)"
+        },
+        "DISTSTD": {
+          "value": "194.1409825351498",
+          "src": "bayestar.html",
+          "comment": "Posterior standard deviation of distance (Mpc)"
+        },
+        "LOGBCI": {
+          "value": "11.52926915627994",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: coherent vs. incoherent"
+        },
+        "LOGBSN": {
+          "value": "87.2377114641354",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: signal vs. noise"
+        },
+        "VCSVERS": {
+          "value": "ligo.skymap 0.1.6",
+          "src": "bayestar.html",
+          "comment": "Software version"
+        },
+        "VCSREV": {
+          "value": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
+          "src": "bayestar.html",
+          "comment": "Software revision (Git)"
+        },
+        "DATE-BLD": {
+          "value": "2019-03-26T18:11:21",
+          "src": "bayestar.html",
+          "comment": "Software build date"
+        }
       },
       "xml": {
         "Packet_Type": "151",
@@ -852,53 +1804,241 @@
         "https://gracedb.ligo.org/api/superevents/S190408an/files/bayestar.html"
       ],
       "hdr": {
-        "SIMPLE": "True",
-        "BITPIX": "8",
-        "NAXIS": "2",
-        "EXTEND": "True",
-        "XTENSION": "BINTABLE",
-        "NAXIS1": "40",
-        "NAXIS2": "19200",
-        "PCOUNT": "0",
-        "GCOUNT": "1",
-        "TFIELDS": "5",
-        "TTYPE1": "UNIQ",
-        "TFORM1": "K",
-        "TZERO1": "9223372036854775808",
-        "TTYPE2": "PROBDENSITY",
-        "TFORM2": "D",
-        "TUNIT2": "sr-1",
-        "TTYPE3": "DISTMU",
-        "TFORM3": "D",
-        "TUNIT3": "Mpc",
-        "TTYPE4": "DISTSIGMA",
-        "TFORM4": "D",
-        "TUNIT4": "Mpc",
-        "TTYPE5": "DISTNORM",
-        "TFORM5": "D",
-        "TUNIT5": "Mpc-2",
-        "MOC": "True",
-        "PIXTYPE": "HEALPIX",
-        "ORDERING": "NUNIQ",
-        "COORDSYS": "C",
-        "MOCORDER": "10",
-        "INDXSCHM": "EXPLICIT",
-        "OBJECT": "G329243",
-        "REFERENC": "https://gracedb.ligo.org/events/G329243",
-        "INSTRUME": "H1,L1,V1",
-        "DATE-OBS": "2019-04-08T18:18:02.287027",
-        "MJD-OBS": "58581.76252647027",
-        "DATE": "2019-04-08T18:24:15.000000",
-        "CREATOR": "BAYESTAR",
-        "ORIGIN": "LIGO/Virgo",
-        "RUNTIME": "23.0",
-        "DISTMEAN": "1472.901081575617",
-        "DISTSTD": "357.8753158161887",
-        "LOGBCI": "10.91502807116203",
-        "LOGBSN": "43.84362181917297",
-        "VCSVERS": "ligo.skymap 0.1.6",
-        "VCSREV": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
-        "DATE-BLD": "2019-03-26T18:11:21"
+        "SIMPLE": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": "conforms to FITS standard"
+        },
+        "BITPIX": {
+          "value": "8",
+          "src": "bayestar.html",
+          "comment": "array data type"
+        },
+        "NAXIS": {
+          "value": "2",
+          "src": "bayestar.html",
+          "comment": "number of array dimensions"
+        },
+        "EXTEND": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "XTENSION": {
+          "value": "BINTABLE",
+          "src": "bayestar.html",
+          "comment": "binary table extension"
+        },
+        "NAXIS1": {
+          "value": "40",
+          "src": "bayestar.html",
+          "comment": "length of dimension 1"
+        },
+        "NAXIS2": {
+          "value": "19200",
+          "src": "bayestar.html",
+          "comment": "length of dimension 2"
+        },
+        "PCOUNT": {
+          "value": "0",
+          "src": "bayestar.html",
+          "comment": "number of group parameters"
+        },
+        "GCOUNT": {
+          "value": "1",
+          "src": "bayestar.html",
+          "comment": "number of groups"
+        },
+        "TFIELDS": {
+          "value": "5",
+          "src": "bayestar.html",
+          "comment": "number of table fields"
+        },
+        "TTYPE1": {
+          "value": "UNIQ",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM1": {
+          "value": "K",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TZERO1": {
+          "value": "9223372036854775808",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE2": {
+          "value": "PROBDENSITY",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM2": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT2": {
+          "value": "sr-1",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE3": {
+          "value": "DISTMU",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM3": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT3": {
+          "value": "Mpc",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE4": {
+          "value": "DISTSIGMA",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM4": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT4": {
+          "value": "Mpc",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TTYPE5": {
+          "value": "DISTNORM",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TFORM5": {
+          "value": "D",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "TUNIT5": {
+          "value": "Mpc-2",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "MOC": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "PIXTYPE": {
+          "value": "HEALPIX",
+          "src": "bayestar.html",
+          "comment": "HEALPIX pixelisation"
+        },
+        "ORDERING": {
+          "value": "NUNIQ",
+          "src": "bayestar.html",
+          "comment": "Pixel ordering scheme: RING, NESTED, or NUNIQ"
+        },
+        "COORDSYS": {
+          "value": "C",
+          "src": "bayestar.html",
+          "comment": "Ecliptic, Galactic or Celestial (equatorial)"
+        },
+        "MOCORDER": {
+          "value": "10",
+          "src": "bayestar.html",
+          "comment": "MOC resolution (best order)"
+        },
+        "INDXSCHM": {
+          "value": "EXPLICIT",
+          "src": "bayestar.html",
+          "comment": "Indexing: IMPLICIT or EXPLICIT"
+        },
+        "OBJECT": {
+          "value": "G329243",
+          "src": "bayestar.html",
+          "comment": "Unique identifier for this event"
+        },
+        "REFERENC": {
+          "value": "https://gracedb.ligo.org/events/G329243",
+          "src": "bayestar.html",
+          "comment": "URL of this event"
+        },
+        "INSTRUME": {
+          "value": "H1,L1,V1",
+          "src": "bayestar.html",
+          "comment": "Instruments that triggered this event"
+        },
+        "DATE-OBS": {
+          "value": "2019-04-08T18:18:02.287027",
+          "src": "bayestar.html",
+          "comment": "UTC date of the observation"
+        },
+        "MJD-OBS": {
+          "value": "58581.76252647027",
+          "src": "bayestar.html",
+          "comment": "modified Julian date of the observation"
+        },
+        "DATE": {
+          "value": "2019-04-08T18:24:15.000000",
+          "src": "bayestar.html",
+          "comment": "UTC date of file creation"
+        },
+        "CREATOR": {
+          "value": "BAYESTAR",
+          "src": "bayestar.html",
+          "comment": "Program that created this file"
+        },
+        "ORIGIN": {
+          "value": "LIGO/Virgo",
+          "src": "bayestar.html",
+          "comment": "Organization responsible for this FITS file"
+        },
+        "RUNTIME": {
+          "value": "23.0",
+          "src": "bayestar.html",
+          "comment": "Runtime in seconds of the CREATOR program"
+        },
+        "DISTMEAN": {
+          "value": "1472.901081575617",
+          "src": "bayestar.html",
+          "comment": "Posterior mean distance (Mpc)"
+        },
+        "DISTSTD": {
+          "value": "357.8753158161887",
+          "src": "bayestar.html",
+          "comment": "Posterior standard deviation of distance (Mpc)"
+        },
+        "LOGBCI": {
+          "value": "10.91502807116203",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: coherent vs. incoherent"
+        },
+        "LOGBSN": {
+          "value": "43.84362181917297",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: signal vs. noise"
+        },
+        "VCSVERS": {
+          "value": "ligo.skymap 0.1.6",
+          "src": "bayestar.html",
+          "comment": "Software version"
+        },
+        "VCSREV": {
+          "value": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
+          "src": "bayestar.html",
+          "comment": "Software revision (Git)"
+        },
+        "DATE-BLD": {
+          "value": "2019-03-26T18:11:21",
+          "src": "bayestar.html",
+          "comment": "Software build date"
+        }
       },
       "xml": {
         "Packet_Type": "151",
