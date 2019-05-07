@@ -19,8 +19,8 @@ GWCat.prototype.init = function(){
     this.log('inp',this.inp);
     // console.log('debug',this.debug);
     this.datasrc = (this.inp && this.inp.datasrc) ? this.inp.datasrc : "local";
-    this.fileIn = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "http://gwcat.cardiffgravity.org/data/gwosc_gracedb.json";
-    this.fileInJsonp = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "http://gwcat.cardiffgravity.org/data/gwosc_gracedb.jsonp";
+    this.fileIn = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "http://astrog80.astro.cf.ac.uk/GW/gwosc_gracedb.json";
+    this.fileInJsonp = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "http://astrog80.astro.cf.ac.uk/GW/gwosc_gracedb.jsonp";
     this.gwoscFile = (this.inp && this.inp.gwoscFile) ? this.inp.gwoscFile : "data/gwosc.json";
     this.loadMethod = (this.inp && this.inp.loadMethod) ? this.inp.loadMethod : "";
     this.confirmedOnly = (this.inp && this.inp.hasOwnProperty('confirmedOnly')) ? this.inp.confirmedOnly : true;
@@ -321,7 +321,7 @@ GWCat.prototype.loadData = function(){
     if (this.datasrc=='local'){
         host=window.location.host;
         if (this.loadMethod=='jsonp'){method='jsonp'}
-        else if (host==""){method='json'}
+        else if (host==""){method='jsonp'}
         else if (this.fileIn.indexOf(host)>0){method='json'}
         else {method='jsonp'}
         console.log('method',method)
