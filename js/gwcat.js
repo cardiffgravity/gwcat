@@ -1,3 +1,5 @@
+function catdata(data){console.log(data);var datain=data;return(data)}
+
 function GWCat(callback,inp){
     this.inp = inp;
     this.callback = (typeof callback==="function") ? callback : this.callbackDefault;
@@ -101,6 +103,8 @@ GWCat.prototype.loadData = function(){
 		var cb = "",qs = "";
 		var oReq;
 		if(attrs['dataType']=="jsonp"){
+            if(typeof attrs['callback']==="string") cb = attrs['callback'];
+            else cb = 'fn_'+(new Date()).getTime();
 			cb = 'fn_'+(new Date()).getTime();
 			window[cb] = function(rsp){
 				if(typeof attrs.success==="function") attrs.success.call((attrs['this'] ? attrs['this'] : this), rsp, attrs);
@@ -323,6 +327,22 @@ GWCat.prototype.loadData = function(){
 				//alert("Fatal error loading input file: '"+attr.url+"'. Sorry!");
 			},
 			"success": function(dataIn,attr){
+				parseData(dataIn,attr,this);
+			}
+		});
+
+    } if (this.datasrc=='localp'){
+        console.log('reading jsonp');
+        ajax(this.fileIn,{
+			"dataType": "jsonp",
+			"this": this,
+            "callback":"catdata",
+			"error": function(error,attr) {
+				this.log('events error:',error,attr);
+				//alert("Fatal error loading input file: '"+attr.url+"'. Sorry!");
+			},
+			"success": function(dataIn,attr){
+                console.log('jsonp read',dataIn);
 				parseData(dataIn,attr,this);
 			}
 		});
