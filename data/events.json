@@ -37,7 +37,8 @@
 	    "deltaOmega":{"name": "%data.skyArea.name%", "priority": 5, "sigfig": 2,
 	        "unit": "%data.skyArea.unit%", "err": 0, "name_en":"Sky localization area","unit_en":"deg^2"},
 		"obsrun":{"name": "%data.obsrun.name%","priority":5, "sigfig":0,"err":0,"name_en":"Observing run"},
-		"net":{"name": "%data.net.name","priority":5, "sigfig":0,"err":0,"name_en":"Detector network"}
+		"net":{"name": "%data.net.name","priority":5, "sigfig":0,"err":0,"name_en":"Detector network"},
+		"detType":{"name":"%data.dettype.name%","name_en":"Detection type"}
 	},
 	"data": {
 		"GW150914": {

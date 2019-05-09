@@ -18,8 +18,8 @@ def gracedb2cat(gdb,verbose=False):
         catOut[g]={}
         if 'superevent_id' in gdbIn[g]: catOut[g]['name']=gdbIn[g]['superevent_id']
         catOut[g]['obsrun']={'best':'O3'}
-        catOut[g]['type']='Candidate'
-        catOut[g]['conf']='Candidate'
+        catOut[g]['detType']={'best':'Candidate'}
+        catOut[g]['conf']={'best':'Candidate'}
         if 't_0' in gdbIn[g]:
             catOut[g]['GPS']={'best':gdbIn[g]['t_0']}
             dtIn=Time(gdbIn[g]['t_0'],format='gps')

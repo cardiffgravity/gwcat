@@ -1,12 +1,12 @@
 catdata({
     "meta": {
-        "created": "2019-05-07T15:04:01.571",
+        "created": "2019-05-09T11:26:25.847",
         "gwosc": {
-            "retrieved": "2019-05-07T15:04:02.656",
+            "retrieved": "2019-05-09T11:26:27.219",
             "src": "https://www.gw-openscience.org/catalog/GWTC-1-confident/filelist/"
         },
         "graceDB": {
-            "retrieved": "2019-05-07T15:04:27.229",
+            "retrieved": "2019-05-09T11:26:50.955",
             "src": "https://gracedb.ligo.org/api/"
         }
     },
@@ -172,6 +172,10 @@ catdata({
             "sigfig": 0,
             "err": 0,
             "name_en": "Detector network"
+        },
+        "detType": {
+            "name": "%data.dettype.name%",
+            "name_en": "Detection type"
         }
     },
     "data": {
@@ -256,7 +260,9 @@ catdata({
                 "best": "O1"
             },
             "name": "GW150914",
-            "type": "GW",
+            "detType": {
+                "best": "GW"
+            },
             "conf": "GW",
             "UTC": {
                 "best": "2015-09-14T09:51:21.400"
@@ -357,7 +363,9 @@ catdata({
                 "best": "O1"
             },
             "name": "GW151012",
-            "type": "GW",
+            "detType": {
+                "best": "GW"
+            },
             "conf": "GW",
             "UTC": {
                 "best": "2015-10-12T09:55:19.400"
@@ -458,7 +466,9 @@ catdata({
                 "best": "O1"
             },
             "name": "GW151226",
-            "type": "GW",
+            "detType": {
+                "best": "GW"
+            },
             "conf": "GW",
             "UTC": {
                 "best": "2015-12-26T03:39:29.600"
@@ -559,7 +569,9 @@ catdata({
                 "best": "O2"
             },
             "name": "GW170104",
-            "type": "GW",
+            "detType": {
+                "best": "GW"
+            },
             "conf": "GW",
             "UTC": {
                 "best": "2017-01-04T10:12:35.600"
@@ -660,7 +672,9 @@ catdata({
                 "best": "O2"
             },
             "name": "GW170608",
-            "type": "GW",
+            "detType": {
+                "best": "GW"
+            },
             "conf": "GW",
             "UTC": {
                 "best": "2017-06-08T02:01:53.500"
@@ -761,7 +775,9 @@ catdata({
                 "best": "O2"
             },
             "name": "GW170729",
-            "type": "GW",
+            "detType": {
+                "best": "GW"
+            },
             "conf": "GW",
             "UTC": {
                 "best": "2017-07-29T18:57:06.300"
@@ -862,7 +878,9 @@ catdata({
                 "best": "O2"
             },
             "name": "GW170809",
-            "type": "GW",
+            "detType": {
+                "best": "GW"
+            },
             "conf": "GW",
             "UTC": {
                 "best": "2017-08-09T08:28:58.800"
@@ -963,7 +981,9 @@ catdata({
                 "best": "O2"
             },
             "name": "GW170814",
-            "type": "GW",
+            "detType": {
+                "best": "GW"
+            },
             "conf": "GW",
             "UTC": {
                 "best": "2017-08-14T10:31:20.500"
@@ -1048,7 +1068,9 @@ catdata({
                 "best": "O2"
             },
             "name": "GW170817",
-            "type": "GW",
+            "detType": {
+                "best": "GW"
+            },
             "conf": "GW",
             "UTC": {
                 "best": "2017-08-17T12:41:41.400"
@@ -1149,7 +1171,9 @@ catdata({
                 "best": "O2"
             },
             "name": "GW170818",
-            "type": "GW",
+            "detType": {
+                "best": "GW"
+            },
             "conf": "GW",
             "UTC": {
                 "best": "2017-08-18T02:25:46.100"
@@ -1246,7 +1270,9 @@ catdata({
                 "best": "O2"
             },
             "name": "GW170823",
-            "type": "GW",
+            "detType": {
+                "best": "GW"
+            },
             "conf": "GW",
             "UTC": {
                 "best": "2017-08-23T13:14:35.500"
@@ -1271,8 +1297,12 @@ catdata({
             "obsrun": {
                 "best": "O3"
             },
-            "type": "Candidate",
-            "conf": "Candidate",
+            "detType": {
+                "best": "Candidate"
+            },
+            "conf": {
+                "best": "Candidate"
+            },
             "GPS": {
                 "best": 1240944862.412598
             },
@@ -1308,8 +1338,12 @@ catdata({
             "obsrun": {
                 "best": "O3"
             },
-            "type": "Candidate",
-            "conf": "Candidate",
+            "detType": {
+                "best": "Candidate"
+            },
+            "conf": {
+                "best": "Candidate"
+            },
             "GPS": {
                 "best": 1240327333.348145
             },
@@ -1345,8 +1379,12 @@ catdata({
             "obsrun": {
                 "best": "O3"
             },
-            "type": "Candidate",
-            "conf": "Candidate",
+            "detType": {
+                "best": "Candidate"
+            },
+            "conf": {
+                "best": "Candidate"
+            },
             "GPS": {
                 "best": 1240215503.011549
             },
@@ -1382,8 +1420,12 @@ catdata({
             "obsrun": {
                 "best": "O3"
             },
-            "type": "Candidate",
-            "conf": "Candidate",
+            "detType": {
+                "best": "Candidate"
+            },
+            "conf": {
+                "best": "Candidate"
+            },
             "GPS": {
                 "best": 1239917954.40918
             },
@@ -1419,8 +1461,12 @@ catdata({
             "obsrun": {
                 "best": "O3"
             },
-            "type": "Candidate",
-            "conf": "Candidate",
+            "detType": {
+                "best": "Candidate"
+            },
+            "conf": {
+                "best": "Candidate"
+            },
             "GPS": {
                 "best": 1239082262.222168
             },
@@ -1456,8 +1502,12 @@ catdata({
             "obsrun": {
                 "best": "O3"
             },
-            "type": "Candidate",
-            "conf": "Candidate",
+            "detType": {
+                "best": "Candidate"
+            },
+            "conf": {
+                "best": "Candidate"
+            },
             "GPS": {
                 "best": 1238782700.287958
             },
