@@ -1,12 +1,12 @@
 catdata({
     "meta": {
-        "created": "2019-05-09T11:26:25.847",
+        "created": "2019-05-10T11:14:12.482",
         "gwosc": {
-            "retrieved": "2019-05-09T11:26:27.219",
+            "retrieved": "2019-05-10T11:14:13.581",
             "src": "https://www.gw-openscience.org/catalog/GWTC-1-confident/filelist/"
         },
         "graceDB": {
-            "retrieved": "2019-05-09T11:26:50.955",
+            "retrieved": "2019-05-10T11:14:41.704",
             "src": "https://gracedb.ligo.org/api/"
         }
     },
@@ -1290,6 +1290,47 @@ catdata({
             "rho": {
                 "best": 11.1,
                 "fartype": "pycbc"
+            }
+        },
+        "S190510g": {
+            "name": "S190510g",
+            "obsrun": {
+                "best": "O3"
+            },
+            "detType": {
+                "best": "Candidate"
+            },
+            "conf": {
+                "best": "Candidate"
+            },
+            "GPS": {
+                "best": 1241492397.291636
+            },
+            "UTC": {
+                "best": "2019-05-10T03:00:16.292"
+            },
+            "FAR": {
+                "best": 0.02660132456283453
+            },
+            "DL": {
+                "best": 227.220932421794,
+                "err": [
+                    -92.41302972869721,
+                    92.41302972869721
+                ]
+            },
+            "net": {
+                "best": "HLV"
+            },
+            "objType": {
+                "prob": {
+                    "BNS": 0.979698536622,
+                    "NSBH": 0.0,
+                    "BBH": 0.0,
+                    "MassGap": 0.0,
+                    "Terrestrial": 0.0203014633781
+                },
+                "best": "BNS"
             }
         },
         "S190503bf": {

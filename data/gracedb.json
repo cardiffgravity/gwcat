@@ -1,9 +1,355 @@
 {
   "meta": {
-    "retrieved": "2019-05-09T11:26:50.955",
+    "retrieved": "2019-05-10T11:14:41.704",
     "src": "https://gracedb.ligo.org/api/"
   },
   "data": {
+    "S190510g": {
+      "superevent_id": "S190510g",
+      "gw_id": null,
+      "category": "Production",
+      "created": "2019-05-10 03:00:03 UTC",
+      "submitter": "emfollow",
+      "t_start": 1241492396.291636,
+      "t_0": 1241492397.291636,
+      "t_end": 1241492398.293185,
+      "far": 8.42945108716586e-10,
+      "labels": [
+        "ADVOK",
+        "SKYMAP_READY",
+        "EMBRIGHT_READY",
+        "PASTRO_READY",
+        "DQOK",
+        "GCN_PRELIM_SENT"
+      ],
+      "links": {
+        "files": "https://gracedb.ligo.org/api/superevents/S190510g/files/",
+        "logs": "https://gracedb.ligo.org/api/superevents/S190510g/logs/",
+        "self": "https://gracedb.ligo.org/api/superevents/S190510g/",
+        "labels": "https://gracedb.ligo.org/api/superevents/S190510g/labels/",
+        "voevents": "https://gracedb.ligo.org/api/superevents/S190510g/voevents/",
+        "emobservations": "https://gracedb.ligo.org/api/superevents/S190510g/emobservations/"
+      },
+      "files": {
+        "LALInference.fits": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.fits",
+        "LALInference.fits,0": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.fits,0",
+        "LALInference.fits.gz": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.fits.gz",
+        "LALInference.fits.gz,0": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.fits.gz,0",
+        "LALInference.html": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.html",
+        "LALInference.html,0": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.html,0",
+        "LALInference.png": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.png",
+        "LALInference.png,0": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.png,0",
+        "LALInference.volume.png": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.volume.png",
+        "LALInference.volume.png,0": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.volume.png,0",
+        "S190510g-2-Initial.xml": "https://gracedb.ligo.org/api/superevents/S190510g/files/S190510g-2-Initial.xml",
+        "S190510g-2-Initial.xml,0": "https://gracedb.ligo.org/api/superevents/S190510g/files/S190510g-2-Initial.xml,0",
+        "S190510g-3-Update.xml": "https://gracedb.ligo.org/api/superevents/S190510g/files/S190510g-3-Update.xml",
+        "S190510g-3-Update.xml,0": "https://gracedb.ligo.org/api/superevents/S190510g/files/S190510g-3-Update.xml,0",
+        "bayestar.fits": "https://gracedb.ligo.org/api/superevents/S190510g/files/bayestar.fits",
+        "bayestar.fits,1": "https://gracedb.ligo.org/api/superevents/S190510g/files/bayestar.fits,1",
+        "bayestar.fits.gz": "https://gracedb.ligo.org/api/superevents/S190510g/files/bayestar.fits.gz",
+        "bayestar.fits.gz,1": "https://gracedb.ligo.org/api/superevents/S190510g/files/bayestar.fits.gz,1",
+        "bayestar.html": "https://gracedb.ligo.org/api/superevents/S190510g/files/bayestar.html",
+        "bayestar.html,1": "https://gracedb.ligo.org/api/superevents/S190510g/files/bayestar.html,1",
+        "bayestar.png": "https://gracedb.ligo.org/api/superevents/S190510g/files/bayestar.png",
+        "bayestar.png,1": "https://gracedb.ligo.org/api/superevents/S190510g/files/bayestar.png,1",
+        "bayestar.volume.png": "https://gracedb.ligo.org/api/superevents/S190510g/files/bayestar.volume.png",
+        "bayestar.volume.png,1": "https://gracedb.ligo.org/api/superevents/S190510g/files/bayestar.volume.png,1",
+        "em_bright.json": "https://gracedb.ligo.org/api/superevents/S190510g/files/em_bright.json",
+        "em_bright.json,1": "https://gracedb.ligo.org/api/superevents/S190510g/files/em_bright.json,1",
+        "p_astro.json": "https://gracedb.ligo.org/api/superevents/S190510g/files/p_astro.json",
+        "p_astro.json,1": "https://gracedb.ligo.org/api/superevents/S190510g/files/p_astro.json,1",
+        "p_astro.png": "https://gracedb.ligo.org/api/superevents/S190510g/files/p_astro.png",
+        "p_astro.png,1": "https://gracedb.ligo.org/api/superevents/S190510g/files/p_astro.png,1"
+      },
+      "xmlfile": [
+        "S190510g-3-Update.xml",
+        "https://gracedb.ligo.org/api/superevents/S190510g/files/S190510g-3-Update.xml"
+      ],
+      "mapfile": [
+        "LALInference.fits",
+        "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.fits"
+      ],
+      "htmlfile": [
+        "LALInference.html",
+        "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.html"
+      ],
+      "htmlfile2": [
+        "bayestar.html",
+        "https://gracedb.ligo.org/api/superevents/S190510g/files/bayestar.html"
+      ],
+      "hdr": {
+        "SIMPLE": {
+          "value": "True",
+          "src": "LALInference.html",
+          "comment": "conforms to FITS standard"
+        },
+        "BITPIX": {
+          "value": "8",
+          "src": "LALInference.html",
+          "comment": "array data type"
+        },
+        "NAXIS": {
+          "value": "2",
+          "src": "LALInference.html",
+          "comment": "number of array dimensions"
+        },
+        "EXTEND": {
+          "value": "True",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "XTENSION": {
+          "value": "BINTABLE",
+          "src": "LALInference.html",
+          "comment": "binary table extension"
+        },
+        "NAXIS1": {
+          "value": "40",
+          "src": "LALInference.html",
+          "comment": "length of dimension 1"
+        },
+        "NAXIS2": {
+          "value": "16896",
+          "src": "LALInference.html",
+          "comment": "length of dimension 2"
+        },
+        "PCOUNT": {
+          "value": "0",
+          "src": "LALInference.html",
+          "comment": "number of group parameters"
+        },
+        "GCOUNT": {
+          "value": "1",
+          "src": "LALInference.html",
+          "comment": "number of groups"
+        },
+        "TFIELDS": {
+          "value": "5",
+          "src": "LALInference.html",
+          "comment": "number of table fields"
+        },
+        "TTYPE1": {
+          "value": "UNIQ",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM1": {
+          "value": "K",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TZERO1": {
+          "value": "9223372036854775808",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE2": {
+          "value": "PROBDENSITY",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM2": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT2": {
+          "value": "sr-1",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE3": {
+          "value": "DISTMU",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM3": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT3": {
+          "value": "Mpc",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE4": {
+          "value": "DISTSIGMA",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM4": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT4": {
+          "value": "Mpc",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TTYPE5": {
+          "value": "DISTNORM",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TFORM5": {
+          "value": "D",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "TUNIT5": {
+          "value": "Mpc-2",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "NEST": {
+          "value": "True",
+          "src": "LALInference.html",
+          "comment": ""
+        },
+        "PIXTYPE": {
+          "value": "HEALPIX",
+          "src": "LALInference.html",
+          "comment": "HEALPIX pixelisation"
+        },
+        "ORDERING": {
+          "value": "NUNIQ",
+          "src": "LALInference.html",
+          "comment": "Pixel ordering scheme: RING, NESTED, or NUNIQ"
+        },
+        "COORDSYS": {
+          "value": "C",
+          "src": "LALInference.html",
+          "comment": "Ecliptic, Galactic or Celestial (equatorial)"
+        },
+        "MOCORDER": {
+          "value": "10",
+          "src": "LALInference.html",
+          "comment": "MOC resolution (best order)"
+        },
+        "INDXSCHM": {
+          "value": "EXPLICIT",
+          "src": "LALInference.html",
+          "comment": "Indexing: IMPLICIT or EXPLICIT"
+        },
+        "DATE-OBS": {
+          "value": "2019-05-10T02:59:39.283926",
+          "src": "LALInference.html",
+          "comment": "UTC date of the observation"
+        },
+        "MJD-OBS": {
+          "value": "58613.12476023055",
+          "src": "LALInference.html",
+          "comment": "modified Julian date of the observation"
+        },
+        "DATE": {
+          "value": "2019-05-10T08:40:18.606618",
+          "src": "LALInference.html",
+          "comment": "UTC date of file creation"
+        },
+        "CREATOR": {
+          "value": "ligo-skymap-from-samples",
+          "src": "LALInference.html",
+          "comment": "Program that created this file"
+        },
+        "ORIGIN": {
+          "value": "LIGO/Virgo",
+          "src": "LALInference.html",
+          "comment": "Organization responsible for this FITS file"
+        },
+        "DISTMEAN": {
+          "value": "227.220932421794",
+          "src": "LALInference.html",
+          "comment": "Posterior mean distance (Mpc)"
+        },
+        "DISTSTD": {
+          "value": "92.41302972869721",
+          "src": "LALInference.html",
+          "comment": "Posterior standard deviation of distance (Mpc)"
+        },
+        "VCSVERS": {
+          "value": "ligo.skymap 0.1.6",
+          "src": "LALInference.html",
+          "comment": "Software version"
+        },
+        "VCSREV": {
+          "value": "79504ec9fb1890fa91665bd69d7aa66cdaf11184",
+          "src": "LALInference.html",
+          "comment": "Software revision (Git)"
+        },
+        "DATE-BLD": {
+          "value": "2019-03-26T18:11:21",
+          "src": "LALInference.html",
+          "comment": "Software build date"
+        },
+        "MOC": {
+          "value": "True",
+          "src": "bayestar.html",
+          "comment": ""
+        },
+        "OBJECT": {
+          "value": "G331903",
+          "src": "bayestar.html",
+          "comment": "Unique identifier for this event"
+        },
+        "REFERENC": {
+          "value": "https://gracedb.ligo.org/events/G331903",
+          "src": "bayestar.html",
+          "comment": "URL of this event"
+        },
+        "INSTRUME": {
+          "value": "H1,L1,V1",
+          "src": "bayestar.html",
+          "comment": "Instruments that triggered this event"
+        },
+        "RUNTIME": {
+          "value": "18.0",
+          "src": "bayestar.html",
+          "comment": "Runtime in seconds of the CREATOR program"
+        },
+        "LOGBCI": {
+          "value": "0.6949211109947058",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: coherent vs. incoherent"
+        },
+        "LOGBSN": {
+          "value": "7.032293281836687",
+          "src": "bayestar.html",
+          "comment": "Log Bayes factor: signal vs. noise"
+        }
+      },
+      "xml": {
+        "Packet_Type": "152",
+        "internal": "0",
+        "Pkt_Ser_Num": "3",
+        "GraceID": "S190510g",
+        "AlertType": "Update",
+        "HardwareInj": "0",
+        "OpenAlert": "1",
+        "EventPage": "https://gracedb.ligo.org/superevents/S190510g/view/",
+        "Instruments": "H1,L1,V1",
+        "FAR": "8.42945108717e-10",
+        "Group": "CBC",
+        "Pipeline": "gstlal",
+        "Search": "AllSky",
+        "GW_SKYMAP": {
+          "skymap_fits": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.fits.gz"
+        },
+        "Classification": {
+          "BNS": "0.979698536622",
+          "NSBH": "0.0",
+          "BBH": "0.0",
+          "MassGap": "0.0",
+          "Terrestrial": "0.0203014633781"
+        },
+        "Properties": {
+          "HasNS": "1.0",
+          "HasRemnant": "1.0"
+        }
+      }
+    },
     "S190503bf": {
       "superevent_id": "S190503bf",
       "gw_id": null,
