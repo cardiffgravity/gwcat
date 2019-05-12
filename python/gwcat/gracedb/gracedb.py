@@ -9,6 +9,7 @@ from astropy import units as un
 
 def gracedb2cat(gdb,verbose=False):
     catOut={}
+    linksOut={}
     if 'data' in gdb:
         gdbIn=gdb['data']
     else:
@@ -16,6 +17,7 @@ def gracedb2cat(gdb,verbose=False):
     for g in gdbIn:
         if verbose: print('importing GraceDB event {}'.format(g))
         catOut[g]={}
+        linksOut[g]=[]
         if 'superevent_id' in gdbIn[g]: catOut[g]['name']=gdbIn[g]['superevent_id']
         catOut[g]['obsrun']={'best':'O3'}
         catOut[g]['detType']={'best':'Candidate'}
@@ -54,7 +56,20 @@ def gracedb2cat(gdb,verbose=False):
                         bestObjType=t
                         bestProb=float(xml['Classification'][t])
                 catOut[g]['objType']['best']=bestObjType
-    return catOut
+        # update links
+        if 'links' in gdbIn[g]:
+            if 'self' in gdbIn[g]['links']:
+                opendata={'url':gdbIn[g]['links']['self'],
+                    'text':'GraceDB data',
+                    'type':'open-data'}
+                linksOut[g].append(opendata)
+        if 'mapfile' in gdbIn[g]:
+            skymap={'url':gdbIn[g]['mapfile'][1],
+                'text':'Sky Map',
+                'type':'skymap'}
+            linksOut[g].append(skymap)
+
+    return {'data':catOut,'links':linksOut}
 
 def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False):
 

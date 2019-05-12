@@ -94,7 +94,7 @@ def dataframe2jsonEvent(evIn,params,verbose=False):
     return(evOut)
 
 class GWCat(object):
-    def __init__(self,fileIn='../data/events.json'):
+    def __init__(self,fileIn='../data/events.json',verbose=False):
         """Initialise catalogue from input file
         Input: fileIn [string, OPTIONAL]: filename to read data from
         """
@@ -103,23 +103,42 @@ class GWCat(object):
         self.datadict=eventsIn['datadict']
         self.cols=list(self.datadict.keys())
         self.links=eventsIn['links']
-        self.json2dataframe()
+        self.json2dataframe(verbose=verbose)
         self.meta={'created':Time.now().isot}
         return
 
     def importGwosc(self,gwoscIn,verbose=False):
         catData=gwosc.gwosc2cat(gwoscIn['data'])
         self.data=catData
-        self.json2dataframe()
+        self.json2dataframe(verbose=verbose)
         self.meta['gwosc']=gwoscIn['meta']
         return
 
     def importGraceDB(self,gracedbIn,verbose=False):
-        gdbData=gracedb.gracedb2cat(gracedbIn['data'])
-        for g in gdbData:
-            self.data[g]=gdbData[g]
-        self.json2dataframe()
+        gdb=gracedb.gracedb2cat(gracedbIn['data'])
+        for g in gdb['data']:
+            self.data[g]=gdb['data'][g]
+            for l in gdb['links'][g]:
+                self.addLink(g,l,verbose=verbose)
+                # # replace open-data
+                # self.links[g].append(gdb[links][l])
+        self.json2dataframe(verbose=verbose)
         self.meta['graceDB']=gracedbIn['meta']
+        return
+
+    def addLink(self,g,link,verbose=False):
+        if not g in self.links:
+            self.links[g]=[]
+        ltype=link['type']
+        if verbose:print('adding {} link to {} [{}]'.format(link['type'],g,link['url']))
+        if ltype=='open-data':
+            # remove open-data if it exists
+            if len(self.links[g])>0:
+                for ol in range(len(self.links[g])):
+                    if self.links[g][ol]['type']=='open-data':
+                        if verbose:print('removing old {} link from {} [{}]'.format(ltype,g,self.links[g][ol]['url']))
+                        self.links[g].pop(ol)
+        self.links[g].append(link)
         return
 
     def json2dataframe(self,verbose=False):

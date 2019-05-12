@@ -1,12 +1,12 @@
 catdata({
     "meta": {
-        "created": "2019-05-10T11:14:12.482",
+        "created": "2019-05-12T22:05:20.015",
         "gwosc": {
-            "retrieved": "2019-05-10T11:14:13.581",
+            "retrieved": "2019-05-12T21:24:56.588",
             "src": "https://www.gw-openscience.org/catalog/GWTC-1-confident/filelist/"
         },
         "graceDB": {
-            "retrieved": "2019-05-10T11:14:41.704",
+            "retrieved": "2019-05-12T21:25:30.123",
             "src": "https://gracedb.ligo.org/api/"
         }
     },
@@ -1292,6 +1292,47 @@ catdata({
                 "fartype": "pycbc"
             }
         },
+        "S190512at": {
+            "name": "S190512at",
+            "obsrun": {
+                "best": "O3"
+            },
+            "detType": {
+                "best": "Candidate"
+            },
+            "conf": {
+                "best": "Candidate"
+            },
+            "GPS": {
+                "best": 1241719652.416286
+            },
+            "UTC": {
+                "best": "2019-05-12T18:07:51.416"
+            },
+            "FAR": {
+                "best": 0.05997608680271672
+            },
+            "DL": {
+                "best": 1330.935419251897,
+                "err": [
+                    -340.8756980683732,
+                    340.8756980683732
+                ]
+            },
+            "net": {
+                "best": "HLV"
+            },
+            "objType": {
+                "prob": {
+                    "BNS": 0.0,
+                    "NSBH": 0.0,
+                    "BBH": 0.989884014181,
+                    "MassGap": 0.0,
+                    "Terrestrial": 0.0101159858193
+                },
+                "best": "BBH"
+            }
+        },
         "S190510g": {
             "name": "S190510g",
             "obsrun": {
@@ -1310,7 +1351,7 @@ catdata({
                 "best": "2019-05-10T03:00:16.292"
             },
             "FAR": {
-                "best": 0.02660132456283453
+                "best": 0.2787662420385342
             },
             "DL": {
                 "best": 227.220932421794,
@@ -1324,13 +1365,13 @@ catdata({
             },
             "objType": {
                 "prob": {
-                    "BNS": 0.979698536622,
+                    "BNS": 0.420494477651,
                     "NSBH": 0.0,
                     "BBH": 0.0,
                     "MassGap": 0.0,
-                    "Terrestrial": 0.0203014633781
+                    "Terrestrial": 0.579505522349
                 },
-                "best": "BNS"
+                "best": "Terrestrial"
             }
         },
         "S190503bf": {
@@ -1792,6 +1833,102 @@ catdata({
                 "url": "https://www.gw-openscience.org/catalog/GWTC-1-confident/single/GW170823/",
                 "text": "Open Data page",
                 "type": "open-data"
+            }
+        ],
+        "S190512at": [
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190512at/",
+                "text": "GraceDB data",
+                "type": "open-data"
+            },
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190512at/files/bayestar.fits",
+                "text": "Sky Map",
+                "type": "skymap"
+            }
+        ],
+        "S190510g": [
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190510g/",
+                "text": "GraceDB data",
+                "type": "open-data"
+            },
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190510g/files/LALInference.fits",
+                "text": "Sky Map",
+                "type": "skymap"
+            }
+        ],
+        "S190503bf": [
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190503bf/",
+                "text": "GraceDB data",
+                "type": "open-data"
+            },
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190503bf/files/bayestar.fits",
+                "text": "Sky Map",
+                "type": "skymap"
+            }
+        ],
+        "S190426c": [
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190426c/",
+                "text": "GraceDB data",
+                "type": "open-data"
+            },
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190426c/files/LALInference1.fits",
+                "text": "Sky Map",
+                "type": "skymap"
+            }
+        ],
+        "S190425z": [
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190425z/",
+                "text": "GraceDB data",
+                "type": "open-data"
+            },
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190425z/files/LALInference.fits",
+                "text": "Sky Map",
+                "type": "skymap"
+            }
+        ],
+        "S190421ar": [
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190421ar/",
+                "text": "GraceDB data",
+                "type": "open-data"
+            },
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190421ar/files/LALInference.fits",
+                "text": "Sky Map",
+                "type": "skymap"
+            }
+        ],
+        "S190412m": [
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190412m/",
+                "text": "GraceDB data",
+                "type": "open-data"
+            },
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190412m/files/bayestar.fits",
+                "text": "Sky Map",
+                "type": "skymap"
+            }
+        ],
+        "S190408an": [
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190408an/",
+                "text": "GraceDB data",
+                "type": "open-data"
+            },
+            {
+                "url": "https://gracedb.ligo.org/api/superevents/S190408an/files/bayestar.fits",
+                "text": "Sky Map",
+                "type": "skymap"
             }
         ]
     }
