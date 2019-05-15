@@ -19,8 +19,8 @@ GWCat.prototype.init = function(){
     this.log('inp',this.inp);
     // console.log('debug',this.debug);
     this.datasrc = (this.inp && this.inp.datasrc) ? this.inp.datasrc : "local";
-    this.fileIn = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "https://gwcat.cardiffgravity.org/data/gwosc_gracedb.json";
-    this.fileInJsonp = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "https://gwcat.cardiffgravity.org/data/gwosc_gracedb.jsonp";
+    this.fileIn = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "https://data.cardiffgravity.org/gw-data/data/gwosc_gracedb.json";
+    this.fileInJsonp = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "https://data.cardiffgravity.org/gw-data/data/gwosc_gracedb.jsonp";
     this.gwoscFile = (this.inp && this.inp.gwoscFile) ? this.inp.gwoscFile : "data/gwosc.json";
     this.loadMethod = (this.inp && this.inp.loadMethod) ? this.inp.loadMethod : "";
     this.confirmedOnly = (this.inp && this.inp.hasOwnProperty('confirmedOnly')) ? this.inp.confirmedOnly : true;
@@ -175,12 +175,14 @@ GWCat.prototype.loadData = function(){
 			if (dataIn.links[e]){
 				linkIn=dataIn.links[e];
 				newlinks[e]={}
+                newlinks[e]['all']=[]
 				for (l in linkIn){
 					if (linkIn[l].type.search('pub')>=0) newlinks[e]['DetPaper'] = { 'text': linkIn[l].text, 'url': linkIn[l].url, 'type': 'pub' };
 					else if (linkIn[l].type.search('open-data')>=0) newlinks[e]['LOSCData'] = { 'text': linkIn[l].text, 'url': linkIn[l].url, 'type': 'open-data' };
 					else if (linkIn[l].text.search('GraceDB page')>=0) newlinks[e]['GraceDB'] = { 'text': linkIn[l].text, 'url':linkIn[l].url, 'type': 'web-data' };
 					else if (linkIn[l].text.search('Final Skymap')>=0) newlinks[e]['SkyMapFile'] = { 'text': linkIn[l].text, 'url': linkIn[l].url, 'type': 'file' };
 					else if (linkIn[l].text.search('Skymap View')>=0) newlinks[e]['SkyMapAladin'] = { 'text': linkIn[l].text, 'url': linkIn[l].url, 'type': 'web' };
+                    newlinks[e]['all'].push(linkIn[l]);
 				}
 			}
             _gw.log('processing links for ',e,newlinks[e]);
@@ -593,6 +595,19 @@ GWCat.prototype.paramUnit = function(param){
     }
 }
 
+GWCat.prototype.getLink = function(event,ltype='',ltxt=''){
+    if (!this.links[event]){
+        return{};
+    }
+    // nlink=this.links[event]all.length
+    for (l in this.links[event].all){
+        link=this.links[event].all[l];
+        // match type
+        mtype=(ltype!='') ? ((link.type.search(ltype)>=0) ? true : false ): true
+        mtxt=(ltxt!='') ? ((link.text.search(ltxt)>=0) ? true : false ): true
+        if (mtype && mtxt){return link;}
+    }
+}
 GWCat.prototype.getRef = function(event){
     idx=this.event2idx(event);
     param="ref";
