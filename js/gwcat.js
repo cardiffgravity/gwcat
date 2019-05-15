@@ -321,6 +321,7 @@ GWCat.prototype.loadData = function(){
     if (this.datasrc=='local'){
         host=window.location.host;
         if (this.loadMethod=='jsonp'){method='jsonp'}
+        if (this.loadMethod=='json'){method='json'}
         else if (host==""){method='jsonp'}
         else if (this.fileIn.indexOf(host)>0){method='json'}
         else {method='jsonp'}
