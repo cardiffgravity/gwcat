@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<title>gwcat test page</title>
+	<!--<script type="text/javascript" src="js/lib/d3.v4.min.js"></script>-->
+	<!-- <script type="text/javascript" src="js/lib/stuquery.js"></script> -->
+	<script type="text/javascript" src="js/gwcat.js"></script>
+    <script type="text/javascript" src="js/lib/d3.v4.min.js"></script>
+	<style>
+    div.image-list{
+        border:1px solid black;
+        text-align:center;
+    }
+    div.image{
+        width:30%;
+        display:inline-block;
+        text-align:center;
+    }
+    div.image img{
+        width:100%;
+    }
+    div.image.cartzoom img{
+        width:50%;
+    }
+    div.image h3{
+        width:100%;
+    }
+	</style>
+</head>
+<body>
+	<h1>Sky localisation maps</h1>
+	<div id='image-holder'></div>
+
+	<script type="text/javascript">
+		function populateImages(){
+            for (e in gwcat.data){
+                event=gwcat.data[e];
+                ev=event.name;
+                imMoll=gwcat.getLink(ev,ltype='skymap-plot',ltxt='Mollweide fullsky');
+                imCart=gwcat.getLink(ev,ltype='skymap-plot',ltxt='Cartesian fullsky');
+                imCartzoom=gwcat.getLink(ev,ltype='skymap-plot',ltxt='Cartesian zoomed');
+                thumbMoll=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='Mollweide fullsky');
+                thumbCart=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='Cartesian fullsky');
+                thumbCartzoom=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='Cartesian zoomed');
+
+                divMoll=document.createElement('div');
+                divMoll.setAttribute('class','image moll '+ev);
+                divMoll.innerHTML = '<a href="'+imMoll.url+'"><img src="'+thumbMoll.url+'"></a><h3>'+imMoll.text+'</h3>';
+                divCart=document.createElement('div');
+                divCart.setAttribute('class','image cart '+ev);
+                divCart.innerHTML = '<a href="'+imCart.url+'"><img src="'+thumbCart.url+'"></a><h3>'+imCart.text+'</h3>';
+                divCartzoom=document.createElement('div');
+                divCartzoom.setAttribute('class','image cartzoom '+ev);
+                divCartzoom.innerHTML = '<a href="'+imCartzoom.url+'"><img src="'+thumbCartzoom.url+'"></a><h3>'+imCartzoom.text+'</h3>';
+
+                divIm=document.createElement('div');
+                divIm.setAttribute('class','image-list '+ev);
+                divIm.innerHTML = '<h2>'+ev+'</h2>';
+                divIm.appendChild(divMoll);
+                divIm.appendChild(divCart);
+                divIm.appendChild(divCartzoom);
+                document.getElementById('image-holder').appendChild(divIm)
+            }
+		}
+		// var gwcat = new GWCat(runTests,{fileIn:'data/gwosc_gracedb.json',confirmedOnly:true});
+        // var gwcat = new GWCat(populateImages,{confirmedOnly:true,fileIn:'data/gwosc_gracedb.json',loadMethod:'json'});
+        var gwcat = new GWCat(populateImages,{});
+	</script>
+</body>
+</html>
