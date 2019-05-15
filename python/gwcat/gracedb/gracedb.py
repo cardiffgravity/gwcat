@@ -36,6 +36,8 @@ def gracedb2cat(gdb,verbose=False):
                     'best':float(hdr['DISTMEAN']['value']),
                     'err':[-float(hdr['DISTSTD']['value']),float(hdr['DISTSTD']['value'])]
                 }
+            # if 'DATE' in hdr:
+
         if 'xml' in gdbIn[g]:
             xml=gdbIn[g]['xml']
             if 'Instruments' in xml:
@@ -56,6 +58,8 @@ def gracedb2cat(gdb,verbose=False):
                         bestObjType=t
                         bestProb=float(xml['Classification'][t])
                 catOut[g]['objType']['best']=bestObjType
+        if 'meta' in gdbIn[g]:
+            catOut[g]['meta']=gdbIn[g]['meta']
         # update links
         if 'links' in gdbIn[g]:
             if 'self' in gdbIn[g]['links']:
@@ -105,7 +109,7 @@ def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False)
         mapFound=False
         m=0
         while not mapFound and m<len(mapsrch):
-            mapfile='{}.fits'.format(mapsrch[m])
+            mapfile='{}.fits.gz'.format(mapsrch[m])
             if mapfile in files:
                 results[sid]['mapfile']=[mapfile,results[sid]['files'][mapfile]]
                 mapFound=True
@@ -189,6 +193,14 @@ def getSuperevents(export=False,dirOut=None,fileOut=None,indent=2,verbose=False)
             for gp in gparams:
                 xml[gt][gp.attrs['name']]=gp.attrs['value']
         results[sid]['xml']=xml
+
+        # create meta data
+        results[sid]['meta']={'retrieved':Time.now().isot,'src':service_url}
+        # if 'DATE' in results[sid]['hdr']:
+        #     results[sid]['meta']['mapdatesrc']=Time(results[sid]['hdr']['DATE']['value']).isot
+        #     # results[sid]['meta']['mapdatesrc']=Time(results[sid]['hdr']['DATE']['value']).isot
+        cdate=' '.join(results[sid]['created'].split(' ')[0:2])
+        results[sid]['meta']['created_date']=Time(cdate).isot
 
     if verbose: print('Retrieved data for {} events'.format(len(results)))
 

@@ -22,7 +22,12 @@ def gwosc2cat(gwosc,verbose=False):
         gwoscIn=gwosc['data']
     else:
         gwoscIn=gwosc
+    try:
+        url=gwosc['meta']['url']
+    except:
+        url='https://www.gw-openscience.org/catalog/GWTC-1-confident/filelist/'
     catOut={}
+    linksOut={}
     for e in gwoscIn:
         if verbose: print('converting event',e)
         catOut[e]={}
@@ -102,8 +107,8 @@ def gwosc2cat(gwosc,verbose=False):
             catOut[e]['rho']={'best':gwoscIn[e]['snr_gstlal']['best'],'fartype':'gstlal'}
         elif gwoscIn[e]['snr_cwb']['best']!='NA':
             catOut[e]['rho']={'best':gwoscIn[e]['snr_cwb']['best'],'fartype':'cwb'}
-
-    return(catOut)
+        catOut[e]['meta']={'retrieved':Time.now().isot,'src':url}
+    return({'data':catOut,'links':linksOut})
 
 def getGwosc(url='',verbose=True,export=False,dirOut=None,fileOut=None,indent=2):
     import requests
