@@ -19,8 +19,8 @@ GWCat.prototype.init = function(){
     this.log('inp',this.inp);
     // console.log('debug',this.debug);
     this.datasrc = (this.inp && this.inp.datasrc) ? this.inp.datasrc : "local";
-    this.fileIn = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "https://data.cardiffgravity.org/gw-data/data/gwosc_gracedb.json";
-    this.fileInJsonp = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "https://data.cardiffgravity.org/gw-data/data/gwosc_gracedb.jsonp";
+    this.fileIn = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "https://data.cardiffgravity.org/gwcat-data/data/gwosc_gracedb.json";
+    this.fileInJsonp = (this.inp && this.inp.fileIn) ? this.inp.fileIn : "https://data.cardiffgravity.org/gwcat-data/data/gwosc_gracedb.jsonp";
     this.gwoscFile = (this.inp && this.inp.gwoscFile) ? this.inp.gwoscFile : "data/gwosc.json";
     this.loadMethod = (this.inp && this.inp.loadMethod) ? this.inp.loadMethod : "";
     this.confirmedOnly = (this.inp && this.inp.hasOwnProperty('confirmedOnly')) ? this.inp.confirmedOnly : true;
