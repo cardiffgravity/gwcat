@@ -2,3 +2,4 @@
 python/test/*
 gwosc/*
 *.fits
+*.fits.gz
