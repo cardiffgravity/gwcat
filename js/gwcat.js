@@ -608,6 +608,16 @@ GWCat.prototype.getLink = function(event,ltype='',ltxt=''){
         if (mtype && mtxt){return link;}
     }
 }
+GWCat.prototype.getMeta = function(event,mname=''){
+    idx=this.event2idx(event);
+    if (this.data[idx].meta){
+        if (mname==''){
+            return(this.data[idx].meta);
+        }else if (this.data[idx].meta[mname]){
+            return(this.data[idx].meta[mname])
+        }else{return}
+    }else{return;}
+}
 GWCat.prototype.getRef = function(event){
     idx=this.event2idx(event);
     param="ref";
