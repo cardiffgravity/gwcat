@@ -51,8 +51,11 @@
 		<li><b><i>callback</i></b> [function]: a javascript function to be run once data is loaded.</li>
 		<li><b><i>parameters</i></b> [Object, optional]: a dictionary containing input parameters:
 			<ul>
-				<li><i>debug</i>: [boolean] set to print useful debugging scripts to the console (default=true)</li>
-				<li><i>fileIn</i>: [string] json file to load data from (default=data/events.json)</li>
+				<li><i>debug</i>: [boolean] set to print useful debugging scripts to the console (default=false)</li>
+				<li><i>fileIn</i>: [string] json file to load data from (default=https://data.cardiffgravity.org/gwcat-data/data/gwosc_gracedb.json)</li>
+                <li><i>fileInJsonp</i>: [string] jsonp file to load data from (default=https://data.cardiffgravity.org/gwcat-data/data/gwosc_gracedb.json)</li>
+                <li><i>loadMethod</i>: [string] set to 'json' or 'jsonp' to force method. Useful if using local version (default="", i.e. auto-detect)</li>
+                <li><i>confirmedOnly</i>: [boolean] only read in data for confirmed detection. i.e. use GWOSC, but not GraceDB (default=true))</li>
 			</ul>
 		</li>
 	</ul>
