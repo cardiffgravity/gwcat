@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-	<title>gwcat test page</title>
+	<title>GW Localisation Skymaps</title>
 	<!--<script type="text/javascript" src="js/lib/d3.v4.min.js"></script>-->
 	<!-- <script type="text/javascript" src="js/lib/stuquery.js"></script> -->
 	<script type="text/javascript" src="js/gwcat.js"></script>
@@ -50,8 +50,16 @@
                 divIm=document.createElement('div');
                 divIm.setAttribute('class','image-list '+ev);
                 html='<h2>'+ev+'</h2>';
-                html+='<p><a href="'+gwcat.getMeta(ev,'mapurlsrc')+'">Source map</a> updated: '+gwcat.getMeta(ev,'mapdatesrc')+' ; ';
-                html+='90% area='+gwcat.getBest(ev,'deltaOmega')+'deg<sup>2</sup></p>'
+                html+='<p><a href="'+gwcat.getMeta(ev,'mapurlsrc')+'">Source map</a> updated: '+gwcat.getMeta(ev,'mapdatesrc');
+                html+=' ; 90% area='+gwcat.getBest(ev,'deltaOmega')+'deg<sup>2</sup>';
+                console.log(ev,gwcat.getBest(ev,'FAR'),gwcat.getValue(ev,'FAR','fartype'));
+                farval=(1/gwcat.getBest(ev,'FAR')).toPrecision(2).replace('e','x10^');
+                reSup=/\^(-?[+\-0-9]*)(?=[\s/]|$)/g
+                farval=farval.replace(reSup,"<sup>$1</sup> ");
+                farun=gwcat.paramUnit('FAR').replace(reSup,"<sup>$1</sup> ")
+                html+=' ; FAR='+farval+' '+farun;
+                html+='('+gwcat.getValue(ev,'FAR','fartype')+')';
+                html+='</p>';
                 divIm.innerHTML = html;
 
                 if (imMoll){
@@ -90,7 +98,7 @@
 		}
 		// var gwcat = new GWCat(runTests,{fileIn:'data/gwosc_gracedb.json',confirmedOnly:true});
         // var gwcat = new GWCat(populateImages,{confirmedOnly:true,fileIn:'data/gwosc_gracedb.json',loadMethod:'json'});
-        var gwcat = new GWCat(populateImages,{confirmedOnly:false});
+        var gwcat = new GWCat(populateImages,{confirmedOnly:false,debug:true});
 	</script>
 </body>
 </html>
