@@ -609,8 +609,8 @@ GWCat.prototype.getLink = function(event,ltype='',ltxt=''){
         mtype=(ltype!='') ? ((link.type.search(ltype)>=0) ? true : false ): true
         mtxt=(ltxt!='') ? ((link.text.search(ltxt)>=0) ? true : false ): true
         if (mtype && mtxt){linksOut.push(link);}
-    return linksOut;
     }
+    return linksOut;
 }
 GWCat.prototype.getMeta = function(event,mname=''){
     idx=this.event2idx(event);
