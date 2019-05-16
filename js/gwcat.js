@@ -42,8 +42,8 @@ GWCat.prototype.setLinks = function(){
     this.log('setting links',this.links)
     for (i in this.data){
         e=data[i].name;
-        // if ((this.links[e]) && (this.links[e].LOSCData)){
-        //     link=this.links[e].LOSCData;
+        // if ((this.links[e]) && (this.links[e].OpenData)){
+        //     link=this.links[e].OpenData;
         //     link.url=link.url;
         //     data[i].opendata=link;
         // }
@@ -177,11 +177,11 @@ GWCat.prototype.loadData = function(){
 				newlinks[e]={}
                 newlinks[e]['all']=[]
 				for (l in linkIn){
-					if (linkIn[l].type.search('pub')>=0) newlinks[e]['DetPaper'] = { 'text': linkIn[l].text, 'url': linkIn[l].url, 'type': 'pub' };
-					else if (linkIn[l].type.search('open-data')>=0) newlinks[e]['LOSCData'] = { 'text': linkIn[l].text, 'url': linkIn[l].url, 'type': 'open-data' };
-					else if (linkIn[l].text.search('GraceDB page')>=0) newlinks[e]['GraceDB'] = { 'text': linkIn[l].text, 'url':linkIn[l].url, 'type': 'web-data' };
-					else if (linkIn[l].text.search('Final Skymap')>=0) newlinks[e]['SkyMapFile'] = { 'text': linkIn[l].text, 'url': linkIn[l].url, 'type': 'file' };
-					else if (linkIn[l].text.search('Skymap View')>=0) newlinks[e]['SkyMapAladin'] = { 'text': linkIn[l].text, 'url': linkIn[l].url, 'type': 'web' };
+					if (linkIn[l].type.search('pub')>=0) newlinks[e]['DetPaper'] = linkIn[l];
+					else if (linkIn[l].type.search('open-data')>=0) newlinks[e]['OpenData'] = linkIn[l];
+					// else if (linkIn[l].text.search('GraceDB page')>=0) newlinks[e]['GraceDB'] = { 'text': linkIn[l].text, 'url':linkIn[l].url, 'type': 'web-data' };
+					else if (linkIn[l].type.search('skymap-fits')>=0) newlinks[e]['SkyMapFile'] = linkIn[l];
+					// else if (linkIn[l].text.search('Skymap View')>=0) newlinks[e]['SkyMapAladin'] = { 'text': linkIn[l].text, 'url': linkIn[l].url, 'type': 'web' };
                     newlinks[e]['all'].push(linkIn[l]);
 				}
 			}
@@ -203,14 +203,14 @@ GWCat.prototype.loadData = function(){
 			// else if (e[0]=='L'){c='LVT'}
 			// else{c=''}
 			// dataIn.data[e].conf=c;
-			if ((dataIn.links[e]) && (dataIn.links[e].LOSCData)){
-				link=dataIn.links[e].LOSCData;
-				link.url=link.url;
+			if ((dataIn.links[e]) && (dataIn.links[e].OpenData)){
+				link=dataIn.links[e].OpenData;
+				// link.url=link.url;
 				dataIn.data[e].opendata=link;
 			}
 			if ((dataIn.links[e]) && (dataIn.links[e].DetPaper)){
 				ref=dataIn.links[e].DetPaper;
-				ref.url=ref.url;
+				// ref.url=ref.url;
 				dataIn.data[e].ref=ref;
 			}
 			_gw.data.push(dataIn.data[e]);
@@ -446,6 +446,8 @@ GWCat.prototype.getParamType = function(event,param){
             valtype='upper'
         }else if (value.hasOwnProperty('lim')){
             valtype='lim'
+        }else if (value.hasOwnProperty('est')){
+            valtype='est'
         }else{
             valtype='unknown'
         }
@@ -597,15 +599,17 @@ GWCat.prototype.paramUnit = function(param){
 
 GWCat.prototype.getLink = function(event,ltype='',ltxt=''){
     if (!this.links[event]){
-        return{};
+        return[];
     }
     // nlink=this.links[event]all.length
+    linksOut=[]
     for (l in this.links[event].all){
         link=this.links[event].all[l];
         // match type
         mtype=(ltype!='') ? ((link.type.search(ltype)>=0) ? true : false ): true
         mtxt=(ltxt!='') ? ((link.text.search(ltxt)>=0) ? true : false ): true
-        if (mtype && mtxt){return link;}
+        if (mtype && mtxt){linksOut.push(link);}
+    return linksOut;
     }
 }
 GWCat.prototype.getMeta = function(event,mname=''){
