@@ -169,6 +169,7 @@ GWCat.prototype.loadData = function(){
 	function parseData(dataIn,attr,_gw,loadGwosc=false,loadGraceDB=false){
 		_gw.loaded++;
 		_gw.datadict=dataIn.datadict;
+        if (dataIn.meta){_gw.meta=dataIn.meta}else{_gw.meta={}}
 		newlinks={}
 		for (e in dataIn.links){
 			// convert links to required format
