@@ -37,6 +37,7 @@
 <body>
 	<h1>GWCat demo</h1>
 	<p>Summary: <span id="message">It doesn't work :'(</span></p>
+    <p>The data here is a compilation of data from the <a href="https://www.gw-openscience.org/">Gravitational Wave Open Science Centre</a> and <a href="https://gracedb.ligo.org/latest/">GraceDB</a>. It is intended for public outreach purposes only. If you require the latest scientific data, then please use the source repositories.</p>
 	<h2>Initialisation</h2>
 	In the &lt;head&gt; of the page, include the <code>gwcat</code> library.
 	<pre><code><!--
@@ -64,6 +65,7 @@
 			<li><b><i>data</i></b>: An array containing all the events, each one of which is a javascript object.</li>
 			<li><b><i>datadict</i></b>: An object containing the metadata of all the parameter names, default precisions etc.</li>
 			<li><b><i>dataOrder</i></b>: An array of the event names, showing the order of <i>data</i>.</li>
+            <li><b><i>links</i></b>: An object containing links for the events in <i>data</i>. Each link contains a <i>url</i>, a descriptive <i>text</i> field, and a <i>type</i> field. <i>links.all</i> contains the list of all links.</li>
 		</ul>
 	</p>
 	<h2>Data format</h2>
@@ -71,6 +73,10 @@
 	<pre><code>
 	gwcat.data = [
 		{
+            "name": Event name,
+            "meta": object containing metadata, such as source, date retrieved etc.
+            "ref": Reference to paper (if applicable)
+            "opendata": Reference to open-data source
 			"Event1 Parameter1": {
 				"Event1 Parameter1 Value1": string/number/array
 			},
@@ -88,7 +94,7 @@
 	</code></pre>
 	<p>The parameters are those recorded for each event. Note that not all are present for each event.<p>
 		<ul>
-			<li><b><i>name</i></b>: Event name (e.g. GW150914)</li>
+            <li><b><i>name</i></b>: Event name (e.g. GW150914)</li>
 			<li><b><i>UTC</i></b>: UTC time of detection (YYYY-MM-DDThh:mm:ss)</li>
 			<li><b><i>GPS</i></b>: GPS time of detection</li>
 			<li><b><i>M1</i></b>: Primary mass (Msun)</li>
@@ -106,17 +112,54 @@
 			<li><b><i>FAR</i></b>: False alarm rate (yr<sup>-1</sup>)</li>
 			<li><b><i>deltaOmega</i></b>: Sky localization area (deg<sup>2</sup>)</li>
 			<li><b><i>rho</i></b>: Signal-to-noise ratio</li>
+            <li><b><i>objType</i></b>: Type of object (BBH, BNS etc.), including the possible values for candidates.</li>
+            <li><b><i>net</i></b>: Detector network that made the detection (e.g. HLV=Hanford, Livingston, Virgo;  HV=Hanford, Virgo)</li>
+            <li><b><i>detType</i></b>: Type of detection (GW / LVT / Candidate)</li>
 		</ul>
 	</p>
 	<p>The values can be any of:
 		<ul>
-			<li><b><i>best</i></b>: exact of best-fit value of parameter. Can be string (e.g. name, UTC), or number (e.g. masses, spins, GPS).</li>
+			<li><b><i>best</i></b>: exact or best-fit value of parameter. Can be string (e.g. name, UTC), or number (e.g. masses, spins, GPS).</li>
 			<li><b><i>lower</i></b>: a (numerical) lower limit on the parameter.</li>
 			<li><b><i>upper</i></b>: a (numerical) upper limit on the parameter.</li>
 			<li><b><i>lim</i></b>: a two-element array (of numberse) containing the range of plausible values (where applicable), in order [<i>min</i>, <i>max</i>]. Used where a best-fit value and corresponding error isn't appropriate.
-			<li><b><i>err</i></b>: a two-element array (of numberse) containing the errors on the "best" value (where applicable), in order [<i>upper</i>, <i>lower</i>]. Only accompanies a "best" value.</li>
-
-		</ul>
+			<li><b><i>err</i></b>: a two-element array (of numberse) containing the errors on the "best" value (where applicable). Erros are lists as positive and negative. Only accompanies a "best" value.</li>
+            <li><b><i>est</i></b>: a two-element array (of numberse) containing the limits on the "best" value (where applicable), where no best-fit is available.</li>
+		</ul></p>
+    <h2>Link format</h2>
+	<p>The link object contains an object for each event, labelled by event name. A few links are specifically listed, where available, but most are in list.</p>
+	<pre><code>
+	gwcat.links = [
+		event1:{
+            "Det Paper": Detection paper,
+            "GWOSCData": Open-data on GWOSC or GraceDB
+            "SkyMapFile": Localisation map
+            "all": [
+			    {Link 1 for event 1},
+                {Link 2 for event 1},
+                ...
+			]
+		},
+        event2:{
+            "Det Paper": Detection paper,
+            "GWOSCData": Open-data on GWOSC or GraceDB
+            "SkyMapFile": Localisation map
+            "all": [
+			    {Link 1 for event 2},
+                {Link 2 for event 2},
+                ...
+			]
+		},...
+	]
+	</code></pre>
+    <p>Each link contains:</p>
+        <ul>
+            <li><b><i>url</i></b>: URL to reference</li>
+            <li><b><i>text</i></b>: descriptive text field</li>
+            <li><b><i>type</i></b>: type of reference (e.g. "pub", "open-data", "skymap-fits", "skymap-plot")</li>
+            <li><b><i>citation</i></b>: citation (optional; for papers only)</li>
+        </ul>
+    </p>
 	<h2>Built-in functions</h2>
 	<p>A number of functions exist to allow access to the data.</p>
 	<ul>
@@ -128,13 +171,18 @@
 		<li><b><i>getLower</i></b>(<i>event</i>, <i>param</i>): gets "lower" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or NaN if not found.</li>
 		<li><b><i>getUpper</i></b>(<i>event</i>, <i>param</i>): gets "upper" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or NaN if not found.</li>
 		<li><b><i>getError</i></b>(<i>event</i>, <i>param</i>): gets "err" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or empty array [] if not found.</li>
+        <li><b><i>getNegError</i></b>(<i>event</i>, <i>param</i>): gets negative "err" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or NaN if not found.</li>
+        <li><b><i>getNegError</i></b>(<i>event</i>, <i>param</i>): gets positive "err" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or NaN if not found.</li>
 		<li><b><i>getNominal</i></b>(<i>event</i>, <i>param</i>): gets the nominal value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns best, lower or upper value, or average of lim values.</li>
-		<li><b><i>getMinValue</i></b>(<i>event</i>, <i>param</i>): gets the minimum value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns "best"-"err[1]", "lower", lower "lim" values, or -Infinity for "upper" values</li>
-		<li><b><i>getMaxValue</i></b>(<i>event</i>, <i>param</i>): gets the minimum value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns "best"+"err[0]", "upper", higher "lim" values, or +Infinity for "lower" values</li>
-		<li><b><i>paramName</i></b>(<i>param</i>): returns the name of <i>param</i> [string] as stored in datadict, or '' if not found.</li>
+		<li><b><i>getMinVal</i></b>(<i>event</i>, <i>param</i>): gets the minimum value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns "best"-"err[1]", "lower", lower "lim" values, or -Infinity for "upper" values</li>
+		<li><b><i>getMaxVal</i></b>(<i>event</i>, <i>param</i>): gets the minimum value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns "best"+"err[0]", "upper", higher "lim" values, or +Infinity for "lower" values</li>
+        <li><b><i>getLink</i></b>(<i>event</i>, [<i>lytpe</i>='', <i>ltxt</i>=''): returns list of links for <i>event</i> (name [string] or index [integer]) which have type parameter containing <i>ltype</i> (optional [string], ignored if not provided) and text parameter containing <i>ltxt</i> (optional [string], ignored if not provided). Searching uses RegEx syntax. Returns list of link objects, or empy list if not found.</li>
+        <li><b><i>getMeta</i></b>(<i>event</i>, [<i>meta-name</i>='']): gets the metadata parameter <i>meta-name</i> ( optional [string]) for <i>event</i> (name [string] or index [integer]). If not <i>meta-name</i> is provided (or is empty string), then returns object containing full metadata for the <i>event</i>, or null if not available.</li>
+        <li><b><i>paramName</i></b>(<i>param</i>): returns the name of <i>param</i> [string] as stored in datadict, or '' if not found.</li>
 		<li><b><i>paramUnit</i></b>(<i>param</i>): returns the unit of <i>param</i> [string] as stored in datadict, or '' if not found.</li>
         <li><b><i>getRef</i></b>(<i>event</i>): returns the reference dict of <i>event</i> [string] as stored in datadict, or {} if not found. Result is a dict containing URL and name.</li>
         <li><b><i>getOpenData</i></b>(<i>event</i>): returns the data link of <i>event</i> [string] as stored in datadict, or {} if not found. Result is a dict containing URL and name.</li>
+        <li><b><i>orderData</i></b>([<i>order</i>='GPS', <i>reverse</i>]): orders the data in <i>data</i> by parameter <i>order</i> (optional [string], default='GPS'). Set <i>reverse</i> (optional [boolean],default=false) to reverse order.</li>
 	</ul>
 
 	<h2 id="tests">Example Tests</h2>
