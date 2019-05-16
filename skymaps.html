@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
 	<title>GW Localisation Skymaps</title>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="img/favicon-32x32.png" />
 	<!--<script type="text/javascript" src="js/lib/d3.v4.min.js"></script>-->
 	<!-- <script type="text/javascript" src="js/lib/stuquery.js"></script> -->
 	<script type="text/javascript" src="js/gwcat.js"></script>
@@ -29,10 +30,25 @@
 </head>
 <body>
 	<h1>Sky localisation maps</h1>
+    <p>Based on the <b>gwcat</b> database, compiled from data at the <a href="https://www.gw-openscience.org/">Gravitational Wave Open Science Centre</a> and <a href="https://gracedb.ligo.org/latest/">GraceDB</a>.</p>
+    <p>Latest build:
+        <ul>
+            <li><b><a id='gwosc-build-url' href="">Gwosc</a>: </b><span id='gwosc-build-date'></span></li>
+            <li><b><a id='gracedb-build-url'href="">GraceDB</a>: </b><span id='gracedb-build-date'></span></li>
+        </ul>
+    </p>
 	<div id='image-holder'></div>
 
 	<script type="text/javascript">
 		function populateImages(){
+            if ((gwcat.meta)&&(gwcat.meta.gwosc)){
+                document.getElementById('gwosc-build-date').innerHTML = gwcat.meta.gwosc.retrieved
+                document.getElementById('gwosc-build-url').setAttribute('href',gwcat.meta.gwosc.src)
+            }
+            if ((gwcat.meta)&&(gwcat.meta.graceDB)){
+                document.getElementById('gracedb-build-date').innerHTML = gwcat.meta.graceDB.retrieved
+                document.getElementById('gracedb-build-url').setAttribute('href',gwcat.meta.graceDB.src)
+            }
             for (e in gwcat.data){
                 event=gwcat.data[e];
                 ev=event.name;
