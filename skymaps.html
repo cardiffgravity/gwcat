@@ -36,16 +36,16 @@
             for (e in gwcat.data){
                 event=gwcat.data[e];
                 ev=event.name;
-                imMoll=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky\)');
-                imCart=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian fullsky\)');
-                imCartzoom=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian zoomed\)');
-                imMollrot=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky, rotated\)');
-                imCartrot=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian fullsky, rotated\)');
-                thumbMoll=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky\)');
-                thumbCart=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian fullsky\)');
-                thumbCartzoom=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian zoomed\)');
-                thumbMollrot=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky, rotated\)');
-                thumbCartrot=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian fullsky, rotated\)');
+                imMoll=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky\)')[0];
+                imCart=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian fullsky\)')[0];
+                imCartzoom=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian zoomed\)')[0];
+                imMollrot=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky, rotated\)')[0];
+                imCartrot=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian fullsky, rotated\)')[0];
+                thumbMoll=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky\)')[0];
+                thumbCart=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian fullsky\)')[0];
+                thumbCartzoom=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian zoomed\)')[0];
+                thumbMollrot=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky, rotated\)')[0];
+                thumbCartrot=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian fullsky, rotated\)')[0];
 
                 divIm=document.createElement('div');
                 divIm.setAttribute('class','image-list '+ev);
