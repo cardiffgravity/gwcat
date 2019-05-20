@@ -41,6 +41,7 @@
 
 	<script type="text/javascript">
 		function populateImages(){
+            gwcat.orderData('GPS',reverse=true)
             if ((gwcat.meta)&&(gwcat.meta.gwosc)){
                 document.getElementById('gwosc-build-date').innerHTML = gwcat.meta.gwosc.retrieved
                 document.getElementById('gwosc-build-url').setAttribute('href',gwcat.meta.gwosc.src)
