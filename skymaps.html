@@ -95,10 +95,10 @@
                 mostlikely=gwcat.getBest(ev,'objType');
                 html+=' ; Most likely source: '+mostlikely;
                 if((gwcat.data[e].objType)&&(gwcat.data[e].objType.prob)){
-                    if (gwcat.data[e].objType.prob.Terrestrial){
+                    if ('Terrestrial' in gwcat.data[e].objType.prob){
                         pterr=(100*gwcat.data[e].objType.prob.Terrestrial).toFixed(0);
                         pterr = (pterr < 1) ? '<1' : pterr;
-                    }
+                    }else{pterr=0}
                     html+=' ; Prob(Terrestrial): '+pterr+'%';
                 }
                 if (morelink!=''){
