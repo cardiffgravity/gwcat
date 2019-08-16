@@ -96,8 +96,10 @@
                 html+=' ; Most likely source: '+mostlikely;
                 if((gwcat.data[e].objType)&&(gwcat.data[e].objType.prob)){
                     if ('Terrestrial' in gwcat.data[e].objType.prob){
-                        pterr=(100*gwcat.data[e].objType.prob.Terrestrial).toFixed(0);
-                        pterr = ((pterr < 1)&&(pterr>0)) ? '<1' : pterr;
+                        if (gwcat.data[e].objType.prob.Terrestrial>0){
+                            pterr=(100*gwcat.data[e].objType.prob.Terrestrial).toFixed(0);
+                            pterr = (pterr < 1) ? '<1' : pterr;
+                        }else{pterr=0}
                     }else{pterr=0}
                     html+=' ; Prob(Terrestrial): '+pterr+'%';
                 }
