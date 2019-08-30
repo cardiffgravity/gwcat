@@ -58,6 +58,7 @@
                 imCartzoom=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian zoomed\)')[0];
                 imMollrot=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky, rotated\)')[0];
                 imCartrot=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian fullsky, rotated\)')[0];
+                imPlain=gwcat.getLink(ev,ltype='skymap-plain',ltxt='\(no annotations\)')[0];
                 thumbMoll=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky\)')[0];
                 thumbCart=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian fullsky\)')[0];
                 thumbCartzoom=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian zoomed\)')[0];
@@ -140,7 +141,7 @@
                     divCartzoom.innerHTML = '<a href="'+imCartzoom.url+'"><img src="'+thumbCartzoom.url+'"></a><h3>'+imCartzoom.text+'</h3>';
                     divIm.appendChild(divCartzoom);
                 }
-
+                divIm.innerHTML += '<p><a href='+imPlain.url+'>Plain, unnannotated skymap</a> (J2000, Cartesian, greyscale, 8192x4096)</p>';
                 document.getElementById('image-holder').appendChild(divIm)
             }
 		}
