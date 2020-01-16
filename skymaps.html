@@ -33,8 +33,9 @@
     <p>Based on the <b><a href="http://gwcat.cardiffgravity.org">gwcat</a></b> database, compiled from data at the <a href="https://www.gw-openscience.org/">Gravitational Wave Open Science Centre</a> and <a href="https://gracedb.ligo.org/latest/">GraceDB</a>.</p>
     <p>Latest build:
         <ul>
-            <li><b><a id='gwosc-build-url' href="">Gwosc</a>: </b><span id='gwosc-build-date'></span></li>
+            <li><b><a id='gwosc-build-url' href="">Gwosc Catalogue</a>: </b><span id='gwosc-build-date'></span></li>
             <li><b><a id='gracedb-build-url'href="">GraceDB</a>: </b><span id='gracedb-build-date'></span></li>
+            <li><b><a id='manual-build-url'href="">Manual Import</a>: </b><span id='manual-build-date'></span></li>
         </ul>
     </p>
 	<div id='image-holder'></div>
@@ -49,6 +50,10 @@
             if ((gwcat.meta)&&(gwcat.meta.graceDB)){
                 document.getElementById('gracedb-build-date').innerHTML = gwcat.meta.graceDB.retrieved
                 document.getElementById('gracedb-build-url').setAttribute('href',gwcat.meta.graceDB.src)
+            }
+            if ((gwcat.meta)&&(gwcat.meta.manual)){
+                document.getElementById('manual-build-date').innerHTML = gwcat.meta.manual.retrieved
+                document.getElementById('manual-build-url').setAttribute('href',gwcat.meta.manual.src)
             }
             for (e in gwcat.data){
                 event=gwcat.data[e];
