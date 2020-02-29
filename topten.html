@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<title>GW Localisation Skymaps</title>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="img/favicon-32x32.png" />
+	<!--<script type="text/javascript" src="js/lib/d3.v4.min.js"></script>-->
+	<!-- <script type="text/javascript" src="js/lib/stuquery.js"></script> -->
+	<script type="text/javascript" src="js/gwcat.js"></script>
+    <script type="text/javascript" src="js/lib/d3.v4.min.js"></script>
+	<style>
+    div.image-list{
+        border:1px solid black;
+        text-align:center;
+    }
+    div.image{
+        margin:10px;
+        border:1px solid #555555;
+        display:inline-block;
+        text-align:center;
+    }
+    div.image img{
+        width:250px;
+    }
+    div.image.cartzoom img{
+        width:125px;
+    }
+    div.image h3{
+        width:100%;
+    }
+	</style>
+</head>
+<body>
+<h1>Sky localisation maps</h1>
+<p>Based on the <b><a href="http://gwcat.cardiffgravity.org">gwcat</a></b> database, compiled from data at the <a href="https://www.gw-openscience.org/">Gravitational Wave Open Science Centre</a> and <a href="https://gracedb.ligo.org/latest/">GraceDB</a>.</p>
+<div class="build">
+    <p>Latest build:
+        <ul>
+            <li><b><a id='gwosc-build-url' href="">Gwosc Catalogue</a>: </b><span id='gwosc-build-date'></span></li>
+            <li><b><a id='gracedb-build-url'href="">GraceDB</a>: </b><span id='gracedb-build-date'></span></li>
+            <li><b><a id='manual-build-url'href="">Manual Import</a>: </b><span id='manual-build-date'></span></li>
+        </ul>
+    </p>
+</div>
+<script type="text/javascript">
+    function makeTopTen(){
+        console.log('making top ten');
+        var lists={
+            'chirp':{column:'Mchirp',order:'dec'},
+            'skyLoc':{column:'deltaOmega',order:'asc'},
+            'GPS':{column:'GPS',order:'asc'},
+            'FAR':{column:'FAR',order:'asc'},
+            'Erad':{column:'Erad',order:'dec'},
+            'Lpeak':{column:'lpeak',order:'dec'},
+            'distance':{column:'DL',order:'asc'}
+        };
+        for (l in lists){
+            console.log(lists[l]);
+            gwcat.orderData(lists[l].column,(lists[l].order=='dec')?true:false);
+            lists[l].names=[];
+            lists[l].values=[];
+            var num=0;
+            for (n in gwcat.dataOrder){
+                if (num>=10){continue}
+                if (gwcat.getBest(gwcat.dataOrder[n],lists[l].column)){
+                    // console.log(n,gwcat.data[n])
+                    lists[l].names.push(gwcat.dataOrder[n]);
+                    lists[l].values.push(gwcat.getBest(gwcat.dataOrder[n],lists[l].column))
+                    num+=1;
+                }
+            }
+            // console.log(gwcat.dataOrder);
+            console.log(l,lists[l].names,lists[l].values)
+        }
+    }
+    var gwcat = new GWCat(makeTopTen,{confirmedOnly:false,debug:false,fileIn:"data/gwosc_gracedb.json",loadMethod:'json'});
+</script>
+</body>
