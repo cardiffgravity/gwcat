@@ -398,6 +398,9 @@ GWCat.prototype.orderData = function(order='GPS',reverse){
     if(this.data[0][order]){
 	    best = (typeof this.data[0][order]==="object");
 		this.data=this.data.sort(function(a,b){
+            if (!a[order] || !b[order]){
+                return(0)
+            }
 			if(best && !a[order].best) return -1;	// No value for best set
 			if(best) return a[order].best < b[order].best ? -(sign)*1 : (sign)*1;
 			else return a[order] < b[order] ? -(sign)*1 : (sign)*1;
