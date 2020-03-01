@@ -1,0 +1,66 @@
+body{
+    font: 16px sans-serif;
+}
+.top10list{
+    display:inline-block;
+    width:25em;
+    padding-left:0.5em;
+    padding-right:0.5em;
+    padding-bottom:1.5em;
+    overflow-x: hidden;
+}
+.evname, .evval, .listname, .listunit, .listorder{
+    display:inline-block;
+}
+.list-title{
+    display:block;
+    min-height:2.5em;
+    background-color: #662d8f;
+    padding-top:0.5em;
+    padding-left:2%;
+    font-weight:bold;
+    color:white;
+}
+.listorder{
+    width:1.5em;
+    text-align:center;
+    font-weight:bold;
+    font-size:1.5em;
+    cursor:pointer;
+}
+.listname{
+    width:14em;
+    text-align:left;
+}
+.listunit{
+    width:7em;
+    text-align:right;
+}
+.list-item{
+    display:block;
+    min-height:1.2em;
+    padding-top:0.3em;
+    padding-left:0.5em;
+    overflow-x:hidden;
+    border-bottom: #e9e2ef solid 3px;
+}
+/* .list-item.GW.odd{
+    background-color:#fdcc9c;
+} */
+.list-item.GW{
+    background-color:#ffe6d4;
+}
+/* .list-item.Cand.odd{
+    background-color:#8fd7ed;
+} */
+.list-item.Cand{
+    background-color:#e1f4fe;
+}
+.evname{
+    width:15em;
+    text-align:left;
+}
+.evval{
+    width:8em;
+    text-align:right;
+}
