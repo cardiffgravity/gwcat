@@ -395,15 +395,14 @@ GWCat.prototype.showError = function(message){
 // If reverse is true then the order will be reversed
 GWCat.prototype.orderData = function(order='GPS',reverse){
     sign = ((typeof reverse==="boolean") ? reverse : false) ? -1 : 1;
-    if(this.data[0][order]){
-	    best = (typeof this.data[0][order]==="object");
+    if(this.datadict[order]){
 		this.data=this.data.sort(function(a,b){
-            if (!a[order] || !b[order]){
-                return(0)
-            }
-			if(best && !a[order].best) return -1;	// No value for best set
-			if(best) return a[order].best < b[order].best ? -(sign)*1 : (sign)*1;
-			else return a[order] < b[order] ? -(sign)*1 : (sign)*1;
+            if (!a[order] && !b[order]){return 0;}
+            else if(!a[order]){return (sign)*1}
+            else if(!b[order]){return -(sign)*1}
+            vala = (typeof a[order]==="object") ? a[order].best : a[order]
+            valb = (typeof b[order]==="object") ? b[order].best : b[order];
+            return (vala < valb) ? -(sign)*1 : (sign)*1;
 		});
 		var dataOrder = [];
 		this.data.forEach(function(d){dataOrder.push(d.name);});
