@@ -3,7 +3,6 @@ function TopTen(){
     return this;
 }
 TopTen.prototype.init = function(){
-    console.log('making top ten');
     this.lists={
         'mass':{sortcol:'Mchirp',order:'dec',format:'',title:'Mass'},
         'loc':{sortcol:'deltaOmega',order:'asc',format:'fixed',title:'Localisation',link:true},
@@ -15,9 +14,7 @@ TopTen.prototype.init = function(){
     };
     this.makeDivs();
     for (l in this.lists){
-        console.log(this.lists[l]);
         this.popList(l);
-        console.log(l,this.lists[l].names,this.lists[l].values)
         this.makeList(l);
     }
 }
@@ -30,7 +27,7 @@ TopTen.prototype.makeDivs = function(holderid='top10holder'){
             .attr('id',lid)
     }
 }
-TopTen.prototype.popList = function(l,callback){
+TopTen.prototype.popList = function(l){
     var listitem=this.lists[l];
     gwcat.orderData(listitem.sortcol,(listitem.order=='dec')?true:false);
     listitem.names=[];
@@ -39,21 +36,16 @@ TopTen.prototype.popList = function(l,callback){
     for (n in gwcat.dataOrder){
         if (num>=10){continue}
         if (gwcat.getBest(gwcat.dataOrder[n],listitem.sortcol)){
-            // console.log(n,gwcat.data[n])
             listitem.names.push(gwcat.dataOrder[n]);
             listitem.values.push(gwcat.getBest(gwcat.dataOrder[n],(listitem.valcol)?listitem.valcol:listitem.sortcol))
             num+=1;
         }
     }
     this.lists[l]=listitem;
-    if (callback && typeof callback === 'function'){
-        callback();
-    }
 }
 TopTen.prototype.makeList = function(l){
     var _t10=this;
     var listitem=this.lists[l];
-    console.log('names',listitem.names);
     lid='list-'+l;
     ldiv=d3.select('#'+lid)
     ldiv.selectAll("*").remove();
@@ -121,13 +113,9 @@ TopTen.prototype.gettitle = function(l){
 TopTen.prototype.reorderList = function(l){
     oldorder=this.lists[l].order;
     neworder = (oldorder=='dec')?'asc':'dec';
-    console.log('reordering'+l+'('+oldorder+'->'+neworder+')');
     this.lists[l].order=neworder;
     this.popList(l);
     this.makeList(l);
-    console.log(this.lists[l].names);
-    console.log(this.lists[l].values);
-    // this.makeList(l);
 }
 
 function makeTopTen(){
