@@ -38,8 +38,8 @@ body{
 }
 .list-item{
     display:block;
-    min-height:1.2em;
-    padding-top:0.3em;
+    min-height:1.5em;
+    padding-top:0.6em;
     padding-left:0.5em;
     overflow-x:hidden;
     border-bottom: #e9e2ef solid 3px;

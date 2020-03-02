@@ -3,11 +3,12 @@ function TopTen(){
     return this;
 }
 TopTen.prototype.init = function(){
+    // define lists
     this.lists={
         'mass':{sortcol:'Mchirp',order:'dec',format:'',title:'Mass'},
-        'loc':{sortcol:'deltaOmega',order:'asc',format:'fixed',title:'Localisation',link:true},
+        'loc':{sortcol:'deltaOmega',order:'asc',format:'fixed',title:'Localisation',namelink:true,hoverlink:true},
         'date':{sortcol:'GPS',valcol:'UTC',order:'asc',format:'date',title:'Detection Date'},
-        'FAR':{sortcol:'FAR',order:'asc',format:'exp',title:'Certainty'},
+        'FAR':{sortcol:'FAR',order:'asc',format:'auto',title:'Certainty'},
         'Erad':{sortcol:'Erad',order:'dec',format:'fixed',title:'Energy'},
         'Lpeak':{sortcol:'lpeak',order:'dec',format:'fixed',title:'Luminosity'},
         'closest':{sortcol:'DL',order:'asc',format:'fixed',title:'Distance'}
@@ -19,6 +20,7 @@ TopTen.prototype.init = function(){
     }
 }
 TopTen.prototype.makeDivs = function(holderid='top10holder'){
+    // make divs for lists
     hd=d3.select((holderid[0]=='#')?holderid:'#'+holderid);
     for (l in this.lists){
         lid='list-'+l;
@@ -28,10 +30,14 @@ TopTen.prototype.makeDivs = function(holderid='top10holder'){
     }
 }
 TopTen.prototype.popList = function(l){
+    // populate list object with events/values
     var listitem=this.lists[l];
     gwcat.orderData(listitem.sortcol,(listitem.order=='dec')?true:false);
     listitem.names=[];
     listitem.values=[];
+    // if (listitem.namelink){listitem.namelinks=[]}
+    // if (listitem.vallink){listitem.vallinks=[]}
+    // if (listitem.hoverlink){listitem.hoverlinks=[]}
     var num=0;
     for (n in gwcat.dataOrder){
         if (num>=10){continue}
@@ -44,6 +50,7 @@ TopTen.prototype.popList = function(l){
     this.lists[l]=listitem;
 }
 TopTen.prototype.makeList = function(l){
+    // add divs for list
     var _t10=this;
     var listitem=this.lists[l];
     lid='list-'+l;
@@ -65,6 +72,7 @@ TopTen.prototype.makeList = function(l){
     }
 }
 TopTen.prototype.gethtml = function(l,n){
+    // get html for list item
     listitem=this.lists[l];
     sigfig=gwcat.datadict[listitem.sortcol].sigfig;
     if (listitem.format=='fixed'){
@@ -76,25 +84,45 @@ TopTen.prototype.gethtml = function(l,n){
         val=listitem.values[n]
         val=val.replace(reDate,"$1");
     }else{
+        // automatic
         val=listitem.values[n];
-    }
-    var href='';
-    if (listitem.link){
-        if (listitem.sortcol=='deltaOmega'){
-            href=href='<a title="Skymaps" href="skymaps.html#'+listitem.names[n]+'">';
-            // link=gwcat.getLink(listitem.names[n],'skymap-thumbnail','Cartesian zoomed');
-            // if(link.length>0){
-            //     href='<a title="'+link[0].text+'" href="'+link[0].url+'">';
-            // }
+        if (typeof val === "number"){
+            if (listitem.values[n] > 10**(-sigfig)){
+                val=val.toFixed(sigfig);
+            }else{
+                val=val.toExponential(sigfig);
+                reDate=/(.*)e(.*)/g
+                val=val.replace(reDate,"$1x10<sup>$2</sup>");
+            }
         }
     }
-    htmlname=(href) ? '<div class="evname">'+href+listitem.names[n]+'</a></div>' : '<div class="evname">'+listitem.names[n]+'</div>';
+    var namelink='';
+    var hoverlink='';
+    if (listitem.namelink){
+        // get skymaps URL
+        if (listitem.sortcol=='deltaOmega'){
+            namelink='<a title="Skymaps" href="skymaps.html#'+gwcat.dataOrder[n]+'">';
+        }else{
+            namelink='';
+        }
+    }
+    // if (listitem.hover){
+    //     // get hover url
+    //     if (listitem.sortcol=='deltaOmega'){
+    //         hovlink=gwcat.getLink(listitem.names[n],'skymap-thumbnail','Cartesian zoomed');
+    //         if(hovlink.length>0){
+    //             hovref='<a title="'+link[0].text+'" href="'+link[0].url+'">';
+    //         }
+    //     }
+    // }
+    htmlname=(namelink) ? '<div class="evname">'+namelink+listitem.names[n]+'</a></div>' : '<div class="evname">'+listitem.names[n]+'</div>';
     htmlval='<div class="evval">'+val+'</div>';
     htmlout=htmlname+htmlval;
     return(htmlout)
 }
 TopTen.prototype.gettitle = function(l){
-    listitem=this.lists[l];
+    // get title for list
+    var listitem=this.lists[l];
     if (listitem.title){
         title=listitem.title;
     }else{
@@ -111,6 +139,7 @@ TopTen.prototype.gettitle = function(l){
     return(titorder+titname+titunit)
 }
 TopTen.prototype.reorderList = function(l){
+    // switch ascending or descending
     oldorder=this.lists[l].order;
     neworder = (oldorder=='dec')?'asc':'dec';
     this.lists[l].order=neworder;
