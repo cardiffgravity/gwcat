@@ -400,8 +400,10 @@ GWCat.prototype.orderData = function(order='GPS',reverse){
             if (!a[order] && !b[order]){return 0;}
             else if(!a[order]){return (sign)*1}
             else if(!b[order]){return -(sign)*1}
-            vala = (typeof a[order]==="object") ? a[order].best : a[order]
-            valb = (typeof b[order]==="object") ? b[order].best : b[order];
+            typea=(a[order].best)?'best':(a[order].lower)?'lower':(a[order].upper)?'upper':'unk';
+            typeb=(b[order].best)?'best':(b[order].lower)?'lower':(b[order].upper)?'upper':'unk';
+            vala = (typeof a[order]==="object") ? a[order][typea] : a[order]
+            valb = (typeof b[order]==="object") ? b[order][typeb] : b[order];
             return (vala < valb) ? -(sign)*1 : (sign)*1;
 		});
 		var dataOrder = [];
@@ -528,6 +530,7 @@ GWCat.prototype.getNominal = function(event,param){
     }else{
         nom=this.getValue(event,param,valType);
     }
+    return nom;
 }
 
 GWCat.prototype.getMinVal = function(event,param){
