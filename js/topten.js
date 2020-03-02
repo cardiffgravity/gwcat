@@ -3,15 +3,21 @@ function TopTen(){
     return this;
 }
 TopTen.prototype.init = function(){
+    // add columns
+    addColumn('Mratio',calcMratio,{sigfig:2,err:0,name_en:'Mass ratio'})
+    addColumn('Mtotal',calcMtotal,{'unit_en':'M_sun',sigfig:2,err:0,name_en:'Total mass'})
     // define lists
     this.lists={
-        'mass':{sortcol:'Mchirp',order:'dec',format:'',title:'Mass'},
+        'mass':{sortcol:'Mchirp',order:'dec',format:'',title:'Chirp Mass',sigfig:1},
+        'mratio':{sortcol:'Mratio',order:'dec',format:'',title:'Mass Ratio'},
+        'mfinal':{sortcol:'Mfinal',order:'dec',format:'',title:'Final Mass'},
         'loc':{sortcol:'deltaOmega',order:'asc',format:'fixed',title:'Localisation',namelink:true,hoverlink:true},
         'date':{sortcol:'GPS',valcol:'UTC',order:'asc',format:'date',title:'Detection Date'},
         'FAR':{sortcol:'FAR',order:'asc',format:'auto',title:'Certainty'},
         'Erad':{sortcol:'Erad',order:'dec',format:'fixed',title:'Energy'},
         'Lpeak':{sortcol:'lpeak',order:'dec',format:'fixed',title:'Luminosity'},
-        'closest':{sortcol:'DL',order:'asc',format:'fixed',title:'Distance'}
+        'SNR':{sortcol:'rho',order:'dec',format:'fixed',title:'Signal-to-Noise Ratio'},
+        'distance':{sortcol:'DL',order:'asc',format:'fixed',title:'Distance'}
     };
     this.makeDivs();
     for (l in this.lists){
@@ -35,15 +41,17 @@ TopTen.prototype.popList = function(l){
     gwcat.orderData(listitem.sortcol,(listitem.order=='dec')?true:false);
     listitem.names=[];
     listitem.values=[];
+    listitem.valtypes=[];
     // if (listitem.namelink){listitem.namelinks=[]}
     // if (listitem.vallink){listitem.vallinks=[]}
     // if (listitem.hoverlink){listitem.hoverlinks=[]}
     var num=0;
     for (n in gwcat.dataOrder){
         if (num>=10){continue}
-        if (gwcat.getBest(gwcat.dataOrder[n],listitem.sortcol)){
+        if (gwcat.getNominal(gwcat.dataOrder[n],listitem.sortcol)){
             listitem.names.push(gwcat.dataOrder[n]);
-            listitem.values.push(gwcat.getBest(gwcat.dataOrder[n],(listitem.valcol)?listitem.valcol:listitem.sortcol))
+            listitem.valtypes.push(gwcat.getParamType(gwcat.dataOrder[n],(listitem.valcol)?listitem.valcol:listitem.sortcol));
+            listitem.values.push(gwcat.getNominal(gwcat.dataOrder[n],(listitem.valcol)?listitem.valcol:listitem.sortcol))
             num+=1;
         }
     }
@@ -74,7 +82,7 @@ TopTen.prototype.makeList = function(l){
 TopTen.prototype.gethtml = function(l,n){
     // get html for list item
     listitem=this.lists[l];
-    sigfig=gwcat.datadict[listitem.sortcol].sigfig;
+    sigfig=(listitem.sigfig)?listitem.sigfig:gwcat.datadict[listitem.sortcol].sigfig;
     if (listitem.format=='fixed'){
         val=listitem.values[n].toFixed(sigfig);
     }else if(listitem.format=='exp'){
@@ -96,6 +104,8 @@ TopTen.prototype.gethtml = function(l,n){
             }
         }
     }
+    if (listitem.valtypes[n]=='lower'){val='> '+val}
+    else if (listitem.valtypes[n]=='upper'){val='< '+val}
     var namelink='';
     var hoverlink='';
     if (listitem.namelink){
@@ -117,8 +127,7 @@ TopTen.prototype.gethtml = function(l,n){
     // }
     htmlname=(namelink) ? '<div class="evname">'+namelink+listitem.names[n]+'</a></div>' : '<div class="evname">'+listitem.names[n]+'</div>';
     htmlval='<div class="evval">'+val+'</div>';
-    htmlout=htmlname+htmlval;
-    return(htmlout)
+    return(htmlname+htmlval)
 }
 TopTen.prototype.gettitle = function(l){
     // get title for list
@@ -148,6 +157,7 @@ TopTen.prototype.reorderList = function(l){
 }
 
 function makeTopTen(){
+    // make top ten database
     this.Top10=new TopTen();
     if ((gwcat.meta)&&(gwcat.meta.gwosc)){
         document.getElementById('gwosc-build-date').innerHTML = gwcat.meta.gwosc.retrieved
@@ -161,4 +171,25 @@ function makeTopTen(){
         document.getElementById('manual-build-date').innerHTML = gwcat.meta.manual.retrieved
         document.getElementById('manual-build-url').setAttribute('href',gwcat.meta.manual.src)
     }
+}
+
+function addColumn(colname,fncalc,dict){
+    if (typeof fncalc === "function"){
+        gwcat.datadict[colname]=dict;
+        for (e in gwcat.data){
+            ev=gwcat.data[e].name;
+            val=fncalc(ev);
+            if (val){gwcat.data[e][colname]=val}
+        }
+    }
+}
+function calcMratio(ev){
+    if (gwcat.getBest(ev,'M2') && gwcat.getBest(ev,'M1')){
+        return {'best':gwcat.getBest(ev,'M2')/gwcat.getBest(ev,'M1')}
+    }else{return Math.NaN}
+}
+function calcMtotal(ev){
+    if (gwcat.getBest(ev,'M2') && gwcat.getBest(ev,'M1')){
+        return {'best':gwcat.getBest(ev,'M2') + gwcat.getBest(ev,'M1')}
+    }else{return Math.NaN}
 }
