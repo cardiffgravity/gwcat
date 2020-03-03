@@ -9,7 +9,7 @@ body{
     padding-bottom:1.5em;
     overflow-x: hidden;
 }
-.evname, .evval, .listname, .listunit, .listorder{
+.evname, .evgraph, .evval, .listname, .listunit, .listorder{
     display:inline-block;
 }
 .list-title{
@@ -57,10 +57,35 @@ body{
     background-color:#e1f4fe;
 }
 .evname{
-    width:15em;
+    width:6.5em;
     text-align:left;
 }
+.evgraph{
+    width:11em;
+    text-align:left;
+    padding-left:0.5em;
+}
 .evval{
-    width:8em;
+    width:5.5em;
     text-align:right;
+}
+.icon{
+    width:1em;
+    display:inline-block;
+    margin:0.1em;
+}
+.icon img{
+    display:block;
+}
+.icon.part{
+    overflow:hidden;
+}
+.bar-bg{
+    height:1em;
+    background-color: #e9e2ef;
+    width:100%;
+}
+.bar{
+    height:1em;
+    background-color: #7c52a1;
 }

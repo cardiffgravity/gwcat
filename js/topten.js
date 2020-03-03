@@ -8,16 +8,16 @@ TopTen.prototype.init = function(){
     addColumn('Mtotal',calcMtotal,{'unit_en':'M_sun',sigfig:2,err:0,name_en:'Total mass'})
     // define lists
     this.lists={
-        'mass':{sortcol:'Mchirp',order:'dec',format:'',title:'Chirp Mass',sigfig:1},
-        'mratio':{sortcol:'Mratio',order:'dec',format:'',title:'Mass Ratio'},
-        'mfinal':{sortcol:'Mfinal',order:'dec',format:'',title:'Final Mass'},
-        'loc':{sortcol:'deltaOmega',order:'asc',format:'fixed',title:'Localisation',namelink:true,hoverlink:true},
+        'totmass':{sortcol:'Mtotal',order:'dec',format:'',title:'Total Mass',sigfig:3,icon:'img/mass.svg',icon_unit:10},
+        'mratio':{sortcol:'Mratio',order:'dec',format:'',title:'Mass Ratio',bar:'#000000',bar_min:0,bar_max:1},
+        'mfinal':{sortcol:'Mfinal',order:'dec',format:'',title:'Final Mass',icon:'img/mass.svg',icon_unit:10},
+        'loc':{sortcol:'deltaOmega',order:'asc',format:'fixed',title:'Localisation',namelink:true,hoverlink:true,bar:'#000000',bar_min:1,bar_max:40000,bar_log:true,sigfig:0},
         'date':{sortcol:'GPS',valcol:'UTC',order:'asc',format:'date',title:'Detection Date'},
-        'FAR':{sortcol:'FAR',order:'asc',format:'auto',title:'Certainty'},
-        'Erad':{sortcol:'Erad',order:'dec',format:'fixed',title:'Energy'},
-        'Lpeak':{sortcol:'lpeak',order:'dec',format:'fixed',title:'Luminosity'},
+        'FAR':{sortcol:'FAR',order:'asc',format:'auto',title:'False Alarm Rate'},
+        'Erad':{sortcol:'Erad',order:'dec',format:'fixed',title:'Energy',icon:'img/sun.svg',icon_unit:1},
+        'Lpeak':{sortcol:'lpeak',order:'dec',format:'fixed',title:'Luminosity',icon:'img/sun.svg',icon_unit:1},
         'SNR':{sortcol:'rho',order:'dec',format:'fixed',title:'Signal-to-Noise Ratio'},
-        'distance':{sortcol:'DL',order:'asc',format:'fixed',title:'Distance'}
+        'distance':{sortcol:'DL',order:'asc',format:'fixed',title:'Distance',bar:'#000000',bar_max:6000}
     };
     this.makeDivs();
     for (l in this.lists){
@@ -76,13 +76,20 @@ TopTen.prototype.makeList = function(l){
         evodd=(n%2==0)?'even':'odd';
         ldiv.append('div')
             .attr('class','list-item '+evtype+' '+evodd)
+            .attr('id',l+'_'+n)
             .html(this.gethtml(l,n))
+        if (listitem.icon){
+            this.addicons(l,n);
+        }
+        if (listitem.bar){
+            this.addbar(l,n);
+        }
     }
 }
 TopTen.prototype.gethtml = function(l,n){
     // get html for list item
     listitem=this.lists[l];
-    sigfig=(listitem.sigfig)?listitem.sigfig:gwcat.datadict[listitem.sortcol].sigfig;
+    sigfig=(listitem.hasOwnProperty('sigfig'))?listitem.sigfig:gwcat.datadict[listitem.sortcol].sigfig;
     if (listitem.format=='fixed'){
         val=listitem.values[n].toFixed(sigfig);
     }else if(listitem.format=='exp'){
@@ -96,7 +103,7 @@ TopTen.prototype.gethtml = function(l,n){
         val=listitem.values[n];
         if (typeof val === "number"){
             if (listitem.values[n] > 10**(-sigfig)){
-                val=val.toFixed(sigfig);
+                val=val.toPrecision(sigfig);
             }else{
                 val=val.toExponential(sigfig);
                 reDate=/(.*)e(.*)/g
@@ -126,8 +133,49 @@ TopTen.prototype.gethtml = function(l,n){
     //     }
     // }
     htmlname=(namelink) ? '<div class="evname">'+namelink+listitem.names[n]+'</a></div>' : '<div class="evname">'+listitem.names[n]+'</div>';
+    htmlicon='<div class="evgraph">'+''+'</div>';
     htmlval='<div class="evval">'+val+'</div>';
-    return(htmlname+htmlval)
+    return(htmlname+htmlicon+htmlval)
+}
+TopTen.prototype.addicons = function(l,n){
+    var listitem = this.lists[l];
+    nimg=listitem.values[n]/listitem.icon_unit;
+    evdiv=d3.select('#'+l+'_'+n+' > .evgraph');
+    for (i=1;i<=nimg;i++){
+        evdiv.append('div')
+            .attr('class','icon '+l+' '+l+'-'+n)
+            .attr('id','icon-'+l+'-'+n+'-'+i)
+        .append('img')
+            .attr('src',listitem.icon)
+    }
+    if ((nimg%1)!=0){
+        evdiv.append('div')
+            .attr('class','icon part '+l+' '+l+'-'+n)
+        .append('img')
+            .attr('src',listitem.icon)
+        partimg=d3.select('.icon.part.'+l+'-'+n);
+        partimgwid=(nimg%1)+'em';
+        partimg.style('width',partimgwid);
+    }
+
+}
+TopTen.prototype.addbar = function(l,n){
+    var listitem = this.lists[l];
+    var bar_log=(listitem.bar_log)?listitem.bar_log:false;
+    var bar_min=(listitem.bar_min)?listitem.bar_min:0;
+    var bar_max=(listitem.bar_max)?listitem.bar_max:1;
+    if (bar_log){
+        barlen=100*(Math.log(listitem.values[n])-Math.log(bar_min))/(Math.log(bar_max)-Math.log(bar_min));}
+    else{barlen=100*(listitem.values[n]-bar_min)/(bar_max-bar_min);}
+    evdiv=d3.select('#'+l+'_'+n+' > .evgraph');
+    evdiv.append('div')
+        .attr('class','bar-bg '+l+' '+l+'-'+n)
+        .attr('id','bar-bg-'+l+'-'+n)
+    .append('div')
+        .attr('class','bar '+l+' '+l+'-'+n)
+        .attr('id','bar-'+l+'-'+n)
+        .style('width',(barlen)+'%')
+
 }
 TopTen.prototype.gettitle = function(l){
     // get title for list
