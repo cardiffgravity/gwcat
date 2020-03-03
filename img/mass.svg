@@ -56,15 +56,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="35.866656"
+     inkscape:cx="20.241656"
      inkscape:cy="-5.2858026"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1680"
      inkscape:window-height="952"
-     inkscape:window-x="74"
-     inkscape:window-y="11"
+     inkscape:window-x="-99"
+     inkscape:window-y="10"
      inkscape:window-maximized="0"
      units="px">
     <inkscape:grid
@@ -90,7 +90,7 @@
      transform="translate(0,-1036.3622)">
     <path
        inkscape:connector-curvature="0"
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.99999988"
+       style="fill:#7c52a1;fill-opacity:1;stroke:none;stroke-width:0.99999988"
        d="m 7.9999999,1036.3622 c -1.8409493,0 -3.3333332,1.4925 -3.3333332,3.3332 0,1.0954 0.5175906,2.0591 1.3333333,2.6667 -0.2604894,0.194 -0.472636,0.4061 -0.6666667,0.6667 H 2.6666666 L 0,1052.3622 h 16 l -2.666667,-9.3334 h -2.666667 c -0.19403,-0.2606 -0.406177,-0.4727 -0.666666,-0.6667 0.815742,-0.6076 1.333333,-1.5713 1.333333,-2.6667 0,-1.8407 -1.4923823,-3.3332 -3.3333331,-3.3332 z m 0,1.3332 c 1.1111109,0 2.0000001,0.889 2.0000001,2 0,1.1112 -0.8888892,2.0001 -2,2.0001 -1.1111106,0 -2,-0.8889 -2,-2.0001 0,-1.111 0.8888894,-2 1.9999999,-2 z"
        id="path4298" />
   </g>
