@@ -4,20 +4,22 @@ function TopTen(){
 }
 TopTen.prototype.init = function(){
     // add columns
+    addColumn('Delay',calcDelay,{sigfig:2,err:0,name_en:'Time waiting',unit_en:'Days'})
     addColumn('Mratio',calcMratio,{sigfig:2,err:0,name_en:'Mass ratio'})
     addColumn('Mtotal',calcMtotal,{'unit_en':'M_sun',sigfig:3,err:0,name_en:'Total mass'})
     // define lists
     this.lists={
-        'totmass':{sortcol:'Mtotal',order:'dec',format:'',title:'Total Mass',icon:'img/mass.svg',icon_unit:10},
-        'mratio':{sortcol:'Mratio',order:'dec',format:'',title:'Mass Ratio',bar:'#000000',bar_min:0,bar_max:1,show_err:true},
+        // 'totmass':{sortcol:'Mtotal',order:'dec',format:'',title:'Total Mass',icon:'img/mass.svg',icon_unit:10,show_err:true},
+        // 'mratio':{sortcol:'Mratio',order:'asc',format:'',title:'Mass Ratio',bar:'#000000',bar_min:0,bar_max:1,show_err:true},
         'mfinal':{sortcol:'Mfinal',order:'dec',format:'',title:'Final Mass',icon:'img/mass.svg',icon_unit:10,show_err:true},
         'loc':{sortcol:'deltaOmega',order:'asc',format:'',title:'Localisation',namelink:false,hoverlink:true,bar:'#000000',bar_min:1,bar_max:40000,bar_log:true},
+        'delay':{sortcol:'Delay',valcol:'Delay',order:'asc',format:'',title:'Days waiting'},
+        'distance':{sortcol:'DL',order:'asc',format:'',title:'Distance',bar:'#000000',bar_max:'auto',show_err:true},
         'date':{sortcol:'GPS',valcol:'UTC',order:'asc',format:'date',title:'Detection Date'},
-        'FAR':{sortcol:'FAR',order:'asc',format:'',title:'False Alarm Rate'},
+        'FAR':{sortcol:'FAR',order:'asc',format:'',sigfig:2,title:'False Alarm Rate'},
         'Erad':{sortcol:'Erad',order:'dec',format:'',title:'Energy',icon:'img/sun.svg',icon_unit:1,show_err:true},
         'Lpeak':{sortcol:'lpeak',order:'dec',format:'',title:'Luminosity',icon:'img/bulb.svg',icon_unit:1,show_err:true},
         'SNR':{sortcol:'rho',order:'dec',format:'',title:'Signal-to-Noise Ratio'},
-        'distance':{sortcol:'DL',order:'asc',format:'',title:'Distance',bar:'#000000',bar_max:'auto',show_err:true}
     };
     this.makeDivs();
     for (l in this.lists){
@@ -104,8 +106,9 @@ TopTen.prototype.gethtml = function(l,n){
     if (listitem.valtypes[n]=='lower'){val='> '+val}
     else if (listitem.valtypes[n]=='upper'){val='< '+val}
     if (listitem.show_err && listitem.valtypes[n]=='best'){
-        errpos=setPrecision(listitem.errpos[n]-listitem.values[n],sigfig)
-        errneg=setPrecision(listitem.values[n]-listitem.errneg[n],sigfig)
+        fixprec=getprecision(listitem.values[n],sigfig);
+        errpos=setPrecision(listitem.errpos[n]-listitem.values[n],sigfig,fixprec=fixprec)
+        errneg=setPrecision(listitem.values[n]-listitem.errneg[n],sigfig,fixprec=fixprec)
         htmlerr='<div class="everr pos">+'+errpos+'</div><div class="everr neg">&ndash;'+errneg+'</div>'
     }else{
         htmlerr=''
@@ -285,17 +288,43 @@ function addColumn(colname,fncalc,dict){
 function calcMratio(ev){
     if (gwcat.getBest(ev,'M2') && gwcat.getBest(ev,'M1')){
         best=gwcat.getBest(ev,'M2')/gwcat.getBest(ev,'M1');
-        low=gwcat.getMinVal(ev,'M2')/gwcat.getMaxVal(ev,'M1');
-        high=gwcat.getMaxVal(ev,'M2')/gwcat.getMinVal(ev,'M1');
-        return {'best':best,'err':[low-best,high-best]}
+        low1=1 - (gwcat.getMinVal(ev,'M1')/gwcat.getBest(ev,'M1'));
+        low2=1 - (gwcat.getMinVal(ev,'M2')/gwcat.getBest(ev,'M2'));
+        high1=1 - (gwcat.getMaxVal(ev,'M1')/gwcat.getBest(ev,'M1'));
+        high2=1 - (gwcat.getMaxVal(ev,'M2')/gwcat.getBest(ev,'M2'));
+        lowr=Math.sqrt((low1**2 + low2**2))
+        highr=Math.sqrt((high1**2 + high2**2))
+        highr=(highr+best>1)?1-best:highr;
+        return {'best':best,'err':[-lowr,highr]}
     }else{return Math.NaN}
 }
 function calcMtotal(ev){
     if (gwcat.getBest(ev,'M2') && gwcat.getBest(ev,'M1')){
-        return {'best':gwcat.getBest(ev,'M2') + gwcat.getBest(ev,'M1')}
+        best=gwcat.getBest(ev,'M2')+gwcat.getBest(ev,'M1');
+        low1=1 - (gwcat.getMinVal(ev,'M1')/gwcat.getBest(ev,'M1'));
+        low2=1 - (gwcat.getMinVal(ev,'M2')/gwcat.getBest(ev,'M2'));
+        high1=1 - (gwcat.getMaxVal(ev,'M1')/gwcat.getBest(ev,'M1'));
+        high2=1 - (gwcat.getMaxVal(ev,'M2')/gwcat.getBest(ev,'M2'));
+        lowr=Math.sqrt((low1**2 + low2**2))
+        highr=Math.sqrt((high1**2 + high2**2))
+        return {'best':best,'err':[-lowr,highr]}
     }else{return Math.NaN}
 }
-function setPrecision(val,sigfig){
+function calcDelay(ev){
+    idx=gwcat.event2idx(ev);
+    if (idx==0){return(Math.POSITIVE_INFINITY)}
+    else{
+        date1=new Date(gwcat.data[idx-1].UTC.best);
+        date2=new Date(gwcat.data[idx].UTC.best);
+        datediff=(date2-date1)/(86400*1000);
+    }
+    return {'best':datediff};
+}
+
+function getprecision(val,sigfig){
+    return Math.floor(Math.log10(Math.abs(val)))+1-sigfig;
+}
+function setPrecision(val,sigfig,fixprec){
     if (listitem.format=='fixed'){
         valOut=val.toFixed(sigfig);
     }else if(listitem.format=='exp'){
@@ -306,12 +335,12 @@ function setPrecision(val,sigfig){
     }else{
         // automatic
         if (typeof val === "number"){
-            prec=Math.floor(Math.log10(Math.abs(val)))+1-sigfig
+            prec=(fixprec)?fixprec:getprecision(val,sigfig);
             if (Math.abs(val) > 10**(-sigfig)){
                 valOut=10**prec * Math.round(val/10**prec);
                 valOut=(prec<0)?valOut.toFixed(-prec):valOut;
             }else if (val==0){
-                valOut=0;
+                valOut=(fixprec)?val.toFixed(-fixprec):0;
             }else{
                 valOut=val.toExponential(sigfig);
                 reDate=/(.*)e(.*)/g
