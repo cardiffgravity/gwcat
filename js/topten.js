@@ -198,16 +198,34 @@ TopTen.prototype.addbar = function(l,n){
         }
         console.log(errmin,errmax)
         barbg=evdiv.select('.bar-bg')
+        // barbg.append('div')
+        //     .attr('class','errmin '+l+' '+l+'-'+n)
+        //     .attr('id','errmin-'+l+'-'+n)
+        //     .style('left',(errmin)+'%')
+        //     .style('width',(barlen-errmin)+'%');
+        // barbg.append('div')
+        //     .attr('class','errmax '+l+' '+l+'-'+n)
+        //     .attr('id','errmax-'+l+'-'+n)
+        //     .style('left',(barlen)+'%')
+        //     .style('width',(errmax-barlen)+'%');
         barbg.append('div')
-            .attr('class','errmin '+l+' '+l+'-'+n)
-            .attr('id','errmin-'+l+'-'+n)
+            .attr('class','errbar neg '+l+' '+l+'-'+n)
+            .attr('id','errbar-'+l+'-'+n)
             .style('left',(errmin)+'%')
             .style('width',(barlen-errmin)+'%');
         barbg.append('div')
-            .attr('class','errmax '+l+' '+l+'-'+n)
-            .attr('id','errmax-'+l+'-'+n)
+            .attr('class','errbar pos '+l+' '+l+'-'+n)
+            .attr('id','errbar-'+l+'-'+n)
             .style('left',(barlen)+'%')
             .style('width',(errmax-barlen)+'%');
+        barbg.append('div')
+            .attr('class','errmin2 '+l+' '+l+'-'+n)
+            .attr('id','errmin2-'+l+'-'+n)
+            .style('left',(errmin)+'%');
+        barbg.append('div')
+            .attr('class','errmax2 '+l+' '+l+'-'+n)
+            .attr('id','errmax2-'+l+'-'+n)
+            .style('left',(errmax)+'%');
     }
 }
 TopTen.prototype.gettitle = function(l){

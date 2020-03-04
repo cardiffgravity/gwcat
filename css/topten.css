@@ -3,7 +3,7 @@ body{
 }
 .top10list{
     display:inline-block;
-    width:25em;
+    width:26em;
     padding-left:0.5em;
     padding-right:0.5em;
     padding-bottom:1.5em;
@@ -11,6 +11,7 @@ body{
 }
 .evname, .evgraph, .evval, .listname, .listunit, .listorder{
     display:inline-block;
+    position:relative;
 }
 .list-title{
     display:block;
@@ -20,6 +21,7 @@ body{
     padding-left:2%;
     font-weight:bold;
     color:white;
+    position:relative;
 }
 .listorder{
     width:1.5em;
@@ -27,14 +29,21 @@ body{
     font-weight:bold;
     font-size:1.5em;
     cursor:pointer;
+    position:absolute;
 }
 .listname{
     width:14em;
     text-align:left;
+    position:absolute;
+    left:3em;
+    bottom:0.75em;
 }
 .listunit{
     width:7em;
     text-align:right;
+    position:absolute;
+    right:3em;
+    bottom:0.75em;
 }
 .list-item{
     display:block;
@@ -43,6 +52,7 @@ body{
     padding-left:0.5em;
     overflow-x:hidden;
     border-bottom: #e9e2ef solid 3px;
+    position:relative;
 }
 /* .list-item.GW.odd{
     background-color:#fdcc9c;
@@ -59,18 +69,34 @@ body{
 .evname{
     width:6.5em;
     text-align:left;
+    position:absolute;
 }
 .evgraph{
     width:11em;
     text-align:left;
     padding-left:0.5em;
+    position:relative;
+    left:6.5em
 }
 .evval{
     width:5.5em;
     text-align:right;
+    position:absolute;
+    right:3em;
+}
+.everr{
+    text-align:left;
+    position:absolute;
+    left:31em;
+    font-size:0.75em;
+}
+.everr.pos{
+    bottom:1.5em;
+}
+.everr.neg{
+    bottom:0.25em;
 }
 .icon{
-    width:1em;
     display:inline-block;
     margin:0.1em;
 }
@@ -84,8 +110,50 @@ body{
     height:1em;
     background-color: #e9e2ef;
     width:100%;
+    position:absolute;
+    overflow: hidden;
 }
 .bar{
     height:1em;
     background-color: #7c52a1;
+    position:absolute;
+}
+.errmin{
+    height:0.5em;
+    top:0.25em;
+    background-color: #e9e2ef;
+    position:absolute;
+}
+.errmax{
+    height:0.5em;
+    top:0.25em;
+    background-color: #7c52a1;
+    position:absolute;
+}
+.errbar.pos{
+    height:0.2em;
+    top:0.4em;
+    background-color: #7c52a1;
+    position:absolute;
+}
+.errbar.neg{
+    height:0.2em;
+    top:0.4em;
+    background-color: #e9e2ef;
+    position:absolute;
+}
+
+.errmin2{
+    height:0.5em;
+    top:0.25em;
+    width:0.1em;
+    background-color: #e9e2ef;
+    position:absolute;
+}
+.errmax2{
+    height:0.5em;
+    width:0.1em;
+    top:0.25em;
+    background-color: #7c52a1;
+    position:absolute;
 }
