@@ -34,15 +34,52 @@
 <body>
 <h1>LIGO/Virgo Top Ten Events</h1>
 <p>Based on the <b><a href="http://gwcat.cardiffgravity.org">gwcat</a></b> database, compiled from data at the <a href="https://www.gw-openscience.org/">Gravitational Wave Open Science Centre</a> and <a href="https://gracedb.ligo.org/latest/">GraceDB</a>.</p>
+<div id="key">
+    <div class="top10list key">
+        <div class="list-title">
+            <div class="listorder key">↑↓</div>
+            <div class="listname key">Key</div>
+        </div>
+        <div class="list-item GW">
+            <div class="evname key">Confirmed detection</div>
+            <div class="evval key">Value</div>
+            <div class="everr pos key">+err</div>
+            <div class="everr neg key">-err</div>
+        </div>
+        <div class="list-item Cand">
+            <div class="evname key">Candidate</div>
+            <div class="evval kay">Value</div>
+            <div class="everr pos key">+err</div>
+            <div class="everr neg key">-err</div>
+        </div>
+    </div>
+</div>
+<div id="lists"></div>
 <div id='top10holder'></div>
 <div class="build">
-    <p>Latest build:
-        <ul>
-            <li><b><a id='gwosc-build-url' href="">Gwosc Catalogue</a>: </b><span id='gwosc-build-date'></span></li>
-            <li><b><a id='gracedb-build-url'href="">GraceDB</a>: </b><span id='gracedb-build-date'></span></li>
-            <li><b><a id='manual-build-url'href="">Manual Import</a>: </b><span id='manual-build-date'></span></li>
-        </ul>
-    </p>
+    <div class="top10list key">
+        <div class="list-title">
+            <div class="listname key">Latest Build</div>
+        </div>
+        <div class="list-item GW">
+            <div class="evname build">
+                <a id='gwosc-build-url' href="">Gwosc Catalogue</a>:
+                <span id='gwosc-build-date'></span>
+            </div>
+        </div>
+        <div class="list-item Cand">
+            <div class="evname build">
+                <a id='gracedb-build-url'href="">GraceDB</a>:
+                <span id='gracedb-build-date'></span>
+            </div>
+        </div>
+        <div class="list-item GW">
+            <div class="evname build">
+                <a id='manual-build-url'href="">Manual Import</a>:
+                <span id='manual-build-date'></span>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     // var gwcat = new GWCat(makeTopTen,{confirmedOnly:false,debug:false,fileIn:"data/gwosc_gracedb.json",loadMethod:'json'});

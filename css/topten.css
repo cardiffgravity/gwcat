@@ -31,6 +31,9 @@ body{
     cursor:pointer;
     position:absolute;
 }
+.listorder.key{
+    cursor:default;
+}
 .listname{
     width:14em;
     text-align:left;
@@ -57,19 +60,25 @@ body{
 /* .list-item.GW.odd{
     background-color:#fdcc9c;
 } */
-.list-item.GW{
+.GW{
     background-color:#ffe6d4;
 }
 /* .list-item.Cand.odd{
     background-color:#8fd7ed;
 } */
-.list-item.Cand{
+.Cand{
     background-color:#e1f4fe;
 }
 .evname{
     width:6.5em;
     text-align:left;
     position:absolute;
+}
+.evname.key{
+    width:15em;
+}
+.evname.build{
+    width:25em;
 }
 .evgraph{
     width:11em;
