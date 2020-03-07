@@ -19,7 +19,7 @@ TopTen.prototype.init = function(){
         'FAR':{sortcol:'FAR',order:'asc',format:'',sigfig:2},
         'Erad':{sortcol:'Erad',order:'dec',format:'',icon:'img/sun.svg',icon_unit:1,show_err:true},
         'Lpeak':{sortcol:'lpeak',order:'dec',format:'',icon:'img/bulb.svg',icon_unit:1,show_err:true},
-        'SNR':{sortcol:'rho',order:'dec',format:'',bar:'#ffffff',bar_img:'img/snrwave.svg',bar_max:'auto',default:true},
+        'SNR':{sortcol:'rho',order:'dec',format:'',bar:'#ffffff',bar_img:'img/snrwave.svg',bar_min:'auto',bar_max:'auto',default:true},
     };
     // this.makeAllDivs();
     this.buildSelector();
@@ -52,10 +52,10 @@ TopTen.prototype.buildSelector = function(holderid='selectorholder'){
             .attr('id',sid)
         d3.select('#'+sid).append('div')
             .attr('class','selectorder')
-            .attr('id','order-'+l)
+            .attr('id','selorder-'+l)
             .html(order)
-        d3.select('#order-'+l).on("click",function(){
-            thisl=this.id.replace('order-','')
+        d3.select('#selorder-'+l).on("click",function(){
+            thisl=this.id.replace('selorder-','')
             _t10.reorderList(thisl);
         })
         d3.select('#'+sid).append('div')
