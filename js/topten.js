@@ -155,10 +155,10 @@ TopTen.prototype.makeList = function(l){
     ldiv.append('div')
         .attr('class','list-title')
         .html(this.gettitle(l))
-    // d3.select('#order-'+l).on("click",function(){
-    //     thisl=this.id.replace('order-','')
-    //     _t10.reorderList(thisl);
-    // })
+    d3.select('#order-'+l).on("click",function(){
+        thisl=this.id.replace('order-','')
+        _t10.reorderList(thisl);
+    })
     for (n in listitem.names){
         evtype=(listitem.names[n][0]=='G')?'GW':'Cand';
         evodd=(n%2==0)?'even':'odd';
@@ -257,6 +257,15 @@ TopTen.prototype.addbar = function(l,n){
         bar_max=10**Math.floor(Math.log10(maxval))*(Math.floor(maxval/10**Math.floor(Math.log10(maxval)))+1);
         // console.log(maxval,Math.log10(maxval),maxval/10**Math.floor(Math.log10(maxval)),bar_max);
     }
+    if (listitem.bar_min=='auto'){
+        if (show_err){
+            minval=Math.min.apply(null,listitem.errneg);
+        }else{
+            minval=Math.min.apply(null,listitem.values);
+        }
+        bar_min=10**Math.floor(Math.log10(minval))*(Math.floor(minval/10**Math.floor(Math.log10(minval)))-1);
+        // console.log(minval,Math.log10(minval),minval/10**Math.floor(Math.log10(minval)),bar_min);
+    }
     if (bar_log){
         barlen=100*(Math.log(listitem.values[n])-Math.log(bar_min))/(Math.log(bar_max)-Math.log(bar_min));}
     else{barlen=100*(listitem.values[n]-bar_min)/(bar_max-bar_min);}
@@ -338,7 +347,7 @@ TopTen.prototype.reorderList = function(l){
     this.popList(l);
     this.makeList(l);
     order=(this.lists[l].order=='asc')?'&uarr;':'&darr;'
-    d3.select('#order-'+l).html(order)
+    d3.select('#selorder-'+l).html(order)
 }
 
 function makeTopTen(){
