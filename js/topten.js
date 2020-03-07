@@ -10,7 +10,7 @@ TopTen.prototype.init = function(){
     // define lists
     this.lists={
         // 'totmass':{sortcol:'Mtotal',order:'dec',format:'',title:'Total Mass',icon:'img/mass.svg',icon_unit:10,show_err:true},
-        // 'mratio':{sortcol:'Mratio',order:'asc',format:'',title:'Mass Ratio',bar:'#000000',bar_min:0,bar_max:1,show_err:true},
+        'mratio':{sortcol:'Mratio',order:'asc',format:'',title:'Mass Ratio',bar:'#000000',bar_min:0,bar_max:1,show_err:true},
         'mfinal':{sortcol:'Mfinal',order:'dec',format:'',title:'Final Mass',icon:'img/mass.svg',icon_unit:10,show_err:true},
         'loc':{sortcol:'deltaOmega',order:'asc',format:'',title:'Localisation',namelink:false,hoverlink:true,bar:'#000000',bar_min:1,bar_max:40000,bar_log:true},
         'delay':{sortcol:'Delay',valcol:'Delay',order:'asc',format:'',title:'Days waiting'},
@@ -21,14 +21,14 @@ TopTen.prototype.init = function(){
         'Lpeak':{sortcol:'lpeak',order:'dec',format:'',title:'Luminosity',icon:'img/bulb.svg',icon_unit:1,show_err:true},
         'SNR':{sortcol:'rho',order:'dec',format:'',title:'Signal-to-Noise Ratio'},
     };
-    this.makeDivs();
+    this.makeAllDivs();
     for (l in this.lists){
         this.popList(l);
         this.makeList(l);
     }
 }
-TopTen.prototype.makeDivs = function(holderid='top10holder'){
-    // make divs for lists
+TopTen.prototype.makeAllDivs = function(holderid='top10holder'){
+    // make divs for all lists
     hd=d3.select((holderid[0]=='#')?holderid:'#'+holderid);
     for (l in this.lists){
         lid='list-'+l;
@@ -139,6 +139,7 @@ TopTen.prototype.gethtml = function(l,n){
     return(htmlname+htmlicon+htmlval+htmlerr)
 }
 TopTen.prototype.addicons = function(l,n){
+    // add icons to an event entry
     var listitem = this.lists[l];
     nimg=listitem.values[n]/listitem.icon_unit;
     evdiv=d3.select('#'+l+'_'+n+' > .evgraph');
@@ -163,6 +164,7 @@ TopTen.prototype.addicons = function(l,n){
 
 }
 TopTen.prototype.addbar = function(l,n){
+    // add bar for an event, with error bars if values are present
     var listitem = this.lists[l];
     var show_err=(listitem.show_err)?listitem.show_err:false;
     var bar_log=(listitem.bar_log)?listitem.bar_log:false;
@@ -276,6 +278,7 @@ function makeTopTen(){
 }
 
 function addColumn(colname,fncalc,dict){
+    // add a column to the data
     if (typeof fncalc === "function"){
         gwcat.datadict[colname]=dict;
         for (e in gwcat.data){
@@ -286,6 +289,7 @@ function addColumn(colname,fncalc,dict){
     }
 }
 function calcMratio(ev){
+    // calculate mass ratio (with basic error propogation)
     if (gwcat.getBest(ev,'M2') && gwcat.getBest(ev,'M1')){
         best=gwcat.getBest(ev,'M2')/gwcat.getBest(ev,'M1');
         low1=1 - (gwcat.getMinVal(ev,'M1')/gwcat.getBest(ev,'M1'));
@@ -299,6 +303,7 @@ function calcMratio(ev){
     }else{return Math.NaN}
 }
 function calcMtotal(ev){
+    // calculate total mass (with basic error propogation)
     if (gwcat.getBest(ev,'M2') && gwcat.getBest(ev,'M1')){
         best=gwcat.getBest(ev,'M2')+gwcat.getBest(ev,'M1');
         low1=1 - (gwcat.getMinVal(ev,'M1')/gwcat.getBest(ev,'M1'));
@@ -311,6 +316,7 @@ function calcMtotal(ev){
     }else{return Math.NaN}
 }
 function calcDelay(ev){
+    // calculate delay since previous event (NB: assumes events are in ascending ordered by date)
     idx=gwcat.event2idx(ev);
     if (idx==0){return(Math.POSITIVE_INFINITY)}
     else{
@@ -322,9 +328,11 @@ function calcDelay(ev){
 }
 
 function getprecision(val,sigfig){
+    // get precision of a number (for replicating with error value)
     return Math.floor(Math.log10(Math.abs(val)))+1-sigfig;
 }
 function setPrecision(val,sigfig,fixprec){
+    // set the displayed precision of a number, based on the sigfig, unless fixprec is given
     if (listitem.format=='fixed'){
         valOut=val.toFixed(sigfig);
     }else if(listitem.format=='exp'){
