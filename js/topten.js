@@ -11,21 +11,89 @@ TopTen.prototype.init = function(){
     this.lists={
         // 'totmass':{sortcol:'Mtotal',order:'dec',format:'',title:'Total Mass',icon:'img/mass.svg',icon_unit:10,show_err:true},
         'mratio':{sortcol:'Mratio',order:'asc',format:'',title:'Mass Ratio',bar:'#000000',bar_min:0,bar_max:1,show_err:true},
-        'mfinal':{sortcol:'Mfinal',order:'dec',format:'',title:'Final Mass',icon:'img/mass.svg',icon_unit:10,show_err:true},
-        'loc':{sortcol:'deltaOmega',order:'asc',format:'',title:'Localisation',namelink:false,hoverlink:true,bar:'#000000',bar_min:1,bar_max:40000,bar_log:true},
+        'mfinal':{sortcol:'Mfinal',order:'dec',format:'',icon:'img/mass.svg',icon_unit:1,show_err:true,default:false},
+        'loc':{sortcol:'deltaOmega',order:'asc',format:'',namelink:false,hoverlink:true,bar:'#000000',bar_min:1,bar_max:40000,bar_log:true},
         'delay':{sortcol:'Delay',valcol:'Delay',order:'asc',format:'',title:'Days waiting'},
         'distance':{sortcol:'DL',order:'asc',format:'',title:'Distance',bar:'#000000',bar_max:'auto',show_err:true},
-        'date':{sortcol:'GPS',valcol:'UTC',order:'asc',format:'date',title:'Detection Date'},
-        'FAR':{sortcol:'FAR',order:'asc',format:'',sigfig:2,title:'False Alarm Rate'},
-        'Erad':{sortcol:'Erad',order:'dec',format:'',title:'Energy',icon:'img/sun.svg',icon_unit:1,show_err:true},
-        'Lpeak':{sortcol:'lpeak',order:'dec',format:'',title:'Luminosity',icon:'img/bulb.svg',icon_unit:1,show_err:true},
-        'SNR':{sortcol:'rho',order:'dec',format:'',title:'Signal-to-Noise Ratio'},
+        'date':{sortcol:'GPS',valcol:'UTC',order:'asc',format:'date',title:'Detection Date',unit:'UTC'},
+        'FAR':{sortcol:'FAR',order:'asc',format:'',sigfig:2},
+        'Erad':{sortcol:'Erad',order:'dec',format:'',icon:'img/sun.svg',icon_unit:1,show_err:true},
+        'Lpeak':{sortcol:'lpeak',order:'dec',format:'',icon:'img/bulb.svg',icon_unit:1,show_err:true},
+        'SNR':{sortcol:'rho',order:'dec',format:'',bar:'#ffffff',bar_img:'img/snrwave.svg',bar_max:'auto',default:true},
     };
-    this.makeAllDivs();
+    // this.makeAllDivs();
+    this.buildSelector();
     for (l in this.lists){
+        this.makeDiv(l);
         this.popList(l);
         this.makeList(l);
     }
+    for (l in this.lists){
+        if (this.lists[l].default){
+            this.selectList(l);
+        }
+    }
+
+}
+TopTen.prototype.buildSelector = function(holderid='selectorholder'){
+    var _t10=this;
+    sd=d3.select((holderid[0]=='#')?holderid:'#'+holderid);
+    for (l in this.lists){
+        sid="selector-"+l;
+        var listitem=this.lists[l];
+        if (listitem.title){
+            title=listitem.title;
+        }else{
+            title=gwcat.paramName((listitem.valcol)?listitem.valcol:listitem.sortcol);
+        }
+        order=(listitem.order=='asc')?'&uarr;':'&darr;';
+        sd.append('div')
+            .attr('class','selector')
+            .attr('id',sid)
+        d3.select('#'+sid).append('div')
+            .attr('class','selectorder')
+            .attr('id','order-'+l)
+            .html(order)
+        d3.select('#order-'+l).on("click",function(){
+            thisl=this.id.replace('order-','')
+            _t10.reorderList(thisl);
+        })
+        d3.select('#'+sid).append('div')
+            .attr('class','select')
+            .attr('id','select-'+l)
+            .html(title)
+        d3.select('#select-'+l).on("click",function(){
+            sellist=this.id.replace('select-','');
+            _t10.selectList(sellist);
+        })
+    }
+    sd.append('div')
+        .attr('class','selector')
+        .attr('id',"selector-all")
+    d3.select('#selector-all').append('div')
+        .attr('class','select')
+        .attr('id','select-'+l)
+        .html("All")
+    d3.select('#selector-all').on("click",function(){
+        sellist=this.id.replace('select-','');
+        _t10.selectList(sellist);
+    })
+}
+TopTen.prototype.selectList = function(l){
+    d3.selectAll('.selector')
+        .classed('selected',false);
+    d3.select('#selector-'+l)
+        .classed('selected',true);
+    if (l=='all'){
+        d3.selectAll('.top10list')
+            .classed('selected',true);
+    }else{
+        d3.selectAll('.top10list')
+            .classed('selected',false);
+        d3.select('#list-'+l)
+            .classed('selected',true);
+    }
+
 }
 TopTen.prototype.makeAllDivs = function(holderid='top10holder'){
     // make divs for all lists
@@ -179,6 +247,7 @@ TopTen.prototype.addbar = function(l,n){
     var bar_min=(listitem.bar_min)?listitem.bar_min:0;
     var bar_max=(listitem.bar_max)?listitem.bar_max:1;
     var bar_img=(listitem.bar_img)?listitem.bar_img:false;
+    var bar_col=(listitem.bar)?listitem.bar_col:false;
     if (listitem.bar_max=='auto'){
         if (show_err){
             maxval=Math.max.apply(null,listitem.errpos);
@@ -191,17 +260,29 @@ TopTen.prototype.addbar = function(l,n){
     if (bar_log){
         barlen=100*(Math.log(listitem.values[n])-Math.log(bar_min))/(Math.log(bar_max)-Math.log(bar_min));}
     else{barlen=100*(listitem.values[n]-bar_min)/(bar_max-bar_min);}
-    if (show_err){
-
-    }
     evdiv=d3.select('#'+l+'_'+n+' > .evgraph');
-    evdiv.append('div')
-        .attr('class','bar-bg '+l+' '+l+'-'+n)
-        .attr('id','bar-bg-'+l+'-'+n)
-    .append('div')
-        .attr('class','bar '+l+' '+l+'-'+n)
-        .attr('id','bar-'+l+'-'+n)
-        .style('width',(barlen)+'%');
+    if (bar_img){
+        evdiv.append('div')
+            .attr('class','bar-bg img '+l+' '+l+'-'+n)
+            .attr('id','bar-bg-'+l+'-'+n)
+        var barbg=evdiv.select('#bar-bg-'+l+'-'+n)
+        barbg.append('div')
+            .attr('class','barimg '+l+' '+l+'-'+n)
+            .attr('id','barimg-'+l+'-'+n)
+            .style('width',(barlen)+'%')
+        barbg.select('.barimg').append('img')
+            .attr('src',bar_img)
+    }else{
+        evdiv.append('div')
+            .attr('class','bar-bg '+l+' '+l+'-'+n)
+            .attr('id','bar-bg-'+l+'-'+n)
+        var barbg=evdiv.select('#bar-bg-'+l+'-'+n)
+        barbg.append('div')
+            .attr('class','bar '+l+' '+l+'-'+n)
+            .attr('id','bar-'+l+'-'+n)
+            .style('width',(barlen)+'%');
+    }
+    // var barbg=evdiv.select('#bar-bg-'+l+'-'+n)
     if (show_err){
         if (bar_log){
             errmin=100*(Math.log(listitem.errneg[n])-Math.log(bar_min))/(Math.log(bar_max)-Math.log(bar_min));
@@ -210,18 +291,6 @@ TopTen.prototype.addbar = function(l,n){
             errmin=100*(listitem.errneg[n]-bar_min)/(bar_max-bar_min);
             errmax=100*(listitem.errpos[n]-bar_min)/(bar_max-bar_min);
         }
-        // console.log(errmin,errmax)
-        barbg=evdiv.select('#bar-bg-'+l+'-'+n)
-        // barbg.append('div')
-        //     .attr('class','errmin '+l+' '+l+'-'+n)
-        //     .attr('id','errmin-'+l+'-'+n)
-        //     .style('left',(errmin)+'%')
-        //     .style('width',(barlen-errmin)+'%');
-        // barbg.append('div')
-        //     .attr('class','errmax '+l+' '+l+'-'+n)
-        //     .attr('id','errmax-'+l+'-'+n)
-        //     .style('left',(barlen)+'%')
-        //     .style('width',(errmax-barlen)+'%');
         barbg.append('div')
             .attr('class','errbar neg '+l+' '+l+'-'+n)
             .attr('id','errbar-'+l+'-'+n)
@@ -242,7 +311,8 @@ TopTen.prototype.addbar = function(l,n){
             .style('left',(errmax)+'%');
     }
     if (bar_img){
-        console.log(bar_img);
+        barbg
+
     }
 }
 TopTen.prototype.gettitle = function(l){

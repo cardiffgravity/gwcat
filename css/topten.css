@@ -185,6 +185,9 @@ body{
     position:absolute;
     overflow: hidden;
 }
+.bar-bg.img{
+    background-color: transparent;
+}
 .bar{
     height:1em;
     background-color: #7c52a1;
@@ -228,4 +231,13 @@ body{
     top:0.25em;
     background-color: #7c52a1;
     position:absolute;
+}
+.barimg{
+    height:1em;
+    display:inline-block;
+    overflow:hidden;
+}
+.barimg img{
+    display:block;
+    height:1em;
 }
