@@ -37,6 +37,14 @@ TopTen.prototype.makeAllDivs = function(holderid='top10holder'){
             .attr('id',lid)
     }
 }
+TopTen.prototype.makeDiv = function(l,holderid='top10holder'){
+    // make divs for single lists
+    hd=d3.select((holderid[0]=='#')?holderid:'#'+holderid);
+    lid='list-'+l;
+    hd.append('div')
+        .attr('class','top10list')
+        .attr('id',lid)
+}
 TopTen.prototype.popList = function(l){
     // populate list object with events/values
     var listitem=this.lists[l];
@@ -79,10 +87,10 @@ TopTen.prototype.makeList = function(l){
     ldiv.append('div')
         .attr('class','list-title')
         .html(this.gettitle(l))
-    d3.select('#order-'+l).on("click",function(){
-        thisl=this.id.replace('order-','')
-        _t10.reorderList(thisl);
-    })
+    // d3.select('#order-'+l).on("click",function(){
+    //     thisl=this.id.replace('order-','')
+    //     _t10.reorderList(thisl);
+    // })
     for (n in listitem.names){
         evtype=(listitem.names[n][0]=='G')?'GW':'Cand';
         evodd=(n%2==0)?'even':'odd';
@@ -135,7 +143,7 @@ TopTen.prototype.gethtml = function(l,n){
     htmlname=(namelink) ? '<div class="evname">'+namelink+listitem.names[n]+'</a></div>' : '<div class="evname">'+listitem.names[n]+'</div>';
     htmlicon='<div class="evgraph">'+''+'</div>';
     htmlval='<div class="evval">'+val+'</div>';
-    htmlerr
+    // htmlerr
     return(htmlname+htmlicon+htmlval+htmlerr)
 }
 TopTen.prototype.addicons = function(l,n){
@@ -170,6 +178,7 @@ TopTen.prototype.addbar = function(l,n){
     var bar_log=(listitem.bar_log)?listitem.bar_log:false;
     var bar_min=(listitem.bar_min)?listitem.bar_min:0;
     var bar_max=(listitem.bar_max)?listitem.bar_max:1;
+    var bar_img=(listitem.bar_img)?listitem.bar_img:false;
     if (listitem.bar_max=='auto'){
         if (show_err){
             maxval=Math.max.apply(null,listitem.errpos);
@@ -177,7 +186,7 @@ TopTen.prototype.addbar = function(l,n){
             maxval=Math.max.apply(null,listitem.values);
         }
         bar_max=10**Math.floor(Math.log10(maxval))*(Math.floor(maxval/10**Math.floor(Math.log10(maxval)))+1);
-        console.log(maxval,Math.log10(maxval),maxval/10**Math.floor(Math.log10(maxval)),bar_max);
+        // console.log(maxval,Math.log10(maxval),maxval/10**Math.floor(Math.log10(maxval)),bar_max);
     }
     if (bar_log){
         barlen=100*(Math.log(listitem.values[n])-Math.log(bar_min))/(Math.log(bar_max)-Math.log(bar_min));}
@@ -201,8 +210,8 @@ TopTen.prototype.addbar = function(l,n){
             errmin=100*(listitem.errneg[n]-bar_min)/(bar_max-bar_min);
             errmax=100*(listitem.errpos[n]-bar_min)/(bar_max-bar_min);
         }
-        console.log(errmin,errmax)
-        barbg=evdiv.select('.bar-bg')
+        // console.log(errmin,errmax)
+        barbg=evdiv.select('#bar-bg-'+l+'-'+n)
         // barbg.append('div')
         //     .attr('class','errmin '+l+' '+l+'-'+n)
         //     .attr('id','errmin-'+l+'-'+n)
@@ -232,19 +241,19 @@ TopTen.prototype.addbar = function(l,n){
             .attr('id','errmax2-'+l+'-'+n)
             .style('left',(errmax)+'%');
     }
+    if (bar_img){
+        console.log(bar_img);
+    }
 }
 TopTen.prototype.gettitle = function(l){
     // get title for list
     var listitem=this.lists[l];
-    if (listitem.title){
-        title=listitem.title;
-    }else{
-        title=gwcat.paramName((listitem.valcol)?listitem.valcol:listitem.sortcol);
-    }
+    title=(listitem.title)?listitem.title:gwcat.paramName((listitem.valcol)?listitem.valcol:listitem.sortcol);
     order=(listitem.order=='asc')?'&uarr;':'&darr;'
     titorder='<div class="listorder" id="order-'+l+'">'+order+'</div>';
     titname='<div class="listname">'+title+'</div>';
-    unit=gwcat.paramUnit(listitem.sortcol)
+    unit=(listitem.unit)?listitem.unit:gwcat.paramUnit((listitem.valcol)?listitem.valcol:listitem.sortcol);
+    // unit=gwcat.paramUnit(listitem.sortcol)
     unit=unit.replace('M_sun','M<sub>☉</sub>')
     reSup=/\^(-?[0-9]*)(?=[\s/]|$)/g
     unit=unit.replace(reSup,"<sup>$1</sup> ");
@@ -258,6 +267,8 @@ TopTen.prototype.reorderList = function(l){
     this.lists[l].order=neworder;
     this.popList(l);
     this.makeList(l);
+    order=(this.lists[l].order=='asc')?'&uarr;':'&darr;'
+    d3.select('#order-'+l).html(order)
 }
 
 function makeTopTen(){

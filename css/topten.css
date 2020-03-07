@@ -1,13 +1,73 @@
 body{
     font: 16px sans-serif;
 }
-.top10list{
+.keyholder{
     display:inline-block;
+    padding-bottom:1.5em;
+    overflow-x: hidden;
     width:26em;
+    padding-left:0.5em;
+    padding-right:0.5em;
+}
+#selectorholder{
+    display:inline-block;
+    max-width:51em;
     padding-left:0.5em;
     padding-right:0.5em;
     padding-bottom:1.5em;
     overflow-x: hidden;
+}
+.selector{
+    display:inline-block;
+    width:18em;
+    min-height:1.5em;
+    padding-top:0.6em;
+    padding-left:1em;
+    margin-right:1em;
+    overflow-x:hidden;
+    border-bottom: white solid 3px;
+    position:relative;
+    background-color:#e9e2ef;
+    cursor:pointer;
+}
+.selector.selected{
+    background-color:#7d71b4;
+    color: white;
+    font-weight:bold;
+}
+.selectorder{
+    width:1.5em;
+    left:1em;
+    text-align:center;
+    font-weight:bold;
+    font-size:1em;
+    bottom:0.75em;
+    cursor:pointer;
+    position:absolute;
+}
+.select{
+    display:inline-block;
+    width:15em;
+    left:3em;
+    position:absolute;
+    bottom:0.5em;
+}
+.top10list{
+    display:inline-block;
+    padding-bottom:1.5em;
+    overflow-x: hidden;
+    max-height:0;
+    width:0;
+    transition: max-height 1s;
+    transition-timing-function: ease-in-out;
+}
+.top10list.selected{
+    max-height:100em;
+    width:26em;
+    padding-left:0.5em;
+    padding-right:0.5em;
+    transition: max-height 1s;
+    transition-timing-function: ease-in-out;
 }
 .evname, .evgraph, .evval, .listname, .listunit, .listorder{
     display:inline-block;
@@ -28,24 +88,27 @@ body{
     text-align:center;
     font-weight:bold;
     font-size:1.5em;
-    cursor:pointer;
+    /* cursor:pointer; */
     position:absolute;
 }
 .listorder.key{
     cursor:default;
 }
 .listname{
-    width:14em;
+    width:20em;
     text-align:left;
     position:absolute;
     left:3em;
     bottom:0.75em;
 }
+.listname.sel{
+    left:1em;
+}
 .listunit{
     width:7em;
     text-align:right;
     position:absolute;
-    right:2em;
+    right:3em;
     bottom:0.75em;
 }
 .list-item{
