@@ -16,7 +16,7 @@ TopTen.prototype.init = function(){
         'delay':{sortcol:'Delay',valcol:'Delay',order:'asc',format:'',title:'Days waiting'},
         'distance':{sortcol:'DL',order:'asc',format:'',title:'Distance',bar:'#000000',bar_max:'auto',show_err:true},
         'date':{sortcol:'GPS',valcol:'UTC',order:'asc',format:'date',title:'Detection Date',unit:'UTC'},
-        'FAR':{sortcol:'FAR',order:'asc',format:'',sigfig:2},
+        'FAR':{sortcol:'FAR',order:'asc',format:'',sigfig:2,icon:imgFARfn,icon_fn:iconFARfn},
         'Erad':{sortcol:'Erad',order:'dec',format:'',icon:'img/sun.svg',icon_unit:1,show_err:true},
         'Lpeak':{sortcol:'lpeak',order:'dec',format:'',icon:'img/bulb.svg',icon_unit:1,show_err:true},
         'SNR':{sortcol:'rho',order:'dec',format:'',bar:'#ffffff',bar_img:'img/snrwave.svg',bar_min:'auto',bar_max:'auto',default:true},
@@ -217,21 +217,32 @@ TopTen.prototype.gethtml = function(l,n){
 TopTen.prototype.addicons = function(l,n){
     // add icons to an event entry
     var listitem = this.lists[l];
-    nimg=listitem.values[n]/listitem.icon_unit;
+    icon_unit=(listitem.icon_unit)?listitem.icon_unit:1;
+    if (listitem.icon_fn){
+        nimg=listitem.icon_fn(listitem.values[n])/icon_unit;
+        console.log(listitem.values[n],listitem.icon_fn(listitem.values[n]));
+    }else{
+        nimg=listitem.values[n]/icon_unit;
+    }
+    if (typeof listitem.icon==="function"){
+        icon=listitem.icon(listitem.values[n]);
+    }else{
+        icon=listitem.icon;
+    }
     evdiv=d3.select('#'+l+'_'+n+' > .evgraph');
     for (i=1;i<=nimg;i++){
         evdiv.append('div')
             .attr('class','icon '+l+' '+l+'-'+n)
             .attr('id','icon-'+l+'-'+n+'-'+i)
         .append('img')
-            .attr('src',listitem.icon)
+            .attr('src',icon)
     }
     if ((nimg%1)!=0){
         evdiv.append('div')
             .attr('class','icon part '+l+' '+l+'-'+n)
             .attr('id','icon-part-'+l+'-'+n)
         .append('img')
-            .attr('src',listitem.icon)
+            .attr('src',icon)
             .attr('id','icon-part-img-'+l+'-'+n)
         partimg=d3.select('.icon.part.'+l+'-'+n);
         partimgwid=(document.getElementById('icon-part-img-'+l+'-'+n).naturalWidth*(nimg%1))+'px';
@@ -416,7 +427,21 @@ function calcDelay(ev){
     }
     return {'best':datediff};
 }
+function iconFARfn(far){
+    if (far>1){
+        return Math.log10(far);
+    }else{
+        return -Math.log10(far);
+    }
 
+}
+function imgFARfn(far){
+    if (far>1){
+        return 'img/unsmiley.svg';
+    }else{
+        return 'img/smiley.svg';
+    }
+}
 function getprecision(val,sigfig){
     // get precision of a number (for replicating with error value)
     return Math.floor(Math.log10(Math.abs(val)))+1-sigfig;
@@ -440,7 +465,7 @@ function setPrecision(val,sigfig,fixprec){
             }else if (val==0){
                 valOut=(fixprec)?val.toFixed(-fixprec):0;
             }else{
-                valOut=val.toExponential(sigfig);
+                valOut=val.toExponential(sigfig-1);
                 reDate=/(.*)e(.*)/g
                 valOut=valOut.replace(reDate,"$1x10<sup>$2</sup>");
             }
