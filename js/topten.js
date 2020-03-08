@@ -10,8 +10,8 @@ TopTen.prototype.init = function(){
     // define lists
     this.lists={
         // 'totmass':{sortcol:'Mtotal',order:'dec',format:'',title:'Total Mass',icon:'img/mass.svg',icon_unit:10,show_err:true},
-        'mratio':{sortcol:'Mratio',order:'asc',format:'',title:'Mass Ratio',bar:'#000000',bar_min:0,bar_max:1,show_err:true},
-        'mfinal':{sortcol:'Mfinal',order:'dec',format:'',icon:'img/mass.svg',icon_unit:1,show_err:true,default:false},
+        // 'mratio':{sortcol:'Mratio',order:'asc',format:'',title:'Mass Ratio',bar:'#000000',bar_min:0,bar_max:1,show_err:true},
+        'mfinal':{sortcol:'Mfinal',order:'dec',format:'',icon:'img/mass.svg',icon_unit:1,show_err:true,default:true},
         'loc':{sortcol:'deltaOmega',order:'asc',format:'',namelink:false,hoverlink:true,bar:'#000000',bar_min:1,bar_max:40000,bar_log:true},
         'delay':{sortcol:'Delay',valcol:'Delay',order:'asc',format:'',title:'Days waiting'},
         'distance':{sortcol:'DL',order:'asc',format:'',title:'Distance',bar:'#000000',bar_max:'auto',show_err:true},
@@ -19,7 +19,7 @@ TopTen.prototype.init = function(){
         'FAR':{sortcol:'FAR',order:'asc',format:'',sigfig:2,icon:imgFARfn,icon_fn:iconFARfn},
         'Erad':{sortcol:'Erad',order:'dec',format:'',icon:'img/sun.svg',icon_unit:1,show_err:true},
         'Lpeak':{sortcol:'lpeak',order:'dec',format:'',icon:'img/bulb.svg',icon_unit:1,show_err:true},
-        'SNR':{sortcol:'rho',order:'dec',format:'',bar:'#ffffff',bar_img:'img/snrwave.svg',bar_min:'auto',bar_max:'auto',default:true},
+        'SNR':{sortcol:'rho',order:'dec',format:'',bar:'#ffffff',bar_img:'img/snrwave.svg',bar_min:'auto',bar_max:'auto',default:false},
     };
     // this.makeAllDivs();
     this.buildSelector();
@@ -67,19 +67,20 @@ TopTen.prototype.buildSelector = function(holderid='selectorholder'){
             _t10.selectList(sellist);
         })
     }
-    sd.append('div')
-        .attr('class','selector')
-        .attr('id',"selector-all")
-    d3.select('#selector-all').append('div')
-        .attr('class','select')
-        .attr('id','select-'+l)
-        .html("All")
-    d3.select('#selector-all').on("click",function(){
-        sellist=this.id.replace('select-','');
-        _t10.selectList(sellist);
-    })
+    // sd.append('div')
+    //     .attr('class','selector')
+    //     .attr('id',"selector-all")
+    // d3.select('#selector-all').append('div')
+    //     .attr('class','select')
+    //     .attr('id','select-all')
+    //     .html("All")
+    // d3.select('#select-all').on("click",function(){
+    //     sellist=this.id.replace('select-','');
+    //     _t10.selectList(sellist);
+    // })
 }
 TopTen.prototype.selectList = function(l){
+    console.log('selected',l)
     d3.selectAll('.selector')
         .classed('selected',false);
     d3.select('#selector-'+l)

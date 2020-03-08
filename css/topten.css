@@ -161,12 +161,13 @@ body{
     position:absolute;
     left:31em;
     font-size:0.75em;
+    top:0.6em;
 }
 .everr.pos{
-    bottom:1.5em;
+    top:0.3em;
 }
 .everr.neg{
-    bottom:0.25em;
+    top:1.5em;
 }
 .icon{
     display:inline-block;
