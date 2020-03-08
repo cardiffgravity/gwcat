@@ -1,3 +1,20 @@
+function makeTopTen(){
+    // make top ten database
+    this.Top10=new TopTen();
+    if ((gwcat.meta)&&(gwcat.meta.gwosc)){
+        document.getElementById('gwosc-build-date').innerHTML = gwcat.meta.gwosc.retrieved
+        document.getElementById('gwosc-build-url').setAttribute('href',gwcat.meta.gwosc.src)
+    }
+    if ((gwcat.meta)&&(gwcat.meta.graceDB)){
+        document.getElementById('gracedb-build-date').innerHTML = gwcat.meta.graceDB.retrieved
+        document.getElementById('gracedb-build-url').setAttribute('href',gwcat.meta.graceDB.src)
+    }
+    if ((gwcat.meta)&&(gwcat.meta.manual)){
+        document.getElementById('manual-build-date').innerHTML = gwcat.meta.manual.retrieved
+        document.getElementById('manual-build-url').setAttribute('href',gwcat.meta.manual.src)
+    }
+}
+
 function TopTen(){
     this.init();
     return this;
@@ -173,7 +190,28 @@ TopTen.prototype.makeList = function(l){
         if (listitem.bar){
             this.addbar(l,n);
         }
+        ldiv.select('#'+l+'_'+n).on("mouseover",function(){
+            _t10.showTooltip(d3.event,this.id.split('_')[0],this.id.split('_')[1]);
+        });
+        ldiv.on("mouseout",function(){
+            _t10.hideTooltip();
+        });
     }
+}
+TopTen.prototype.gettitle = function(l){
+    // get title for list
+    var listitem=this.lists[l];
+    title=(listitem.title)?listitem.title:gwcat.paramName((listitem.valcol)?listitem.valcol:listitem.sortcol);
+    order=(listitem.order=='asc')?'&uarr;':'&darr;'
+    titorder='<div class="listorder" id="order-'+l+'">'+order+'</div>';
+    titname='<div class="listname">'+title+'</div>';
+    unit=(listitem.unit)?listitem.unit:gwcat.paramUnit((listitem.valcol)?listitem.valcol:listitem.sortcol);
+    // unit=gwcat.paramUnit(listitem.sortcol)
+    unit=unit.replace('M_sun','M<sub>☉</sub>')
+    reSup=/\^(-?[0-9]*)(?=[\s/]|$)/g
+    unit=unit.replace(reSup,"<sup>$1</sup> ");
+    titunit='<div class="listunit">'+unit+'</div>';
+    return(titorder+titname+titunit)
 }
 TopTen.prototype.gethtml = function(l,n){
     // get html for list item
@@ -214,6 +252,38 @@ TopTen.prototype.gethtml = function(l,n){
     htmlval='<div class="evval">'+val+'</div>';
     // htmlerr
     return(htmlname+htmlicon+htmlval+htmlerr)
+}
+TopTen.prototype.gethover = function(l,n){
+    listitem=this.lists[l];
+    // get hover text
+    if (listitem.sortcol=='deltaOmega'){
+        hovlink=gwcat.getLink(listitem.names[n],'skymap-thumbnail','Cartesian zoomed');
+        if(hovlink.length>0){
+            hovref='<a title="'+link[0].text+'" href="'+link[0].url+'">';
+        }
+        return(hovref);
+    }else{
+        sigfig=(listitem.hasOwnProperty('sigfig'))?listitem.sigfig:gwcat.datadict[listitem.sortcol].sigfig;
+        val=setPrecision(listitem.values[n],sigfig);
+        if (listitem.valtypes[n]=='lower'){val='> '+val}
+        else if (listitem.valtypes[n]=='upper'){val='< '+val}
+        htmlval='<div class="ttval">'+val+'</div>';
+        if (listitem.show_err && listitem.valtypes[n]=='best'){
+            fixprec=getprecision(listitem.values[n],sigfig);
+            errpos=setPrecision(listitem.errpos[n]-listitem.values[n],sigfig,fixprec=fixprec)
+            errneg=setPrecision(listitem.values[n]-listitem.errneg[n],sigfig,fixprec=fixprec)
+            htmlerr='<div class="tterr pos">+'+errpos+'</div><div class="tterr neg">&ndash;'+errneg+'</div>'
+        }else{
+            htmlerr=''
+        }
+        unit=(listitem.unit)?listitem.unit:gwcat.paramUnit((listitem.valcol)?listitem.valcol:listitem.sortcol);
+        // unit=gwcat.paramUnit(listitem.sortcol)
+        unit=unit.replace('M_sun','M<sub>☉</sub>')
+        reSup=/\^(-?[0-9]*)(?=[\s/]|$)/g
+        unit=unit.replace(reSup,"<sup>$1</sup> ");
+        htmlunit='<div class="ttunit">'+unit+'</div>';
+        return('<div class="tttxt">'+htmlval+htmlerr+htmlunit+'</div>');
+    }
 }
 TopTen.prototype.addicons = function(l,n){
     // add icons to an event entry
@@ -336,21 +406,6 @@ TopTen.prototype.addbar = function(l,n){
 
     }
 }
-TopTen.prototype.gettitle = function(l){
-    // get title for list
-    var listitem=this.lists[l];
-    title=(listitem.title)?listitem.title:gwcat.paramName((listitem.valcol)?listitem.valcol:listitem.sortcol);
-    order=(listitem.order=='asc')?'&uarr;':'&darr;'
-    titorder='<div class="listorder" id="order-'+l+'">'+order+'</div>';
-    titname='<div class="listname">'+title+'</div>';
-    unit=(listitem.unit)?listitem.unit:gwcat.paramUnit((listitem.valcol)?listitem.valcol:listitem.sortcol);
-    // unit=gwcat.paramUnit(listitem.sortcol)
-    unit=unit.replace('M_sun','M<sub>☉</sub>')
-    reSup=/\^(-?[0-9]*)(?=[\s/]|$)/g
-    unit=unit.replace(reSup,"<sup>$1</sup> ");
-    titunit='<div class="listunit">'+unit+'</div>';
-    return(titorder+titname+titunit)
-}
 TopTen.prototype.reorderList = function(l){
     // switch ascending or descending
     oldorder=this.lists[l].order;
@@ -361,22 +416,35 @@ TopTen.prototype.reorderList = function(l){
     order=(this.lists[l].order=='asc')?'&uarr;':'&darr;'
     d3.select('#selorder-'+l).html(order)
 }
-
-function makeTopTen(){
-    // make top ten database
-    this.Top10=new TopTen();
-    if ((gwcat.meta)&&(gwcat.meta.gwosc)){
-        document.getElementById('gwosc-build-date').innerHTML = gwcat.meta.gwosc.retrieved
-        document.getElementById('gwosc-build-url').setAttribute('href',gwcat.meta.gwosc.src)
+TopTen.prototype.showTooltip = function(e,l,n){
+    // add tooltip to sketch
+    ttOut = document.getElementById("tooltip-outer")
+    ttOut.style.transitionDuration = "200ms";
+    ttOut.style.opacity = 0.9;
+    ttOut.style.left = e.pageX + 10 ;
+    ttOut.style.top = e.pageY - 10 ;
+    ttOut.innerHTML = this.gethover(l,n);
+    this.formatTooltip(l);
+    return;
+}
+TopTen.prototype.formatTooltip = function(l){
+    listitem=this.lists[l];
+    if (listitem.sortcol=='deltaOmega'){
+        return
+    }else{
+        vw=d3.select('.ttval').node().clientWidth;
+        uw=d3.select('.ttunit').node().clientWidth;
+        d3.selectAll('.tterr').style('left',vw);
+        ew=Math.max(d3.select('.tterr.pos').node().clientWidth,d3.select('.tterr.neg').node().clientWidth);
+        d3.select('.ttunit').style('left',vw+ew);
+        d3.select('#tooltip-outer').style('width',vw+ew+uw).style('height','2em');
     }
-    if ((gwcat.meta)&&(gwcat.meta.graceDB)){
-        document.getElementById('gracedb-build-date').innerHTML = gwcat.meta.graceDB.retrieved
-        document.getElementById('gracedb-build-url').setAttribute('href',gwcat.meta.graceDB.src)
-    }
-    if ((gwcat.meta)&&(gwcat.meta.manual)){
-        document.getElementById('manual-build-date').innerHTML = gwcat.meta.manual.retrieved
-        document.getElementById('manual-build-url').setAttribute('href',gwcat.meta.manual.src)
-    }
+}
+TopTen.prototype.hideTooltip = function(){
+    // hide tooltip to skwtch
+    ttOut = document.getElementById("tooltip-outer");
+    // ttOut.style.transitionDuration = "500ms";
+    // ttOut.style.opacity = 0.;
 }
 
 function addColumn(colname,fncalc,dict){
