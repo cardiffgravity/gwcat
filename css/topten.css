@@ -1,23 +1,23 @@
 body{
     font: 16px sans-serif;
 }
-.keyholder{
+.keyouter{
     display:inline-block;
     padding-bottom:1.5em;
     overflow-x: hidden;
-    width:26em;
+    width:40em;
     padding-left:0.5em;
     padding-right:0.5em;
 }
 #selectorholder{
     display:inline-block;
-    max-width:51em;
+    max-width:40em;
     padding-left:0.5em;
     padding-right:0.5em;
     padding-bottom:1.5em;
     overflow-x: hidden;
 }
-.selector{
+.selector, .key-item{
     display:inline-block;
     width:18em;
     min-height:1.5em;
@@ -28,6 +28,21 @@ body{
     border-bottom: white solid 3px;
     position:relative;
     background-color:#e9e2ef;
+}
+.key-item.key-icon{
+    max-height:0;
+    transition: max-height 1s;
+    visibility:hidden;
+    width:0;
+
+}
+.key-item.key-icon.selected{
+    max-height:3em;
+    visibility:visible;
+    width:18em;
+
+}
+.selector{
     cursor:pointer;
 }
 .selector.selected{
@@ -53,9 +68,10 @@ body{
     bottom:0.5em;
 }
 .top10list{
-    display:inline-block;
+    display:none;
     padding-bottom:1.5em;
-    overflow-x: hidden;
+    visibility:hidden;
+    /* overflow-x: hidden; */
     max-height:0;
     width:0;
     transition: max-height 1s;
@@ -63,7 +79,9 @@ body{
 }
 .top10list.selected{
     max-height:100em;
-    width:26em;
+    display:inline-block;
+    visibility:visible;
+    width:32em;
     padding-left:0.5em;
     padding-right:0.5em;
     transition: max-height 1s;
@@ -73,7 +91,10 @@ body{
     display:inline-block;
     position:relative;
 }
-.list-title{
+.list-item.large .evname{
+    top:45%;
+}
+.list-title, .key-title{
     display:block;
     min-height:2.5em;
     background-color: #662d8f;
@@ -110,13 +131,14 @@ body{
     position:absolute;
     right:3em;
     bottom:0.75em;
+    display:none;
 }
 .list-item{
     display:block;
     min-height:1.5em;
     padding-top:0.6em;
     padding-left:0.5em;
-    overflow-x:hidden;
+    /* overflow-x:hidden; */
     border-bottom: #e9e2ef solid 3px;
     position:relative;
 }
@@ -137,14 +159,17 @@ body{
     text-align:left;
     position:absolute;
 }
-.evname.key{
+.evname.key, .evname.key-icon{
     width:15em;
+}
+.evname.key-icon{
+    padding-left:0.5em;
 }
 .evname.build{
     width:25em;
 }
 .evgraph{
-    width:11em;
+    width:22em;
     text-align:left;
     padding-left:0.5em;
     position:relative;
@@ -168,6 +193,9 @@ body{
 }
 .everr.neg{
     top:1.5em;
+}
+.evval, .everr{
+    display:none;
 }
 .icon{
     display:inline-block;
@@ -256,27 +284,55 @@ body{
 .tooltip span{
     display:block;
 }
-.tttxt{
+.tttxt, .infotxt{
     position:relative;
 }
-.ttval, .ttunit{
+.ttval, .ttunit, .infoval, .infounit{
     text-align:left;
     position:absolute;
     top:0.6em;
     white-space: nowrap;
+    padding-left:0.25em;
 }
-.ttunit{
+/* .ttunit, .infounit{
     padding-left: 0.2em;
-}
-.tterr{
+} */
+.tterr, .infoerr{
     text-align:left;
     position:absolute;
     font-size:0.75em;
     padding-left:0.2em;
 }
-.tterr.pos{
+.tterr.pos, .infoerr.pos{
     top:0.3em;
 }
-.tterr.neg{
+.tterr.neg, .infoerr.neg{
     top:1.5em;
+}
+.infotxt{
+    position:absolute;
+    left:100%;
+    top:50%;
+    margin-left:0.5em;
+    visibility:hidden;
+    opacity:0;
+    transition: opacity 1s;
+    padding:0.5em;
+    border:#7d71b4 solid 1px;
+    border-radius: 0.5em;
+    background-color:#e9e2ef;
+}
+.list-item:hover .infotxt{
+    visibility: visible;
+    opacity:1;
+}
+.info .infotxt::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: 100%; /* To the left of the tooltip */
+  margin-top: -0.5em;
+  border-width: 0.5em;
+  border-style: solid;
+  border-color: transparent 7d71b4 transparent transparent;
 }

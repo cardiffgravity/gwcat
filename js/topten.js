@@ -28,15 +28,26 @@ TopTen.prototype.init = function(){
     this.lists={
         // 'totmass':{sortcol:'Mtotal',order:'dec',format:'',title:'Total Mass',icon:'img/mass.svg',icon_unit:10,show_err:true},
         // 'mratio':{sortcol:'Mratio',order:'asc',format:'',title:'Mass Ratio',bar:'#000000',bar_min:0,bar_max:1,show_err:true},
-        'mfinal':{sortcol:'Mfinal',order:'dec',format:'',icon:'img/mass.svg',icon_unit:1,show_err:true,default:true},
-        'loc':{sortcol:'deltaOmega',order:'asc',format:'',namelink:false,hoverlink:true,bar:'#000000',bar_min:1,bar_max:40000,bar_log:true},
-        'delay':{sortcol:'Delay',valcol:'Delay',order:'asc',format:'',title:'Days waiting'},
-        'distance':{sortcol:'DL',order:'asc',format:'',title:'Distance',bar:'#000000',bar_max:'auto',show_err:true},
-        'date':{sortcol:'GPS',valcol:'UTC',order:'asc',format:'date',title:'Detection Date',unit:'UTC'},
-        'FAR':{sortcol:'FAR',order:'asc',format:'',sigfig:2,icon:imgFARfn,icon_fn:iconFARfn},
-        'Erad':{sortcol:'Erad',order:'dec',format:'',icon:'img/sun.svg',icon_unit:1,show_err:true},
-        'Lpeak':{sortcol:'lpeak',order:'dec',format:'',icon:'img/bulb.svg',icon_unit:1,show_err:true},
-        'SNR':{sortcol:'rho',order:'dec',format:'',bar:'#ffffff',bar_img:'img/snrwave.svg',bar_min:'auto',bar_max:'auto',default:false},
+        'mfinal':{sortcol:'Mfinal',order:'dec',format:'',show_err:true,default:true,
+            graph:{type:'icon',icon:'img/mass.svg',icon_unit:1,iconlabel:'1 M_sun'}},
+        // 'loc':{sortcol:'deltaOmega',order:'asc',format:'',namelink:false,hoverlink:true,
+        //     graph:{type:'bar',bar:'#000000',bar_min:1,bar_max:40000,bar_log:true}},
+        'loc':{sortcol:'deltaOmega',order:'asc',format:'',namelink:false,hoverlink:true,
+            graph:{type:'bar',bar:'#000000',bar_min:1,bar_max:40000,bar_log:true}},
+        'delay':{sortcol:'Delay',valcol:'Delay',order:'asc',format:'',title:'Days waiting',
+            graph:{type:'none'}},
+        'distance':{sortcol:'DL',order:'asc',format:'',title:'Distance',show_err:true,
+            graph:{type:'bar',bar:'#000000',bar_max:'auto'}},
+        'date':{sortcol:'GPS',valcol:'UTC',order:'asc',format:'date',title:'Detection Date',unit:'UTC',
+            graph:{type:'none'}},
+        'FAR':{sortcol:'FAR',order:'asc',format:'',sigfig:2,
+            graph:{type:'iconfn',icon:imgFARfn,icon_fn:iconFARfn}},
+        'Erad':{sortcol:'Erad',order:'dec',format:'',show_err:true,
+            graph:{type:'icon',icon:'img/sun.svg',icon_unit:1}},
+        'Lpeak':{sortcol:'lpeak',order:'dec',format:'',show_err:true,
+            graph:{type:'icon',icon:'img/bulb.svg',icon_unit:1}},
+        'SNR':{sortcol:'rho',order:'dec',format:'',default:false,
+            graph:{type:'bar',bar:'#ffffff',bar_img:'img/snrwave.svg',bar_min:'auto',bar_max:'auto'}},
     };
     // this.makeAllDivs();
     this.buildSelector();
@@ -102,6 +113,10 @@ TopTen.prototype.selectList = function(l){
         .classed('selected',false);
     d3.select('#selector-'+l)
         .classed('selected',true);
+    d3.selectAll('.key-item.key-icon')
+        .classed('selected',false);
+    d3.selectAll('.key-item.key-icon.'+l)
+        .classed('selected',true);
     if (l=='all'){
         d3.selectAll('.top10list')
             .classed('selected',true);
@@ -128,7 +143,7 @@ TopTen.prototype.makeDiv = function(l,holderid='top10holder'){
     hd=d3.select((holderid[0]=='#')?holderid:'#'+holderid);
     lid='list-'+l;
     hd.append('div')
-        .attr('class','top10list')
+        .attr('class','top10list selected')
         .attr('id',lid)
 }
 TopTen.prototype.popList = function(l){
@@ -177,6 +192,24 @@ TopTen.prototype.makeList = function(l){
         thisl=this.id.replace('order-','')
         _t10.reorderList(thisl);
     })
+    if (listitem.graph.type=='icon'){
+        // add icon to key
+        if(listitem.graph.iconlabel){
+            iconlabel=listitem.graph.iconlabel;
+        }else{
+            iconlabel=listitem.graph.icon_unit+' x '+
+            gwcat.paramUnit((listitem.valcol)?listitem.valcol:listitem.sortcol);
+        };
+        iconlabel.replace('M_sun',)
+        iconlabel=iconlabel.replace('M_sun','M<sub>☉</sub>')
+        reSup=/\^(-?[0-9]*)(?=[\s/]|$)/g
+        iconlabel=iconlabel.replace(reSup,"<sup>$1</sup> ");
+        var keyhtml='<div class="key-icon"><img src="'+listitem.graph.icon+'">'+
+            '<div class="evname key-icon">'+iconlabel+'</div></div>'
+        d3.select('#keyholder > .keyouter').append('div')
+            .attr('class','key-item key-icon '+l)
+            .html(keyhtml)
+    }
     for (n in listitem.names){
         evtype=(listitem.names[n][0]=='G')?'GW':'Cand';
         evodd=(n%2==0)?'even':'odd';
@@ -184,18 +217,20 @@ TopTen.prototype.makeList = function(l){
             .attr('class','list-item '+evtype+' '+evodd)
             .attr('id',l+'_'+n)
             .html(this.gethtml(l,n))
-        if (listitem.icon){
+        if (listitem.graph.type=='icon' || listitem.graph.type=='iconfn'){
             this.addicons(l,n);
         }
-        if (listitem.bar){
+        if (listitem.graph.type=='bar'){
             this.addbar(l,n);
         }
-        ldiv.select('#'+l+'_'+n).on("mouseover",function(){
-            _t10.showTooltip(d3.event,this.id.split('_')[0],this.id.split('_')[1]);
-        });
-        ldiv.on("mouseout",function(){
-            _t10.hideTooltip();
-        });
+        this.addinfo(l,n);
+        if (d3.select('#'+l+'_'+n).node().clientHeight>0){d3.select('#'+l+'_'+n).classed('large',true)}
+        // ldiv.select('#'+l+'_'+n).on("mouseover",function(){
+        //     _t10.showTooltip(d3.event,this.id.split('_')[0],this.id.split('_')[1]);
+        // });
+        // ldiv.on("mouseout",function(){
+        //     _t10.hideTooltip();
+        // });
     }
 }
 TopTen.prototype.gettitle = function(l){
@@ -217,7 +252,8 @@ TopTen.prototype.gethtml = function(l,n){
     // get html for list item
     listitem=this.lists[l];
     sigfig=(listitem.hasOwnProperty('sigfig'))?listitem.sigfig:gwcat.datadict[listitem.sortcol].sigfig;
-    val=setPrecision(listitem.values[n],sigfig);
+    var val=setPrecision(listitem.values[n],sigfig);
+    var htmlerr='';
     if (listitem.valtypes[n]=='lower'){val='> '+val}
     else if (listitem.valtypes[n]=='upper'){val='< '+val}
     if (listitem.show_err && listitem.valtypes[n]=='best'){
@@ -250,55 +286,119 @@ TopTen.prototype.gethtml = function(l,n){
     htmlname=(namelink) ? '<div class="evname">'+namelink+listitem.names[n]+'</a></div>' : '<div class="evname">'+listitem.names[n]+'</div>';
     htmlicon='<div class="evgraph">'+''+'</div>';
     htmlval='<div class="evval">'+val+'</div>';
+    // htmlhov='<div class="info">'+this.getinfo(l,n)+'</div>';
     // htmlerr
     return(htmlname+htmlicon+htmlval+htmlerr)
+}
+TopTen.prototype.addinfo = function(l,n){
+    listitem=this.lists[l];
+    lnid=l+'_'+n;
+    // get info text
+    if (listitem.sortcol=='deltaOmega'){
+        var hovlink=gwcat.getLink(listitem.names[n],'skymap-thumbnail','Cartesian zoomed');
+        if(hovlink.length>0){
+            // console.log(link);
+            var hovref='<a title="'+link.text+'" href="'+link.url+'">';
+        }
+        return(hovref);
+    }else{
+        sigfig=(listitem.hasOwnProperty('sigfig'))?listitem.sigfig:gwcat.datadict[listitem.sortcol].sigfig;
+        var val=setPrecision(listitem.values[n],sigfig);
+        if (listitem.valtypes[n]=='lower'){val='> '+val}
+        else if (listitem.valtypes[n]=='upper'){val='< '+val}
+        var htmlval='<div class="infoval">'+val+'</div>';
+        if (listitem.show_err && listitem.valtypes[n]=='best'){
+            var fixprec=getprecision(listitem.values[n],sigfig);
+            var errpos=setPrecision(listitem.errpos[n]-listitem.values[n],sigfig,fixprec=fixprec)
+            var errneg=setPrecision(listitem.values[n]-listitem.errneg[n],sigfig,fixprec=fixprec)
+            var htmlerr='<div class="infoerr pos">+'+errpos+'</div><div class="infoerr neg">&ndash;'+errneg+'</div>'
+        }else{
+            var htmlerr=''
+        }
+        var unit=(listitem.unit)?listitem.unit:gwcat.paramUnit((listitem.valcol)?listitem.valcol:listitem.sortcol);
+        // unit=gwcat.paramUnit(listitem.sortcol)
+        unit=unit.replace('M_sun','M<sub>☉</sub>')
+        reSup=/\^(-?[0-9]*)(?=[\s/]|$)/g
+        unit=unit.replace(reSup,"<sup>$1</sup> ");
+        var htmlunit='<div class="infounit">'+unit+'</div>';
+        d3.select('#'+lnid).append('div')
+            .attr('class','info')
+            .attr('id','info_'+lnid)
+            .html('<div class="infotxt">'+htmlval+htmlerr+htmlunit+'</div>')
+
+        // set size of objects
+        lndiv=d3.select('#info_'+lnid)
+        var vw=lndiv.select('.infoval').node().clientWidth+10;
+        var uw=lndiv.select('.infounit').node().clientWidth;
+        var vh=lndiv.select('.infoval').node().clientHeight;
+        var uh=lndiv.select('.infounit').node().clientHeight;
+        d3.selectAll('.infoerr').style('left',vw);
+        var ew=0, eh=0;
+        if (listitem.show_err && listitem.valtypes[n]=='best'){
+            ew=Math.max(lndiv.select('.infoerr.pos').node().clientWidth,lndiv.select('.infoerr.neg').node().clientWidth);
+            eh=Math.max(lndiv.select('.infoerr.pos').node().clientHeight,lndiv.select('.infoerr.neg').node().clientHeight);
+        }
+        lndiv.select('.infounit').style('left',vw+ew);
+        var iw=vw+ew+uw;
+        var ih=Math.max(vh,eh,uh);
+        var lh=d3.select('#'+l+'_'+n).node().clientHeight;
+        console.log(l,n,lh,ih);
+        lndiv.select('.infotxt').style('width',iw);
+        lndiv.select('.infotxt').style('height',ih);
+        lndiv.select('.infotxt').style('top',0);
+
+        // return('<div class="infotxt">'+htmlval+htmlerr+htmlunit+'</div>');
+    }
+    return;
 }
 TopTen.prototype.gethover = function(l,n){
     listitem=this.lists[l];
     // get hover text
     if (listitem.sortcol=='deltaOmega'){
-        hovlink=gwcat.getLink(listitem.names[n],'skymap-thumbnail','Cartesian zoomed');
+        var hovlink=gwcat.getLink(listitem.names[n],'skymap-thumbnail','Cartesian zoomed');
         if(hovlink.length>0){
-            hovref='<a title="'+link[0].text+'" href="'+link[0].url+'">';
+            // console.log(link);
+            var hovref='<a title="'+link.text+'" href="'+link.url+'">';
         }
         return(hovref);
     }else{
         sigfig=(listitem.hasOwnProperty('sigfig'))?listitem.sigfig:gwcat.datadict[listitem.sortcol].sigfig;
-        val=setPrecision(listitem.values[n],sigfig);
+        var val=setPrecision(listitem.values[n],sigfig);
         if (listitem.valtypes[n]=='lower'){val='> '+val}
         else if (listitem.valtypes[n]=='upper'){val='< '+val}
-        htmlval='<div class="ttval">'+val+'</div>';
+        var htmlval='<div class="ttval">'+val+'</div>';
         if (listitem.show_err && listitem.valtypes[n]=='best'){
-            fixprec=getprecision(listitem.values[n],sigfig);
-            errpos=setPrecision(listitem.errpos[n]-listitem.values[n],sigfig,fixprec=fixprec)
-            errneg=setPrecision(listitem.values[n]-listitem.errneg[n],sigfig,fixprec=fixprec)
-            htmlerr='<div class="tterr pos">+'+errpos+'</div><div class="tterr neg">&ndash;'+errneg+'</div>'
+            var fixprec=getprecision(listitem.values[n],sigfig);
+            var errpos=setPrecision(listitem.errpos[n]-listitem.values[n],sigfig,fixprec=fixprec)
+            var errneg=setPrecision(listitem.values[n]-listitem.errneg[n],sigfig,fixprec=fixprec)
+            var htmlerr='<div class="tterr pos">+'+errpos+'</div><div class="tterr neg">&ndash;'+errneg+'</div>'
         }else{
-            htmlerr=''
+            var htmlerr=''
         }
-        unit=(listitem.unit)?listitem.unit:gwcat.paramUnit((listitem.valcol)?listitem.valcol:listitem.sortcol);
+        var unit=(listitem.unit)?listitem.unit:gwcat.paramUnit((listitem.valcol)?listitem.valcol:listitem.sortcol);
         // unit=gwcat.paramUnit(listitem.sortcol)
         unit=unit.replace('M_sun','M<sub>☉</sub>')
         reSup=/\^(-?[0-9]*)(?=[\s/]|$)/g
         unit=unit.replace(reSup,"<sup>$1</sup> ");
-        htmlunit='<div class="ttunit">'+unit+'</div>';
+        var htmlunit='<div class="ttunit">'+unit+'</div>';
         return('<div class="tttxt">'+htmlval+htmlerr+htmlunit+'</div>');
     }
 }
 TopTen.prototype.addicons = function(l,n){
     // add icons to an event entry
     var listitem = this.lists[l];
-    icon_unit=(listitem.icon_unit)?listitem.icon_unit:1;
-    if (listitem.icon_fn){
-        nimg=listitem.icon_fn(listitem.values[n])/icon_unit;
-        console.log(listitem.values[n],listitem.icon_fn(listitem.values[n]));
+    icon_unit=(listitem.graph.icon_unit)?listitem.graph.icon_unit:1;
+    icon_label=(listitem.graph.icon_label)?listitem.graph.icon_label:'UNKNOWN';
+    if (listitem.graph.icon_fn){
+        nimg=listitem.graph.icon_fn(listitem.values[n])/icon_unit;
+        // console.log(listitem.values[n],listitem.graph.icon_fn(listitem.values[n]));
     }else{
         nimg=listitem.values[n]/icon_unit;
     }
-    if (typeof listitem.icon==="function"){
-        icon=listitem.icon(listitem.values[n]);
+    if (typeof listitem.graph.icon==="function"){
+        icon=listitem.graph.icon(listitem.values[n]);
     }else{
-        icon=listitem.icon;
+        icon=listitem.graph.icon;
     }
     evdiv=d3.select('#'+l+'_'+n+' > .evgraph');
     for (i=1;i<=nimg;i++){
@@ -325,11 +425,11 @@ TopTen.prototype.addbar = function(l,n){
     // add bar for an event, with error bars if values are present
     var listitem = this.lists[l];
     var show_err=(listitem.show_err)?listitem.show_err:false;
-    var bar_log=(listitem.bar_log)?listitem.bar_log:false;
-    var bar_min=(listitem.bar_min)?listitem.bar_min:0;
-    var bar_max=(listitem.bar_max)?listitem.bar_max:1;
-    var bar_img=(listitem.bar_img)?listitem.bar_img:false;
-    var bar_col=(listitem.bar)?listitem.bar_col:false;
+    var bar_log=(listitem.graph.bar_log)?listitem.graph.bar_log:false;
+    var bar_min=(listitem.graph.bar_min)?listitem.graph.bar_min:0;
+    var bar_max=(listitem.graph.bar_max)?listitem.graph.bar_max:1;
+    var bar_img=(listitem.graph.bar_img)?listitem.graph.bar_img:false;
+    var bar_col=(listitem.graph.bar)?listitem.graph.bar_col:false;
     if (listitem.bar_max=='auto'){
         if (show_err){
             maxval=Math.max.apply(null,listitem.errpos);
@@ -432,10 +532,10 @@ TopTen.prototype.formatTooltip = function(l){
     if (listitem.sortcol=='deltaOmega'){
         return
     }else{
-        vw=d3.select('.ttval').node().clientWidth;
-        uw=d3.select('.ttunit').node().clientWidth;
+        var vw=d3.select('.ttval').node().clientWidth;
+        var uw=d3.select('.ttunit').node().clientWidth;
         d3.selectAll('.tterr').style('left',vw);
-        ew=Math.max(d3.select('.tterr.pos').node().clientWidth,d3.select('.tterr.neg').node().clientWidth);
+        var ew=Math.max(d3.select('.tterr.pos').node().clientWidth,d3.select('.tterr.neg').node().clientWidth);
         d3.select('.ttunit').style('left',vw+ew);
         d3.select('#tooltip-outer').style('width',vw+ew+uw).style('height','2em');
     }
