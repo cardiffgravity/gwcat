@@ -430,7 +430,7 @@ TopTen.prototype.addbar = function(l,n){
     var bar_max=(listitem.graph.bar_max)?listitem.graph.bar_max:1;
     var bar_img=(listitem.graph.bar_img)?listitem.graph.bar_img:false;
     var bar_col=(listitem.graph.bar)?listitem.graph.bar_col:false;
-    if (listitem.bar_max=='auto'){
+    if (listitem.graph.bar_max=='auto'){
         if (show_err){
             maxval=Math.max.apply(null,listitem.errpos);
         }else{
@@ -439,7 +439,7 @@ TopTen.prototype.addbar = function(l,n){
         bar_max=10**Math.floor(Math.log10(maxval))*(Math.floor(maxval/10**Math.floor(Math.log10(maxval)))+1);
         // console.log(maxval,Math.log10(maxval),maxval/10**Math.floor(Math.log10(maxval)),bar_max);
     }
-    if (listitem.bar_min=='auto'){
+    if (listitem.graph.bar_min=='auto'){
         if (show_err){
             minval=Math.min.apply(null,listitem.errneg);
         }else{
