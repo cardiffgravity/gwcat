@@ -34,13 +34,16 @@ body{
     transition: max-height 1s;
     visibility:hidden;
     width:0;
+    padding-left:0;
+    margin-right:0;
 
 }
 .key-item.key-icon.selected{
     max-height:3em;
     visibility:visible;
     width:18em;
-
+    padding-left:1em;
+    margin-right:1em;
 }
 .selector{
     cursor:pointer;
@@ -68,10 +71,10 @@ body{
     bottom:0.5em;
 }
 .top10list{
-    display:none;
-    padding-bottom:1.5em;
+    display:inline-block;
     visibility:hidden;
     /* overflow-x: hidden; */
+    overflow-y:hidden;
     max-height:0;
     width:0;
     transition: max-height 1s;
@@ -84,6 +87,7 @@ body{
     width:32em;
     padding-left:0.5em;
     padding-right:0.5em;
+    padding-bottom:1.5em;
     transition: max-height 1s;
     transition-timing-function: ease-in-out;
 }
