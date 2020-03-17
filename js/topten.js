@@ -47,7 +47,7 @@ TopTen.prototype.init = function(){
         'Lpeak':{sortcol:'lpeak',order:'dec',format:'',show_err:true,
             graph:{type:'icon',icon:'img/bulb.svg',icon_unit:1}},
         'SNR':{sortcol:'rho',order:'dec',format:'',default:false,
-            graph:{type:'bar',bar:'#ffffff',bar_img:'img/snrwave.svg',bar_min:'auto',bar_max:'auto'}},
+            graph:{type:'bar',bar:'#ffffff',bar_img:'img/snrwave.svg',bar_min:'auto',bar_max:30,bar_height:'3em'}},
     };
     // this.makeAllDivs();
     this.buildSelector();
@@ -340,7 +340,7 @@ TopTen.prototype.addinfo = function(l,n){
         var uw=lndiv.select('.infounit').node().clientWidth;
         var vh=lndiv.select('.infoval').node().clientHeight;
         var uh=lndiv.select('.infounit').node().clientHeight;
-        d3.selectAll('.infoerr').style('left',vw);
+        lndiv.selectAll('.infoerr').style('left',vw);
         var ew=0, eh=0;
         if (listitem.show_err && listitem.valtypes[n]=='best'){
             ew=Math.max(lndiv.select('.infoerr.pos').node().clientWidth,lndiv.select('.infoerr.neg').node().clientWidth);
@@ -350,7 +350,7 @@ TopTen.prototype.addinfo = function(l,n){
         var iw=vw+ew+uw;
         var ih=Math.max(vh,eh,uh);
         var lh=d3.select('#'+l+'_'+n).node().clientHeight;
-        console.log(l,n,lh,ih);
+        console.log(l,n,vw,ew,iw);
         lndiv.select('.infotxt').style('width',iw);
         lndiv.select('.infotxt').style('height',ih);
         lndiv.select('.infotxt').style('top',0);
@@ -437,6 +437,7 @@ TopTen.prototype.addbar = function(l,n){
     var bar_min=(listitem.graph.bar_min)?listitem.graph.bar_min:0;
     var bar_max=(listitem.graph.bar_max)?listitem.graph.bar_max:1;
     var bar_img=(listitem.graph.bar_img)?listitem.graph.bar_img:false;
+    var bar_height=(listitem.graph.bar_height)?listitem.graph.bar_height:'auto';
     var bar_col=(listitem.graph.bar)?listitem.graph.bar_col:false;
     if (listitem.graph.bar_max=='auto'){
         if (show_err){
@@ -466,6 +467,7 @@ TopTen.prototype.addbar = function(l,n){
             .attr('id','bar-bg-'+l+'-'+n);
         var barbg=evdiv.select('#bar-bg-'+l+'-'+n);
         var barbgw=barbg.node().clientWidth;
+        // barbg.classed('barbg-img',true);
         barbg.append('div')
             .attr('class','barimg '+l+' '+l+'-'+n)
             .attr('id','barimg-'+l+'-'+n)
@@ -473,6 +475,8 @@ TopTen.prototype.addbar = function(l,n){
         barbg.select('.barimg').append('img')
             .attr('src',bar_img)
             .style('width',barbgw);
+        // if ()
+        evdiv.style('height',bar_height);
     }else{
         evdiv.append('div')
             .attr('class','bar-bg '+l+' '+l+'-'+n)

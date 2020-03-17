@@ -220,6 +220,7 @@ body{
 }
 .bar-bg.img{
     background-color: transparent;
+    height:auto;
 }
 .bar{
     height:1em;
@@ -266,13 +267,13 @@ body{
     position:absolute;
 }
 .barimg{
-    height:1em;
+    /* height:1em; */
     display:inline-block;
-    overflow:hidden;
+    overflow-x:hidden;
 }
 .barimg img{
     display:block;
-    height:1em;
+    /* height:1em; */
 }
 .tooltip {
   position: absolute;
