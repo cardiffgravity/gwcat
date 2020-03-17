@@ -86,7 +86,7 @@ body{
     visibility:visible;
     width:32em;
     padding-left:0.5em;
-    padding-right:0.5em;
+    padding-right:18em;
     padding-bottom:1.5em;
     transition: max-height 1s;
     transition-timing-function: ease-in-out;

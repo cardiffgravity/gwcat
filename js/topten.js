@@ -155,6 +155,7 @@ TopTen.prototype.popList = function(l){
     listitem.valtypes=[];
     listitem.errpos=[];
     listitem.errneg=[];
+    listitem.labels=[]
     // if (listitem.namelink){listitem.namelinks=[]}
     // if (listitem.vallink){listitem.vallinks=[]}
     // if (listitem.hoverlink){listitem.hoverlinks=[]}
@@ -172,6 +173,12 @@ TopTen.prototype.popList = function(l){
             }else{
                 listitem.errpos.push(Math.NaN);
                 listitem.errneg.push(Math.NaN);
+            }
+            console.log(n,gwcat.dataOrder[n])
+            if (gwcat.data[gwcat.event2idx(gwcat.dataOrder[n])][(listitem.valcol)?listitem.valcol:listitem.sortcol].label){
+                listitem.labels.push(gwcat.data[gwcat.event2idx(gwcat.dataOrder[n])][(listitem.valcol)?listitem.valcol:listitem.sortcol].label);
+            }else{
+                listitem.labels.push('');
             }
             num+=1;
         }
@@ -320,6 +327,7 @@ TopTen.prototype.addinfo = function(l,n){
         unit=unit.replace('M_sun','M<sub>☉</sub>')
         reSup=/\^(-?[0-9]*)(?=[\s/]|$)/g
         unit=unit.replace(reSup,"<sup>$1</sup> ");
+        if (listitem.labels[n]){unit=unit+' '+listitem.labels[n]}
         var htmlunit='<div class="infounit">'+unit+'</div>';
         d3.select('#'+lnid).append('div')
             .attr('class','info')
@@ -455,14 +463,16 @@ TopTen.prototype.addbar = function(l,n){
     if (bar_img){
         evdiv.append('div')
             .attr('class','bar-bg img '+l+' '+l+'-'+n)
-            .attr('id','bar-bg-'+l+'-'+n)
-        var barbg=evdiv.select('#bar-bg-'+l+'-'+n)
+            .attr('id','bar-bg-'+l+'-'+n);
+        var barbg=evdiv.select('#bar-bg-'+l+'-'+n);
+        var barbgw=barbg.node().clientWidth;
         barbg.append('div')
             .attr('class','barimg '+l+' '+l+'-'+n)
             .attr('id','barimg-'+l+'-'+n)
-            .style('width',(barlen)+'%')
+            .style('width',(barlen)+'%');
         barbg.select('.barimg').append('img')
             .attr('src',bar_img)
+            .style('width',barbgw);
     }else{
         evdiv.append('div')
             .attr('class','bar-bg '+l+' '+l+'-'+n)
@@ -588,13 +598,24 @@ function calcMtotal(ev){
 function calcDelay(ev){
     // calculate delay since previous event (NB: assumes events are in ascending ordered by date)
     idx=gwcat.event2idx(ev);
-    if (idx==0){return(Math.POSITIVE_INFINITY)}
-    else{
-        date1=new Date(gwcat.data[idx-1].UTC.best);
-        date2=new Date(gwcat.data[idx].UTC.best);
-        datediff=(date2-date1)/(86400*1000);
+    var obsruns={
+        O1:{start:new Date('2015-09-12T00:00:00'),end:new Date('2016-01-19T16:00:00')},
+        O2:{start:new Date('2016-11-30T16:00:00'),end:new Date('2017-08-25T22:00:00')},
+        O3:{start:new Date('2019-04-01T16:00:00'),end:new Date('2020-04-01T22:00:00')}
     }
-    return {'best':datediff};
+    var label='';
+    if (idx==0){
+        obs=gwcat.data[idx].obsrun.best;
+        date1=obsruns[obs].start;
+        // return(Math.POSITIVE_INFINITY)}
+        label='since start of '+obs;
+    }else{
+        date1=new Date(gwcat.data[idx-1].UTC.best);
+        label='since '+gwcat.data[idx-1].name;
+    }
+    date2=new Date(gwcat.data[idx].UTC.best);
+    datediff=(date2-date1)/(86400*1000);
+    return {'best':datediff,'label':label};
 }
 function iconFARfn(far){
     if (far>1){
