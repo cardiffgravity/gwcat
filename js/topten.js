@@ -429,6 +429,28 @@ TopTen.prototype.addicons = function(l,n){
     }
 
 }
+TopTen.prototype.getBarMin = function (l) {
+    var listitem = this.lists[l];
+    var show_err=(listitem.show_err)?listitem.show_err:false;
+    if (show_err){
+        minval=Math.min.apply(null,listitem.errneg);
+    }else{
+        minval=Math.min.apply(null,listitem.values);
+    }
+    bar_min=10**Math.floor(Math.log10(minval))*(Math.floor(minval/10**Math.floor(Math.log10(minval)))-1);
+    return bar_min;
+};
+TopTen.prototype.getBarMax = function (l) {
+    var listitem = this.lists[l];
+    var show_err=(listitem.show_err)?listitem.show_err:false;
+    if (show_err){
+        maxval=Math.max.apply(null,listitem.errpos);
+    }else{
+        maxval=Math.max.apply(null,listitem.values);
+    }
+    bar_max=10**Math.floor(Math.log10(maxval))*(Math.floor(maxval/10**Math.floor(Math.log10(maxval)))+1);
+    return bar_max;
+};
 TopTen.prototype.addbar = function(l,n){
     // add bar for an event, with error bars if values are present
     var listitem = this.lists[l];
@@ -439,23 +461,11 @@ TopTen.prototype.addbar = function(l,n){
     var bar_img=(listitem.graph.bar_img)?listitem.graph.bar_img:false;
     var bar_height=(listitem.graph.bar_height)?listitem.graph.bar_height:'auto';
     var bar_col=(listitem.graph.bar)?listitem.graph.bar_col:false;
-    if (listitem.graph.bar_max=='auto'){
-        if (show_err){
-            maxval=Math.max.apply(null,listitem.errpos);
-        }else{
-            maxval=Math.max.apply(null,listitem.values);
-        }
-        bar_max=10**Math.floor(Math.log10(maxval))*(Math.floor(maxval/10**Math.floor(Math.log10(maxval)))+1);
-        // console.log(maxval,Math.log10(maxval),maxval/10**Math.floor(Math.log10(maxval)),bar_max);
+    if (bar_max=='auto'){
+        bar_max=this.getBarMax(l)
     }
     if (listitem.graph.bar_min=='auto'){
-        if (show_err){
-            minval=Math.min.apply(null,listitem.errneg);
-        }else{
-            minval=Math.min.apply(null,listitem.values);
-        }
-        bar_min=10**Math.floor(Math.log10(minval))*(Math.floor(minval/10**Math.floor(Math.log10(minval)))-1);
-        // console.log(minval,Math.log10(minval),minval/10**Math.floor(Math.log10(minval)),bar_min);
+        bar_min=this.getBarMin(l)
     }
     if (bar_log){
         barlen=100*(Math.log(listitem.values[n])-Math.log(bar_min))/(Math.log(bar_max)-Math.log(bar_min));}
