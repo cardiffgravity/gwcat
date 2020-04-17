@@ -70,13 +70,14 @@ GWCat.prototype.filterData = function(){
         this.log('skipping candidates from ',this.data.length)
         dataConf=[];
         for (i in this.data){
-            if (this.data[i]['conf']!='Candidate'){
+            if (this.getBest(this.data[i].name,'conf')!='Candidate'){
                 dataConf.push(this.data[i]);
             }else{
                 this.log('skipping ',this.data[i].name);
             }
         }
         this.data=dataConf;
+        this.length=this.data.length;
     }
 }
 
