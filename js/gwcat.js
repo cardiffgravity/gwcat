@@ -76,6 +76,9 @@ GWCat.prototype.filterData = function(){
                 this.log('skipping ',this.data[i].name);
             }
         }
+        var dataOrder = [];
+		this.data.forEach(function(d){dataOrder.push(d.name);});
+		this.dataOrder = dataOrder;
         this.data=dataConf;
         this.length=this.data.length;
     }
