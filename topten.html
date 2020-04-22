@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<title>GW Top Ten</title>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="img/favicon-32x32.png" />
+	<!--<script type="text/javascript" src="js/lib/d3.v4.min.js"></script>-->
+	<!-- <script type="text/javascript" src="js/lib/stuquery.js"></script> -->
+	<script type="text/javascript" src="js/gwcat.js"></script>
+    <script type="text/javascript" src="js/topten.js"></script>
+    <script type="text/javascript" src="js/topten.js"></script>
+    <script type="text/javascript" src="js/lib/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="css/topten.css" type="text/css" />
+	<style>
+    div.image-list{
+        border:1px solid black;
+        text-align:center;
+    }
+    div.image{
+        margin:10px;
+        border:1px solid #555555;
+        display:inline-block;
+        text-align:center;
+    }
+    div.image img{
+        width:250px;
+    }
+    div.image.cartzoom img{
+        width:125px;
+    }
+    div.image h3{
+        width:100%;
+    }
+	</style>
+</head>
+<body>
+<h1>LIGO/Virgo Top Ten Events</h1>
+<p>Based on the <b><a href="http://gwcat.cardiffgravity.org">gwcat</a></b> database, compiled from data at the <a href="https://www.gw-openscience.org/">Gravitational Wave Open Science Centre</a> and <a href="https://gracedb.ligo.org/latest/">GraceDB</a>.</p>
+<div id="selectorholder">
+    <div class="list-title sel">
+        <div class="listname sel">Select Top 10 list</div>
+    </div>
+</div>
+<div id="keyholder">
+    <div class="keyouter">
+        <div class="key-title">
+            <div class="listorder key">↑↓</div>
+            <div class="listname key">Key</div>
+        </div>
+        <div class="key-item GW">
+            <div class="evname key">Confirmed detection</div>
+            <!-- <div class="evval key">Value</div>
+            <div class="everr pos key">+err</div>
+            <div class="everr neg key">-err</div> -->
+        </div><div class="key-item Cand">
+            <div class="evname key">Candidate</div>
+            <!-- <div class="evval key">Value</div>
+            <div class="everr pos key">+err</div>
+            <div class="everr neg key">-err</div> -->
+        </div>
+    </div>
+</div>
+<div id='top10holder'></div>
+<div class="build">
+    <div class="top10list key">
+        <div class="list-title">
+            <div class="listname key">Latest Build</div>
+        </div>
+        <div class="list-item GW">
+            <div class="evname build">
+                <a id='gwosc-build-url' href="">Gwosc Catalogue</a>:
+                <span id='gwosc-build-date'></span>
+            </div>
+        </div>
+        <div class="list-item Cand">
+            <div class="evname build">
+                <a id='gracedb-build-url'href="">GraceDB</a>:
+                <span id='gracedb-build-date'></span>
+            </div>
+        </div>
+        <div class="list-item GW">
+            <div class="evname build">
+                <a id='manual-build-url'href="">Manual Import</a>:
+                <span id='manual-build-date'></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tooltip" id="tooltip-outer"></div>
+<script type="text/javascript">
+    // var gwcat = new GWCat(makeTopTen,{confirmedOnly:false,debug:false,fileIn:"data/gwosc_gracedb.json",loadMethod:'json'});
+    var gwcat = new GWCat(makeTopTen,{confirmedOnly:false,debug:false});
+</script>
+</body>
