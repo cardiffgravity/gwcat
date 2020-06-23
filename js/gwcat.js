@@ -77,7 +77,7 @@ GWCat.prototype.filterData = function(){
             }
         }
         var dataOrder = [];
-		this.data.forEach(function(d){dataOrder.push(d.name);});
+		dataConf.forEach(function(d){dataOrder.push(d.name);});
 		this.dataOrder = dataOrder;
         this.data=dataConf;
         this.length=this.data.length;
@@ -429,7 +429,7 @@ GWCat.prototype.checkEventParam = function(event,param,txt){
     error=''
     idx=this.event2idx(event);
     if (!this.data[idx]){
-        error='No known event '+event;
+        error='No known event ['+idx+']:'+event;
     }else if (!this.data[idx].hasOwnProperty(param)){
         error='No known value for "'+param+'" in event '+event;
     }
@@ -470,7 +470,7 @@ GWCat.prototype.getParamType = function(event,param){
 GWCat.prototype.hasError = function(event,param){
     idx=this.event2idx(event);
     try{
-        return this.data[idx][param].hasOwnProperty('err')
+        return this.data[idx][param].hasOwnProperty('err');
     }catch(err){
         this.checkEventParam(event,param,err.message);
         return false;
