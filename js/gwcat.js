@@ -436,9 +436,9 @@ GWCat.prototype.checkEventParam = function(event,param,txt){
     if (error){
         if (txt){this.showError(txt+' ; '+error);}
         else{this.showError(error)}
-        return true;
-    }else{
         return false;
+    }else{
+        return true;
     }
 }
 
