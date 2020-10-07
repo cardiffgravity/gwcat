@@ -1,0 +1,119 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<title>GW Localisation Skymaps</title>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="img/favicon-32x32.png" />
+	<!--<script type="text/javascript" src="js/lib/d3.v4.min.js"></script>-->
+	<!-- <script type="text/javascript" src="js/lib/stuquery.js"></script> -->
+	<script type="text/javascript" src="js/gwcat.js"></script>
+    <script type="text/javascript" src="js/lib/d3.v4.min.js"></script>
+	<style>
+    div.data-list{
+        border:1px solid black;
+        /* text-align:center; */
+    }
+    div.image{
+        margin:10px;
+        border:1px solid #555555;
+        display:inline-block;
+        text-align:center;
+    }
+    div.image img{
+        width:250px;
+    }
+    div.image.cartzoom img{
+        width:125px;
+    }
+    div.image h3{
+        width:100%;
+    }
+	</style>
+</head>
+<body>
+	<h1>Sky localisation maps</h1>
+    <p>Based on the <b><a href="http://gwcat.cardiffgravity.org">gwcat</a></b> database, compiled from data at the <a href="https://www.gw-openscience.org/">Gravitational Wave Open Science Centre</a> and <a href="https://gracedb.ligo.org/latest/">GraceDB</a>.</p>
+    <p>Latest build:
+        <ul>
+            <li><b><a id='gwosc-build-url' href="">Gwosc Catalogue</a>: </b><span id='gwosc-build-date'></span></li>
+            <li><b><a id='gracedb-build-url'href="">GraceDB</a>: </b><span id='gracedb-build-date'></span></li>
+            <li><b><a id='manual-build-url'href="">Manual Import</a>: </b><span id='manual-build-date'></span></li>
+        </ul>
+    </p>
+	<p>The data here is designed for use for outreach purposes. For scientific purposes please refer to the sources above.</p>
+    <div id='data-holder'></div>
+
+	<script type="text/javascript">
+		function populateData(){
+            gwcat.orderData('GPS',reverse=false)
+            if ((gwcat.meta)&&(gwcat.meta.gwosc)){
+                document.getElementById('gwosc-build-date').innerHTML = gwcat.meta.gwosc.retrieved
+                document.getElementById('gwosc-build-url').setAttribute('href',gwcat.meta.gwosc.src)
+            }
+            if ((gwcat.meta)&&(gwcat.meta.graceDB)){
+                document.getElementById('gracedb-build-date').innerHTML = gwcat.meta.graceDB.retrieved
+                document.getElementById('gracedb-build-url').setAttribute('href',gwcat.meta.graceDB.src)
+            }
+            if ((gwcat.meta)&&(gwcat.meta.manual)){
+                document.getElementById('manual-build-date').innerHTML = gwcat.meta.manual.retrieved
+                document.getElementById('manual-build-url').setAttribute('href',gwcat.meta.manual.src)
+            }
+            for (e in gwcat.data){
+                event=gwcat.data[e];
+                ev=event.name;
+                data=gwcat.getOpenData(ev);
+                wf=gwcat.getLink(ev,ltype='waveform-compressed')[0];
+                skymap=gwcat.getLink(ev,ltype='skymap-fits')[0];
+                pub=gwcat.getLink(ev,ltype='pub')[0];
+
+                divDat=document.createElement('div');
+                divDat.setAttribute('class','data-list '+ev);
+                divDat.setAttribute('id',ev);
+
+                // get links
+                datalink=gwcat.getOpenData(ev).url;
+                if (datalink.search('gracedb')>=0){
+                    weblink=datalink.replace('/api','');
+                    morelink='http://chirp.sr.bham.ac.uk/alert/'+ev;
+                    datatype='GraceDB';
+                }else{
+                    weblink=datalink;
+                    morelink='';
+                    datatype='GWOSC';
+                }
+                html='<h2>'+'<a href="'+weblink+'">'+ev+'</a></h2>';
+                evtime=gwcat.getBest(ev,'UTC');
+                gpstime=gwcat.getBest(ev,'GPS');
+                html+='<p><ul>';
+                html+='<li>Event time: '+evtime+' (GPS time: '+gpstime+')</li>';
+                conftype=gwcat.getBest(ev,'conf');
+                objtype=gwcat.getBest(ev,'objType');
+                conftype=(conftype=='GW')?'Detection':'Candidate';
+                if (conftype=='GW'){
+                    conftext='Detection';
+                    catlink='https://catalog.cardiffgravity.org.uk?event='+ev+'&x=M2&y=M2'
+                }else{
+                    conftext='Candidate';
+                    catlink='https://catalog.cardiffgravity.org.uk?event='+ev+'&x=UTCdate&y=DL'
+                }
+                html+='<li>Detection type: '+conftext+' ('+objtype+')</li>';
+                html+='<li>Open Data: <a href="'+weblink+'">'+datatype+'</a></li>';
+                if (morelink!=''){
+                    html+='<li>More info: <a href="'+morelink+'">Chirp page</a></li>'
+                }
+                html+='<li>Skymap: <a href="'+skymap.url+'">'+skymap.text+'</a> (FITS file; see <a href="skymaps.html">here</a> for image files)</li>';
+                if (wf){
+                    html+='<li>Representative waveform: <a href="'+wf.url+'">'+wf.text+'</a> (CSV File) (see <a href="https://waveview.cardiffgravity.org">waveview.cardiffgravity.org</a> for visualisation)</li>';
+                }
+                html+='<li>Catalogue entry: <a href="'+catlink+'">catalog.cardiffgravity.org</a></li>'
+                html+='</ul></p>';
+                
+                divDat.innerHTML = html;
+                document.getElementById('data-holder').appendChild(divDat)
+                
+            }
+		}
+		// var gwcat = new GWCat(runTests,{fileIn:'data/gwosc_gracedb.json',confirmedOnly:true});
+        // var gwcat = new GWCat(populateImages,{confirmedOnly:true,fileIn:'data/gwosc_gracedb.json',loadMethod:'json'});
+        var gwcat = new GWCat(populateData,{confirmedOnly:false,debug:true});
+	</script>
+</body>
+</html>
