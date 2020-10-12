@@ -20,7 +20,7 @@
     div.image img{
         width:250px;
     }
-    div.image.cartzoom img{
+    div.image.cartzoom img, div.image.cartzoom-pretty img{
         width:125px;
     }
     div.image h3{
@@ -62,6 +62,9 @@
                 imCart=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian fullsky\)')[0];
                 imCartzoom=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian zoomed\)')[0];
                 imMollrot=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky, rotated\)')[0];
+                imCartPretty=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian zoomed, pretty\)')[0];
+                imMollPretty=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky, pretty\)')[0];
+                imMollPrettyBlack=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky, pretty black\)')[0];
                 imCartrot=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian fullsky, rotated\)')[0];
                 imPlain=gwcat.getLink(ev,ltype='skymap-plain',ltxt='\(no annotations\)')[0];
                 imPlainEq=gwcat.getLink(ev,ltype='skymap-plain',ltxt='\(Equatorial, no annotations\)')[0];
@@ -70,10 +73,16 @@
                 thumbCartzoom=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian zoomed\)')[0];
                 thumbMollrot=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky, rotated\)')[0];
                 thumbCartrot=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian fullsky, rotated\)')[0];
+                thumbCartPretty=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian zoomed, pretty\)')[0];
+                thumbMollPretty=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky, pretty\)')[0];
+                thumbMollPrettyBlack=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky, pretty black\)')[0];
 
                 divIm=document.createElement('div');
                 divIm.setAttribute('class','image-list '+ev);
                 divIm.setAttribute('id',ev);
+                anchor=document.createElement('a');
+                anchor.setAttribute('name',ev);
+                divIm.append(anchor)
 
                 // get links
                 datalink=gwcat.getOpenData(ev).url;
@@ -147,6 +156,24 @@
                     divCartzoom.setAttribute('class','image cartzoom '+ev);
                     divCartzoom.innerHTML = '<a href="'+imCartzoom.url+'"><img src="'+thumbCartzoom.url+'"></a><h3>'+imCartzoom.text+'</h3>';
                     divIm.appendChild(divCartzoom);
+                }
+                if (imMollPretty){
+                    divMollPretty=document.createElement('div');
+                    divMollPretty.setAttribute('class','image moll-pretty '+ev);
+                    divMollPretty.innerHTML = '<a href="'+imMollPretty.url+'"><img src="'+thumbMollPretty.url+'"></a><h3>'+imMollPretty.text+'</h3>';
+                    divIm.appendChild(divMollPretty);
+                }
+                if (imMollPrettyBlack){
+                    divMollPrettyBlack=document.createElement('div');
+                    divMollPrettyBlack.setAttribute('class','image moll-pretty-black '+ev);
+                    divMollPrettyBlack.innerHTML = '<a href="'+imMollPrettyBlack.url+'"><img src="'+thumbMollPrettyBlack.url+'"></a><h3>'+imMollPrettyBlack.text+'</h3>';
+                    divIm.appendChild(divMollPrettyBlack);
+                }
+                if (imCartPretty){
+                    divCartPretty=document.createElement('div');
+                    divCartPretty.setAttribute('class','image cartzoom-pretty '+ev);
+                    divCartPretty.innerHTML = '<a href="'+imCartPretty.url+'"><img src="'+thumbCartPretty.url+'"></a><h3>'+imCartPretty.text+'</h3>';
+                    divIm.appendChild(divCartPretty);
                 }
                 if (imPlain){
                     divIm.innerHTML += '<p><a href='+imPlain.url+'>Plain, unnannotated skymap</a> (Galactic, Cartesian, greyscale, 8192x4096)</p>';
