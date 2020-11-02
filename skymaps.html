@@ -93,7 +93,7 @@
                     weblink=datalink;
                     morelink='';
                 }
-                html='<h2>'+'<a href="'+weblink+'">'+ev+'</a></h2>';
+                html='<h2><a name="'+ev+'"></a>'+'<a href="'+weblink+'">'+ev+'</a></h2>';
                 maplinksrch=gwcat.getLink(ev,'skymap-fits');
                 if (maplinksrch.length >0){
                     maplink=maplinksrch[0].url;
