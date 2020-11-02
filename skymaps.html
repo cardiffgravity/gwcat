@@ -93,12 +93,32 @@
                     weblink=datalink;
                     morelink='';
                 }
-                maplink=gwcat.getMeta(ev,'mapurlsrc');
                 html='<h2>'+'<a href="'+weblink+'">'+ev+'</a></h2>';
-                uptime=gwcat.getMeta(ev,'mapdatesrc');
-                uptime=uptime.replace(/\..*/,' UTC').replace('T',' ');
-                html+='<p><a href="'+maplink+'">Map</a> updated: '+uptime;
-                html+=' ; 90% area='+gwcat.getBest(ev,'deltaOmega')+'deg<sup>2</sup>';
+                maplinksrch=gwcat.getLink(ev,'skymap-fits');
+                if (maplinksrch.length >0){
+                    maplink=maplinksrch[0].url;
+                    maplinktype=(maplinksrch[0].filetype)?maplinksrch[0].filetype:'';
+                }else{
+                    maplink='';
+                    maptlinktype='';
+                }
+                if (maplink){
+                    html+='<p>[<a href="'+maplink+'">Map source</a>'
+                    if (maplinktype){
+                        html+=' ('+maplinktype+')';
+                    }
+                    uptime=gwcat.getMeta(ev,'mapdatesrc');
+                    if (uptime){
+                        uptime=uptime.replace(/\..*/,' UTC').replace('T',' ');
+                        html+='; updated: '+uptime+'] ; ';
+                    }else{
+                        html+='] ; ';
+                    }
+                }else{
+                    html+='<p>'
+                }
+                
+                html+='90% area='+gwcat.getBest(ev,'deltaOmega')+'deg<sup>2</sup>';
                 html+='</br>';
 
                 // console.log(ev,gwcat.getBest(ev,'FAR'),gwcat.getValue(ev,'FAR','fartype'));
