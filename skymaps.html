@@ -130,23 +130,23 @@
                 html+='('+gwcat.getValue(ev,'FAR','fartype')+')';
 
                 mostlikely=gwcat.getBest(ev,'objType');
-                html+=' ; Most likely source: '+mostlikely;
-                if((gwcat.data[e].objType)&&(gwcat.data[e].objType.prob)){
-                    if ('Terrestrial' in gwcat.data[e].objType.prob){
-                        if (gwcat.data[e].objType.prob.Terrestrial>0){
-                            pterr=(100*gwcat.data[e].objType.prob.Terrestrial).toFixed(0);
-                            pterr = (pterr < 1) ? '<1' : pterr;
+                if (mostlikely){
+                    html+=' ; Most likely source: '+mostlikely;
+                    if((gwcat.data[e].objType)&&(gwcat.data[e].objType.prob)){
+                        if ('Terrestrial' in gwcat.data[e].objType.prob){
+                            if (gwcat.data[e].objType.prob.Terrestrial>0){
+                                pterr=(100*gwcat.data[e].objType.prob.Terrestrial).toFixed(0);
+                                pterr = (pterr < 1) ? '<1' : pterr;
+                            }else{pterr=0}
                         }else{pterr=0}
-                    }else{pterr=0}
-                    html+=' ; Prob(Terrestrial): '+pterr+'%';
+                        html+=' ; Prob(Terrestrial): '+pterr+'%';
+                    }
                 }
                 if (morelink!=''){
                     html+=' ; <a href="'+morelink+'">More...</a>'
                 }
                 html+='</p>';
-
                 divIm.innerHTML = html;
-
                 if (imMoll){
                     divMoll=document.createElement('div');
                     divMoll.setAttribute('class','image moll '+ev);
@@ -197,12 +197,12 @@
                 }
                 if (imPlain){
                     divIm.innerHTML += '<p><a href='+imPlain.url+'>Plain, unnannotated skymap</a> (Galactic, Cartesian, greyscale, 8192x4096)</p>';
-                    document.getElementById('image-holder').appendChild(divIm)
                 }
                 if (imPlainEq){
                     divIm.innerHTML += '<p><a href='+imPlainEq.url+'>Plain, unnannotated skymap</a> (J2000, Cartesian, greyscale, 8192x4096)</p>';
-                    document.getElementById('image-holder').appendChild(divIm)
                 }
+                document.getElementById('image-holder').appendChild(divIm)
+                
             }
 		}
 		// var gwcat = new GWCat(runTests,{fileIn:'data/gwosc_gracedb.json',confirmedOnly:true});
