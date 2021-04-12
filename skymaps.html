@@ -7,9 +7,22 @@
 	<script type="text/javascript" src="js/gwcat.js"></script>
     <script type="text/javascript" src="js/lib/d3.v4.min.js"></script>
 	<style>
+    body{
+        font: 16px sans-serif;
+    }
     div.image-list{
         border:1px solid black;
         text-align:center;
+        background-color:#ffe6d4;
+        border-radius:10px;
+        margin-bottom:10px;
+    }
+    div.image-list.blank{
+        border:none;
+    }
+    div.image-list h2, div.image-list p{
+        text-align:left;
+        margin-left:10px;
     }
     div.image{
         margin:10px;
@@ -26,22 +39,54 @@
     div.image h3{
         width:100%;
     }
+    div.button{
+        display:inline-block;
+        padding: 5px 10px 5px 10px;
+        margin-bottom:5px;
+        background-color:#662d8f;
+        border:3px solid #662d8f;
+        color:white;
+        border-radius: 5px;
+        cursor:pointer;
+    }
+    div.button.grey{
+        background-color:#666;
+        color:#ccc;
+        border-color:#666;
+        display:none;
+    }
+    div.section{
+        display:block;
+        width:auto;
+        background-color: #e9e2ef;
+        padding-bottom:10px;
+        margin-bottom:10px; 
+        border-radius: 5px;
+    }
+    div.subsection{
+        display:block;
+    }
+    div.subsection.hidden{
+    }
 	</style>
 </head>
 <body>
 	<h1>Sky localisation maps</h1>
     <p>Based on the <b><a href="https://gwcat.cardiffgravity.org">gwcat</a></b> database, compiled from data at the <a href="https://www.gw-openscience.org/">Gravitational Wave Open Science Centre</a> and <a href="https://gracedb.ligo.org/latest/">GraceDB</a>.</p>
-    <p>Latest build:
+    
+    </div>
+    <div class="button grey" id="showall">Show all events</div>
+	<div id='image-holder'></div>
+    <div class="section" id="build-details">
+        <h4>Latest build</h4>
         <ul>
             <li><b><a id='gwtc-build-url' href="">GWTC Catalogue</a>: </b><span id='gwtc-build-date'></span></li>
             <li><b><a id='gracedb-build-url'href="">GraceDB</a>: </b><span id='gracedb-build-date'></span></li>
             <!-- <li><b><a id='manual-build-url'href="">Manual Import</a>: </b><span id='manual-build-date'></span></li> -->
         </ul>
-    </p>
-	<div id='image-holder'></div>
-
+    </div>
 	<script type="text/javascript">
-		function populateImages(){
+		function createObjs(){
             gwcat.orderData('GPS',reverse=true)
             if ((gwcat.meta)&&(gwcat.meta.GWTC)){
                 document.getElementById('gwtc-build-date').innerHTML = (gwcat.meta.GWTC.retrieved) ? gwcat.meta.GWTC.retrieved : 'UNKNOWN';
@@ -55,10 +100,59 @@
                 document.getElementById('manual-build-date').innerHTML = (gwcat.meta.manual.retrieved)?gwcat.meta.manual.retrieved:'UNKNOWN';
                 document.getElementById('manual-build-url').setAttribute('href',(gwcat.meta.manual.src)?gwcat.meta.manual.src:'');
             }
-            }
             for (e in gwcat.data){
-                event=gwcat.data[e];
-                ev=event.name;
+                let ev=gwcat.data[e].name;
+                let divIm=document.createElement('div');
+                divIm.setAttribute('class','blank image-list '+ev);
+                divIm.setAttribute('id',ev);
+                let anchor=document.createElement('a');
+                anchor.setAttribute('name',ev);
+                divIm.append(anchor)
+                document.getElementById('image-holder').appendChild(divIm)
+            }
+            document.getElementById('showall').addEventListener("click",function(){
+                console.log('clicked');
+                document.getElementById('showall').classList.add('grey');
+                populateImages();
+            })
+            var urlVars = {},hash,url = window.location.href;
+            if (window.location.href.indexOf('?')!=-1){
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                url = window.location.href.slice(0,window.location.href.indexOf('?'));
+                for(var i = 0; i < hashes.length; i++)
+                {
+                    hash = hashes[i].split('=');
+                    // vars.push(hash[0]);
+                    urlVars[hash[0]] = hash[1];
+                }
+            }
+            var evList;
+            if (urlVars.event){
+                var evidx=gwcat.event2idx(urlVars.event);
+                console.log(urlVars.event,evidx);
+                evList=urlVars.event;
+                document.getElementById('showall').classList.remove('grey');
+            }else{
+                    
+            }
+            console.log(evList);
+            populateImages(evList);
+        }
+        function populateImages(evList){
+            console.log('pop',evList);
+            for (e in gwcat.data){
+                let event=gwcat.data[e];
+                let ev=event.name;
+                if (evList){
+                    if (evList!=ev){
+                        console.log('skipping ',ev);
+                        continue;
+                    }else{
+                        console.log('adding ',ev)
+                    }
+                }
+                let divIm=document.getElementById(ev);
+                divIm.classList.remove('blank')
                 imMoll=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky\)')[0];
                 imCart=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian fullsky\)')[0];
                 imCartzoom=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian zoomed\)')[0];
@@ -77,13 +171,13 @@
                 thumbCartPretty=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian zoomed, pretty\)')[0];
                 thumbMollPretty=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky, pretty\)')[0];
                 thumbMollPrettyBlack=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky, pretty black\)')[0];
-
-                divIm=document.createElement('div');
-                divIm.setAttribute('class','image-list '+ev);
-                divIm.setAttribute('id',ev);
-                anchor=document.createElement('a');
-                anchor.setAttribute('name',ev);
-                divIm.append(anchor)
+                // 
+                // divIm=document.createElement('div');
+                // divIm.setAttribute('class','image-list '+ev);
+                // divIm.setAttribute('id',ev);
+                // anchor=document.createElement('a');
+                // anchor.setAttribute('name',ev);
+                // divIm.append(anchor)
 
                 // get links
                 datalink=gwcat.getOpenData(ev).url;
@@ -207,13 +301,13 @@
                 if (imPlainEq){
                     divIm.innerHTML += '<p><a href='+imPlainEq.url+'>Plain, unnannotated skymap</a> (J2000, Cartesian, greyscale, 8192x4096)</p>';
                 }
-                document.getElementById('image-holder').appendChild(divIm)
+                // document.getElementById('image-holder').appendChild(divIm)
                 
             }
 		}
 		// var gwcat = new GWCat(runTests,{fileIn:'data/gwosc_gracedb.json',confirmedOnly:true});
         // var gwcat = new GWCat(populateImages,{confirmedOnly:true,fileIn:'data/gwosc_gracedb.json',loadMethod:'json'});
-        var gwcat = new GWCat(populateImages,{confirmedOnly:false,debug:true});
+        var gwcat = new GWCat(createObjs,{confirmedOnly:false,debug:false});
 	</script>
 </body>
 </html>
