@@ -128,19 +128,24 @@
                 farval=farval.replace(reSup,"<sup>$1</sup> ");
                 farun=gwcat.paramUnit('FAR').replace(reSup,"<sup>$1</sup> ")
                 html+='FAR='+farval+' '+farun;
-                html+='('+gwcat.getValue(ev,'FAR','fartype')+')';
-
-                mostlikely=gwcat.getBest(ev,'objType');
-                if (mostlikely){
-                    html+=' ; Most likely source: '+mostlikely;
-                    if((gwcat.data[e].objType)&&(gwcat.data[e].objType.prob)){
-                        if ('Terrestrial' in gwcat.data[e].objType.prob){
-                            if (gwcat.data[e].objType.prob.Terrestrial>0){
-                                pterr=(100*gwcat.data[e].objType.prob.Terrestrial).toFixed(0);
-                                pterr = (pterr < 1) ? '<1' : pterr;
+                // console.log(ev,'fartype',gwcat.getValue(ev,'FAR','fartype'))
+                if (gwcat.getValue(ev,'FAR','fartype')){
+                    html+='('+gwcat.getValue(ev,'FAR','fartype')+')';
+                }
+                if (gwcat.checkEventParam(ev,'objType')){
+                    // console.log(gwcat.checkEventParam(ev,'objType'));
+                    mostlikely=gwcat.getBest(ev,'objType');
+                    if (mostlikely){
+                        html+=' ; Most likely source: '+mostlikely;
+                        if((gwcat.data[e].objType)&&(gwcat.data[e].objType.prob)){
+                            if ('Terrestrial' in gwcat.data[e].objType.prob){
+                                if (gwcat.data[e].objType.prob.Terrestrial>0){
+                                    pterr=(100*gwcat.data[e].objType.prob.Terrestrial).toFixed(0);
+                                    pterr = (pterr < 1) ? '<1' : pterr;
+                                }else{pterr=0}
                             }else{pterr=0}
-                        }else{pterr=0}
-                        html+=' ; Prob(Terrestrial): '+pterr+'%';
+                            html+=' ; Prob(Terrestrial): '+pterr+'%';
+                        }
                     }
                 }
                 if (morelink!=''){
