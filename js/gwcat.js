@@ -24,6 +24,8 @@ GWCat.prototype.init = function(){
     this.gwoscFile = (this.inp && this.inp.gwoscFile) ? this.inp.gwoscFile : "data/gwosc.json";
     this.loadMethod = (this.inp && this.inp.loadMethod) ? this.inp.loadMethod : "";
     this.confirmedOnly = (this.inp && this.inp.hasOwnProperty('confirmedOnly')) ? this.inp.confirmedOnly : false;
+    this.noGraceDB = (this.inp && this.inp.hasOwnProperty('noGraceDB')) ? this.inp.noGraceDB : false;
+    this.noMarginal = (this.inp && this.inp.hasOwnProperty('noMarginal')) ? this.inp.noMarginal : false;
     return this;
 }
 
@@ -65,15 +67,18 @@ GWCat.prototype.setLinks = function(){
 }
 
 GWCat.prototype.filterData = function(){
-    this.log('confirmedOnly',this.confirmedOnly)
-    if (this.confirmedOnly){
+    this.log('confirmedOnly, noGraceDB, noMarginal', this.confirmedOnly, this.noGraceDB, this.noMarginal)
+    if ((this.confirmedOnly)||(this.noGraceDB)||(this.noMarginal)){
         this.log('skipping candidates from ',this.data.length)
-        dataConf=[];
+        var dataConf=[];
         for (i in this.data){
-            if (this.getBest(this.data[i].name,'conf')!='Candidate'){
-                dataConf.push(this.data[i]);
+            var dconf=this.getBest(this.data[i].name,'conf');
+            if ((dconf=='Candidate')&&((this.confirmedOnly)||(this.noGraceDB))){
+                this.log('skipping candidate',this.data[i].name);
+            }else if((dconf=='Marginal')&&((this.confirmedOnly)||(this.noMarginal))){
+                this.log('skipping marginal',this.data[i].name);
             }else{
-                this.log('skipping ',this.data[i].name);
+                dataConf.push(this.data[i]);
             }
         }
         var dataOrder = [];
