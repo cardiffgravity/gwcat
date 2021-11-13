@@ -20,9 +20,12 @@
     div.image-list.blank{
         border:none;
     }
-    div.image-list h2, div.image-list p{
+    div.image-list h2, div.image-list h3, div.image-list p{
         text-align:left;
         margin-left:10px;
+    }
+    div.image-list p span{
+        margin-right:20px;
     }
     div.image{
         margin:10px;
@@ -197,35 +200,41 @@
                     maplink='';
                     maptlinktype='';
                 }
+                html+='<p class="detail">';
+                html+='<span>['+gwcat.getBest(ev,'obsrun')+']</span>';
                 if (maplink){
-                    html+='<p>[<a href="'+maplink+'">Map source</a>'
+                    html+='<span>[<a href="'+maplink+'">Map source</a>'
                     if (maplinktype){
                         html+=' ('+maplinktype+')';
                     }
                     uptime=gwcat.getMeta(ev,'mapdatesrc');
                     if (uptime){
-                        uptime=uptime.replace(/\..*/,' UTC').replace('T',' ');
-                        html+='; updated: '+uptime+'] ; ';
+                        // uptime=uptime.replace(/\..*/,' UTC').replace('T',' ');
+                        // html+='; updated: '+uptime+']</span>';
                     }else{
-                        html+='] ; ';
+                        html+=']';
                     }
-                }else{
-                    html+='<p>'
+                    html+='</span>';
                 }
                 
-                html+='90% area='+gwcat.getBest(ev,'deltaOmega')+'deg<sup>2</sup>';
-                html+='</br>';
+                // html+='</br>';
+                html+='<span>90% area='+gwcat.getBest(ev,'deltaOmega')+'deg<sup>2</sup></span>';
+                // html+='</br>';
+                html+='<span>Distance='+gwcat.getBest(ev,'DL')+' MPc</span>';
+                // html+='</br>';
+                
 
                 // console.log(ev,gwcat.getBest(ev,'FAR'),gwcat.getValue(ev,'FAR','fartype'));
                 farval=(1/gwcat.getBest(ev,'FAR')).toPrecision(2).replace('e','x10^');
                 reSup=/\^(-?[+\-0-9]*)(?=[\s/]|$)/g
                 farval=farval.replace(reSup,"<sup>$1</sup> ");
                 farun=gwcat.paramUnit('FAR').replace(reSup,"<sup>$1</sup> ")
-                html+='FAR='+farval+' '+farun;
+                html+='<span>FAR='+farval+' '+farun;
                 // console.log(ev,'fartype',gwcat.getValue(ev,'FAR','fartype'))
                 if (gwcat.getValue(ev,'FAR','fartype')){
                     html+='('+gwcat.getValue(ev,'FAR','fartype')+')';
                 }
+                html+='</span>';
                 if (gwcat.checkEventParam(ev,'objType')){
                     // console.log(gwcat.checkEventParam(ev,'objType'));
                     mostlikely=gwcat.getBest(ev,'objType');
