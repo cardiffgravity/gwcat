@@ -18,7 +18,11 @@
         margin-bottom:10px;
     }
     div.image-list.blank{
-        border:none;
+        display:none;
+        /* border:none;
+        margin-bottom:0;
+        max-height:0;
+        opacity:0; */
     }
     div.image-list h2, div.image-list h3, div.image-list p{
         text-align:left;
@@ -52,6 +56,25 @@
         border-radius: 5px;
         cursor:pointer;
     }
+    div.button-set{
+        display:block;
+    }
+    div.button-set.hidden{
+        display:none;
+    }
+    div.button-title{
+        display:inline-block;
+    }
+    div.button.show-obs, div.button.sort, div.button.dir{
+        background-color:#ccc;
+        border-color:#ccc;
+        color:black;
+    }
+    div.button.show-obs.selected, div.button.sort.selected, div.button.dir.selected{
+        background-color:#662d8f;
+        border-color:#662d8f;
+        color:white;
+    }
     div.button.grey{
         background-color:#666;
         color:#ccc;
@@ -79,7 +102,27 @@
     
     </div>
     <div class="button grey" id="showall">Show all events</div>
-	<div id='image-holder'></div>
+    <div class="button-set">
+        <div class="button-title">Filter:</div>
+        <div class="button show-obs selected" id="show-obs-all">All</div>
+        <div class="button show-obs unselected" id="show-obs-O3b">O3b</div>
+        <div class="button show-obs unselected" id="show-obs-O3a">O3a</div>
+        <div class="button show-obs unselected" id="show-obs-O2">O2</div>
+        <div class="button show-obs unselected" id="show-obs-O1">O1</div>
+    </div>
+    <div class="button-set">
+        <div class="button-title">Sort by:</div>
+        <div class="button sort selected" id="sort-GPS">Date</div>
+        <div class="button sort unselected" id="sort-deltaOmega">Sky area</div>
+        <div class="button sort unselected" id="sort-DL">Distance</div>
+        <div class="button sort unselected" id="sort-FAR">FAR</div>
+    </div>
+    <div class="button-set">
+        <div class="button-title">Sort order</div>
+        <div class="button dir unselected" id="dir-up">Ascending</div>
+        <div class="button dir selected" id="dir-down">Descending</div>
+    </div>
+    <div id='image-holder'></div>
     <div class="section" id="build-details">
         <h4>Latest build</h4>
         <ul>
@@ -89,13 +132,72 @@
         </ul>
     </div>
 	<script type="text/javascript">
+        var evList={};
+        var order='GPS';
+        var reverse=true;
+        function showobs(obsrun){
+            if (obsrun=='all'){return([])}
+            var evList={};
+            for (e in gwcat.data){
+                let ev=gwcat.data[e].name;
+                let evobs=gwcat.getBest(ev,'obsrun')
+                if (evobs==obsrun) evList[ev]=1;
+            }
+            return (evList);
+        }
+        d3.selectAll('.button.show-obs')
+            .on('click',function(){
+                let obs=this.getAttribute('id').split('-')[2]
+                let thisid=this.getAttribute('id');
+                console.log(this,thisid,obs);
+                d3.selectAll('.button.show-obs').classed('selected',false);
+                d3.select(this).classed('selected',true);
+                var evList=showobs(obs);
+                console.log(evList)
+                populateImages(evList);
+            });
+        document.getElementById('showall').addEventListener("click",function(){
+            console.log('clicked');
+            document.getElementById('showall').classList.add('grey');
+            d3.selectAll('.button-set').classed('hidden',false)
+            populateImages();
+        })
+        d3.selectAll('.button.sort')
+            .on('click',function(){
+                order=this.getAttribute('id').split('-')[1]
+                let thisid=this.getAttribute('id');
+                console.log(this,thisid,order);
+                d3.selectAll('.button.sort').classed('selected',false);
+                d3.select(this).classed('selected',true);
+                document.getElementById('image-holder').innerHTML='';
+                console.log('re-order',order,reverse);
+                createObjs();
+                populateImages(evList);
+            });
+        d3.selectAll('.button.dir')
+            .on('click',function(){
+                let dir=this.getAttribute('id').split('-')[1]
+                reverse = (dir=='up')?false:true;
+                let thisid=this.getAttribute('id');
+                console.log(this,thisid,dir,reverse);
+                d3.selectAll('.button.dir').classed('selected',false);
+                d3.select(this).classed('selected',true);
+                document.getElementById('image-holder').innerHTML='';
+                console.log('re-order',order,reverse);
+                createObjs();
+                populateImages(evList);
+            });
+        
 		function createObjs(){
-            gwcat.orderData('GPS',reverse=true)
+            console.log('order',order);
+            if (!order) {order='GPS'};
+            gwcat.orderData(order,reverse=reverse);
+            console.log(gwcat.dataOrder);
             if ((gwcat.meta)&&(gwcat.meta.GWTC)){
                 document.getElementById('gwtc-build-date').innerHTML = (gwcat.meta.GWTC.retrieved) ? gwcat.meta.GWTC.retrieved : 'UNKNOWN';
                 document.getElementById('gwtc-build-url').setAttribute('href',(gwcat.meta.GWTC.src)?gwcat.meta.GWTC.src:'');
             }
-            if ((gwcat.meta)&&(gwcat.meta.graceDB)){
+            if ((gwcat.meta)&&(gwcat.meta.graceDB)&&document.getElementById('gracedb-build-date')){
                 document.getElementById('gracedb-build-date').innerHTML = (gwcat.meta.graceDB.retrieved)?gwcat.meta.graceDB.retrieved:'UNKNOWN';
                 document.getElementById('gracedb-build-url').setAttribute('href',(gwcat.meta.graceDB.src)?gwcat.meta.graceDB.src:'');
             }
@@ -113,11 +215,12 @@
                 divIm.append(anchor)
                 document.getElementById('image-holder').appendChild(divIm)
             }
-            document.getElementById('showall').addEventListener("click",function(){
-                console.log('clicked');
-                document.getElementById('showall').classList.add('grey');
-                populateImages();
-            })
+            // document.getElementById('show-obs-all').addEventListener("click",function(){
+            //     console.log('clicked');
+            //     document.getElementById('show-obs-all').classList.add('selected');
+            //     document.getElementById('show-obs-all').classList.remove('unselected');
+            //     populateImages();
+            // })
             var urlVars = {},hash,url = window.location.href;
             if (window.location.href.indexOf('?')!=-1){
                 var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -129,33 +232,35 @@
                     urlVars[hash[0]] = hash[1];
                 }
             }
-            var evList;
             if (urlVars.event){
                 var evidx=gwcat.event2idx(urlVars.event);
                 console.log(urlVars.event,evidx);
-                evList=urlVars.event;
+                evList[urlVars.event]=1;
                 document.getElementById('showall').classList.remove('grey');
-            }else{
-                    
+                d3.selectAll('.button-set').classed('hidden',true);
             }
             console.log(evList);
             populateImages(evList);
         }
         function populateImages(evList){
-            console.log('pop',evList);
+            if (!evList) evList={};
+            console.log('populating',evList);
             for (e in gwcat.data){
                 let event=gwcat.data[e];
                 let ev=event.name;
-                if (evList){
-                    if (evList!=ev){
-                        console.log('skipping ',ev);
-                        continue;
-                    }else{
-                        console.log('adding ',ev)
-                    }
+                if (!gwcat.getBest(ev,'deltaOmega')){
+                    console.log('no sky area for',ev)
+                    continue
+                }
+                if ((Object.keys(evList).length>0)&&(!(ev in evList))){
+                    // console.log('skipping ',ev);
+                    document.getElementById(ev).classList.add('blank');
+                    continue;
+                }else{
+                    // console.log('adding ',ev)
+                    document.getElementById(ev).classList.remove('blank')
                 }
                 let divIm=document.getElementById(ev);
-                divIm.classList.remove('blank')
                 imMoll=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky\)')[0];
                 imCart=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian fullsky\)')[0];
                 imCartzoom=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian zoomed\)')[0];
