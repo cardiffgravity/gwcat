@@ -135,8 +135,9 @@
         var evList={};
         var order='GPS';
         var reverse=true;
+        var obs='all'
         function showobs(obsrun){
-            if (obsrun=='all'){return([])}
+            if (obsrun=='all'){return({})}
             var evList={};
             for (e in gwcat.data){
                 let ev=gwcat.data[e].name;
@@ -147,7 +148,7 @@
         }
         d3.selectAll('.button.show-obs')
             .on('click',function(){
-                let obs=this.getAttribute('id').split('-')[2]
+                obs=this.getAttribute('id').split('-')[2]
                 let thisid=this.getAttribute('id');
                 console.log(this,thisid,obs);
                 d3.selectAll('.button.show-obs').classed('selected',false);
@@ -172,7 +173,7 @@
                 document.getElementById('image-holder').innerHTML='';
                 console.log('re-order',order,reverse);
                 createObjs();
-                populateImages(evList);
+                populateImages(showobs(obs));
             });
         d3.selectAll('.button.dir')
             .on('click',function(){
@@ -185,7 +186,7 @@
                 document.getElementById('image-holder').innerHTML='';
                 console.log('re-order',order,reverse);
                 createObjs();
-                populateImages(evList);
+                populateImages(showobs(obs));
             });
         
 		function createObjs(){
