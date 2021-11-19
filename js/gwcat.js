@@ -612,18 +612,37 @@ GWCat.prototype.paramUnit = function(param){
     }
 }
 
-GWCat.prototype.getLink = function(event,ltype='',ltxt=''){
+GWCat.prototype.getLink = function(event,ltype='',ltxt='',lfile=''){
     if (!this.links[event]){
+        // console.log('no link for',event)
         return[];
     }
+    // console.log('link for',event,'type',ltype,'text',ltxt,'file',lfile);
     // nlink=this.links[event]all.length
-    linksOut=[]
-    for (l in this.links[event].all){
-        link=this.links[event].all[l];
+    let linksOut=[]
+    for (var l in this.links[event].all){
+        let link=this.links[event].all[l];
         // match type
-        mtype=(ltype!='') ? ((link.type.search(ltype)>=0) ? true : false ): true
-        mtxt=(ltxt!='') ? ((link.text.search(ltxt)>=0) ? true : false ): true
-        if (mtype && mtxt){linksOut.push(link);}
+        let mtype=(ltype) ? ((link.type.search(ltype)>=0) ? true : false ): true;
+        let mtxt=(ltxt) ? ((link.text.search(ltxt)>=0) ? true : false ): true;
+        // console.log(l,link,mtype,mtxt)
+        if (mtype && mtxt){
+            let linkOut={};
+            for (let i in link){
+                linkOut[i]=link[i];
+            }
+            // console.log('found',link)
+            if ((lfile)&&(linkOut.files)){
+                // console.log('getting file',lfile,'for',event);
+                // console.log(linkOut.files);
+                if (linkOut.files[lfile]){
+                    linkOut.url=linkOut.url+linkOut.files[lfile].file;
+                    linkOut.text=(linkOut.files[lfile].text)?linkOut.files[lfile].text:linkOut.text;
+                }
+            }
+            linksOut.push(linkOut);
+            // console.log(linkOut);
+        }
     }
     return linksOut;
 }

@@ -262,24 +262,26 @@
                     document.getElementById(ev).classList.remove('blank')
                 }
                 let divIm=document.getElementById(ev);
-                imMoll=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky\)')[0];
-                imCart=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian fullsky\)')[0];
-                imCartzoom=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian zoomed\)')[0];
-                imMollrot=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky, rotated\)')[0];
-                imCartPretty=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian zoomed, pretty\)')[0];
-                imMollPretty=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky, pretty\)')[0];
-                imMollPrettyBlack=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Mollweide fullsky, pretty black\)')[0];
-                imCartrot=gwcat.getLink(ev,ltype='skymap-plot',ltxt='\(Cartesian fullsky, rotated\)')[0];
-                imPlain=gwcat.getLink(ev,ltype='skymap-plain',ltxt='\(no annotations\)')[0];
-                imPlainEq=gwcat.getLink(ev,ltype='skymap-plain',ltxt='\(Equatorial, no annotations\)')[0];
-                thumbMoll=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky\)')[0];
-                thumbCart=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian fullsky\)')[0];
-                thumbCartzoom=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian zoomed\)')[0];
-                thumbMollrot=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky, rotated\)')[0];
-                thumbCartrot=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian fullsky, rotated\)')[0];
-                thumbCartPretty=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Cartesian zoomed, pretty\)')[0];
-                thumbMollPretty=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky, pretty\)')[0];
-                thumbMollPrettyBlack=gwcat.getLink(ev,ltype='skymap-thumb',ltxt='\(Mollweide fullsky, pretty black\)')[0];
+                let imMoll=gwcat.getLink(ev,ltype='skymaps-plot',ltxt='Skymaps',lfile='moll')[0];
+                let imCart=gwcat.getLink(ev,ltype='skymaps-plot',ltxt='Skymaps',lfile='cart')[0];
+                let imCartzoom=gwcat.getLink(ev,ltype='skymaps-plot',ltxt='Skymaps',lfile='cartzoom')[0];
+                let imMollrot=gwcat.getLink(ev,ltype='skymaps-plot',ltxt='Skymaps',lfile='moll_rot')[0];
+                let imCartPretty=gwcat.getLink(ev,ltype='skymaps-plot',ltxt='Skymaps',lfile='cartzoom_pretty')[0];
+                let imMollPretty=gwcat.getLink(ev,ltype='skymaps-plot',ltxt='Skymaps',lfile='moll_pretty')[0];
+                let imMollPrettyBlack=gwcat.getLink(ev,ltype='skymaps-plot',ltxt='Skymaps',lfile='moll_pretty_black')[0];
+                let imCartrot=gwcat.getLink(ev,ltype='skymaps-plot',ltxt='Skymaps',lfile='cart_rot')[0];
+                let imPlain=gwcat.getLink(ev,ltype='skymaps-plain',ltxt='Skymaps',lfile='gal_8192')[0];
+                let imPlainEq=gwcat.getLink(ev,ltype='skymaps-plain',ltxt='Skymaps',lfile='eq_8192')[0];
+                
+                let thumbMoll=gwcat.getLink(ev,ltype='skymaps-thumb',ltxt='Skymaps',lfile='moll')[0];
+                let thumbCart=gwcat.getLink(ev,ltype='skymaps-thumb',ltxt='Skymaps',lfile='cart')[0];
+                let thumbCartzoom=gwcat.getLink(ev,ltype='skymaps-thumb',ltxt='Skymaps',lfile='cartzoom')[0];
+                let thumbMollrot=gwcat.getLink(ev,ltype='skymaps-thumb',ltxt='Skymaps',lfile='moll_rot')[0];
+                let thumbCartPretty=gwcat.getLink(ev,ltype='skymaps-thumb',ltxt='Skymaps',lfile='cartzoom_pretty')[0];
+                let thumbMollPretty=gwcat.getLink(ev,ltype='skymaps-thumb',ltxt='Skymaps',lfile='moll_pretty')[0];
+                let thumbMollPrettyBlack=gwcat.getLink(ev,ltype='skymaps-plot',ltxt='Skymaps',lfile='moll_pretty_black')[0];
+                let thumbCartrot=gwcat.getLink(ev,ltype='skymaps-thumb',ltxt='Skymaps',lfile='cart_rot')[0];
+                
                 // 
                 // divIm=document.createElement('div');
                 // divIm.setAttribute('class','image-list '+ev);
@@ -337,26 +339,26 @@
                 farun=gwcat.paramUnit('FAR').replace(reSup,"<sup>$1</sup> ")
                 html+='<span>FAR='+farval+' '+farun;
                 // console.log(ev,'fartype',gwcat.getValue(ev,'FAR','fartype'))
-                if (gwcat.getValue(ev,'FAR','fartype')){
-                    html+='('+gwcat.getValue(ev,'FAR','fartype')+')';
-                }
+                // if (gwcat.getValue(ev,'FAR','fartype')){
+                //     html+='('+gwcat.getValue(ev,'FAR','fartype')+')';
+                // }
                 html+='</span>';
-                if (gwcat.checkEventParam(ev,'objType')){
-                    // console.log(gwcat.checkEventParam(ev,'objType'));
-                    mostlikely=gwcat.getBest(ev,'objType');
-                    if (mostlikely){
-                        html+=' ; Most likely source: '+mostlikely;
-                        if((gwcat.data[e].objType)&&(gwcat.data[e].objType.prob)){
-                            if ('Terrestrial' in gwcat.data[e].objType.prob){
-                                if (gwcat.data[e].objType.prob.Terrestrial>0){
-                                    pterr=(100*gwcat.data[e].objType.prob.Terrestrial).toFixed(0);
-                                    pterr = (pterr < 1) ? '<1' : pterr;
-                                }else{pterr=0}
-                            }else{pterr=0}
-                            html+=' ; Prob(Terrestrial): '+pterr+'%';
-                        }
-                    }
-                }
+                // if (gwcat.checkEventParam(ev,'objType')){
+                //     // console.log(gwcat.checkEventParam(ev,'objType'));
+                //     mostlikely=gwcat.getBest(ev,'objType');
+                //     if (mostlikely){
+                //         html+=' ; Most likely source: '+mostlikely;
+                //         if((gwcat.data[e].objType)&&(gwcat.data[e].objType.prob)){
+                //             if ('Terrestrial' in gwcat.data[e].objType.prob){
+                //                 if (gwcat.data[e].objType.prob.Terrestrial>0){
+                //                     pterr=(100*gwcat.data[e].objType.prob.Terrestrial).toFixed(0);
+                //                     pterr = (pterr < 1) ? '<1' : pterr;
+                //                 }else{pterr=0}
+                //             }else{pterr=0}
+                //             html+=' ; Prob(Terrestrial): '+pterr+'%';
+                //         }
+                //     }
+                // }
                 if (morelink!=''){
                     html+=' ; <a href="'+morelink+'">More...</a>'
                 }
@@ -422,7 +424,7 @@
 		}
 		// var gwcat = new GWCat(runTests,{fileIn:'data/gwosc_gracedb.json',confirmedOnly:true});
         // var gwcat = new GWCat(populateImages,{confirmedOnly:true,fileIn:'data/gwosc_gracedb.json',loadMethod:'json'});
-        var gwcat = new GWCat(createObjs,{confirmedOnly:true,debug:false});
+        var gwcat = new GWCat(createObjs,{confirmedOnly:true,debug:true,fileInJsonp:"dev/gwosc_gracedb_GWTC.jsonp"});
 	</script>
 </body>
 </html>
