@@ -144,7 +144,7 @@
             "GWOSCData": Open-data on GWOSC or GraceDB
             "SkyMapFile": Localisation map
             "all": [
-			    {Link 1 for event 1},
+			          {Link 1 for event 1},
                 {Link 2 for event 1},
                 ...
 			]
@@ -153,8 +153,9 @@
             "Det Paper": Detection paper,
             "GWOSCData": Open-data on GWOSC or GraceDB
             "SkyMapFile": Localisation map
+            "SkyMapPlots": Plots of skymaps
             "all": [
-			    {Link 1 for event 2},
+			          {Link 1 for event 2},
                 {Link 2 for event 2},
                 ...
 			]
@@ -165,10 +166,34 @@
         <ul>
             <li><b><i>url</i></b>: URL to reference</li>
             <li><b><i>text</i></b>: descriptive text field</li>
-            <li><b><i>type</i></b>: type of reference (e.g. "pub", "open-data", "skymap-fits", "skymap-plot")</li>
+            <li><b><i>type</i></b>: type of reference (e.g. "pub", "open-data", "skymap-fits", "skymaps-plot")</li>
+            <li><b><i>files</i></b>: list of files (optional)<ul>
+              <li><b><i>file</i></b>: filename, designed to be appended to <b><i>url</i></b> to access file</li>
+              <li><b><i>text</i></b>: descriptive text field, designed replace <b><i>text</i></b></li>
+            </ul>
             <li><b><i>citation</i></b>: citation (optional; for papers only)</li>
         </ul>
     </p>
+
+    <p>The skymaps available are:</p>
+    <ul>
+        <li><b><i>type</i></b>='skymaps-plot': plots of the sky localisation (Equatorial coordinates)<ul>
+          <li><b><i>file</i></b>='moll': Mollweide view, with title, credit and constellations, centred on (0,0)</li>
+          <li><b><i>file</i></b>='moll_rot': Mollweide view, with title, credit and constellations, centred on peak likelihood</li>
+          <li><b><i>file</i></b>='moll_pretty': Mollweide view, without title or constellations, centred on (0,0)</li>
+          <li><b><i>file</i></b>='moll_pretty_black': Mollweide view, without title or constellations, with black background, centred on (0,0)</li>
+          <li><b><i>file</i></b>='cart': Cartesian view, with title, credit and constellations, centred on (0,0)</li>
+          <li><b><i>file</i></b>='cart_rot': Cartesian view, with title, credit and constellations, centred on peak likelihood</li>
+          <li><b><i>file</i></b>='cartzoom': Cartesian view, with title, credit and constellations, zoomed and centred on peak likelihood</li>
+          <li><b><i>file</i></b>='cartzoom_pretty': Cartesian view, without title, credit or border, zoomed and centred on peak likelihood</li>
+        </ul></li>
+        <li><b><i>type</i></b>='skymaps-thumb': smaller versions of the above</li>
+        <li><b><i>type</i></b>='skymaps-plain': unannotated, black &amp; white Cartesian maps of the sky localisation<ul>
+          <li><b><i>file</i></b>='eq_8192': Equatorial coordinates, 8192x4096 image size</li>
+          <li><b><i>file</i></b>='gal_8192': Galactic coordinates, 8192x4096 image size</li>
+          <li><b><i>file</i></b>='gal_4096': Galactic coordinates, 4096x2048 image size</li>
+        </ul></li>
+    </ul>
 	<h2>Built-in functions</h2>
 	<p>A number of functions exist to allow access to the data.</p>
 	<ul>
@@ -180,33 +205,39 @@
 		<li><b><i>getLower</i></b>(<i>event</i>, <i>param</i>): gets "lower" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or NaN if not found.</li>
 		<li><b><i>getUpper</i></b>(<i>event</i>, <i>param</i>): gets "upper" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or NaN if not found.</li>
 		<li><b><i>getError</i></b>(<i>event</i>, <i>param</i>): gets "err" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or empty array [] if not found.</li>
-        <li><b><i>getNegError</i></b>(<i>event</i>, <i>param</i>): gets negative "err" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or NaN if not found.</li>
-        <li><b><i>getNegError</i></b>(<i>event</i>, <i>param</i>): gets positive "err" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or NaN if not found.</li>
+    <li><b><i>getNegError</i></b>(<i>event</i>, <i>param</i>): gets negative "err" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or NaN if not found.</li>
+    <li><b><i>getNegError</i></b>(<i>event</i>, <i>param</i>): gets positive "err" value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns value, or NaN if not found.</li>
 		<li><b><i>getNominal</i></b>(<i>event</i>, <i>param</i>): gets the nominal value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns best, lower or upper value, or average of lim values.</li>
 		<li><b><i>getMinVal</i></b>(<i>event</i>, <i>param</i>): gets the minimum value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns "best"-"err[1]", "lower", lower "lim" values, or -Infinity for "upper" values</li>
 		<li><b><i>getMaxVal</i></b>(<i>event</i>, <i>param</i>): gets the minimum value for <i>param</i> [string] for event <i>event</i> (name [string] or index [integer]). Returns "best"+"err[0]", "upper", higher "lim" values, or +Infinity for "lower" values</li>
-        <li><b><i>getLink</i></b>(<i>event</i>, [<i>lytpe</i>='', <i>ltxt</i>=''): returns list of links for <i>event</i> (name [string] or index [integer]) which have type parameter containing <i>ltype</i> (optional [string], ignored if not provided) and text parameter containing <i>ltxt</i> (optional [string], ignored if not provided). Searching uses RegEx syntax. Returns list of link objects, or empy list if not found.</li>
-        <li><b><i>getMeta</i></b>(<i>event</i>, [<i>meta-name</i>='']): gets the metadata parameter <i>meta-name</i> ( optional [string]) for <i>event</i> (name [string] or index [integer]). If not <i>meta-name</i> is provided (or is empty string), then returns object containing full metadata for the <i>event</i>, or null if not available.</li>
-        <li><b><i>paramName</i></b>(<i>param</i>): returns the name of <i>param</i> [string] as stored in datadict, or '' if not found.</li>
+    <li><b><i>paramName</i></b>(<i>param</i>): returns the name of <i>param</i> [string] as stored in datadict, or '' if not found.</li>
 		<li><b><i>paramUnit</i></b>(<i>param</i>): returns the unit of <i>param</i> [string] as stored in datadict, or '' if not found.</li>
-        <li><b><i>getRef</i></b>(<i>event</i>): returns the reference dict of <i>event</i> [string] as stored in datadict, or {} if not found. Result is a dict containing URL and name.</li>
-        <li><b><i>getOpenData</i></b>(<i>event</i>): returns the data link of <i>event</i> [string] as stored in datadict, or {} if not found. Result is a dict containing URL and name.</li>
-        <li><b><i>orderData</i></b>([<i>order</i>='GPS', <i>reverse</i>]): orders the data in <i>data</i> by parameter <i>order</i> (optional [string], default='GPS'). Set <i>reverse</i> (optional [boolean],default=false) to reverse order.</li>
+    <li><b><i>getRef</i></b>(<i>event</i>): returns the reference dict of <i>event</i> [string] as stored in datadict, or {} if not found. Result is a dict containing URL and name.</li>
+    <li><b><i>getOpenData</i></b>(<i>event</i>): returns the data link of <i>event</i> [string] as stored in datadict, or {} if not found. Result is a dict containing URL and name.</li>
+    <li><b><i>orderData</i></b>([<i>order</i>='GPS', <i>reverse</i>]): orders the data in <i>data</i> by parameter <i>order</i> (optional [string], default='GPS'). Set <i>reverse</i> (optional [boolean],default=false) to reverse order.</li>
+    <li><b><i>getLink</i></b>(<i>event</i>, [<i>lytpe</i>='', [<i>ltxt</i>='',[<i>lfile</i>='']]]): returns list of links for <i>event</i> (name [string] or index [integer]) which have type parameter containing <i>ltype</i> ([string], ignored if set to '') and text parameter containing <i>ltxt</i> ([string], ignored if set to '').
+      <ul><li>If <i>lfile</i> set, then if link contains <i>files</i> object, replaces url and text field for that file.</li>
+        <li>Searching for type and text uses regex syntax, while file uses exact match. Returns list of link objects, or empty list if not found.</li></ul></li>
+    <li><b><i>getSkymapPlot</i></b>(<i>event</i>, <i>file</i>, [<i>maptype</i>='plot']): returns skymap file for <i>event</i> (name [string] or index [integer]) which hase file tag <i>file</i>.
+      <ul><li><i>maptype</i> is 'plot'|'thumb'|'plain' and sets whether to search skymaps-plot, skymaps-thumb or skymaps-plain. Default='plot'</li></ul></li>
+    <li><b><i>getMeta</i></b>(<i>event</i>, [<i>meta-name</i>='']): gets the metadata parameter <i>meta-name</i> ( optional [string]) for <i>event</i> (name [string] or index [integer]). If not <i>meta-name</i> is provided (or is empty string), then returns object containing full metadata for the <i>event</i>, or null if not available.</li>
+
 	</ul>
 
 	<h2 id="tests">Example Tests</h2>
 	<ul class="unittests">
 		<li class="unittest"><p>Check we can get the mass of the primary object.  Note that <code>getBest(event,param)</code> is just an alias for <code>getValue(event,param,'best')</code></p><code><div class="input">gwcat.getBest("GW150914","M1") + " " + gwcat.paramUnit("M1")</div>// Expect: <span class="expect">35.6 M_sun</span><br />// Return: <span class="output">ERROR</span></code></li>
 		<li class="unittest"><p>Check we can get the mass of the primary object using the <em>this</em> object rather than a global variable. This will allow multiple catalogues to be loaded and a single callback function to process them as it doesn't need to know the name of the variable.</p><code><div class="input">this.getBest("GW150914","M1") + " " + this.paramUnit("M1")</div>// Expect: <span class="expect">35.6 M_sun</span><br />// Return: <span class="output">ERROR</span></code></li>
-        <li class="unittest"><p>Get the upper limit on the primary mass. (noting floating-point precision problem)</p><code><div class="input">gwcat.getMaxVal("GW150914","M1") + " " + gwcat.paramUnit("M1")</div>// Expect: <span class="expect">40.300000000000004 M_sun</span><br />// Return: <span class="output">ERROR</span></code></li>
+    <li class="unittest"><p>Get the upper limit on the primary mass. (noting floating-point precision problem)</p><code><div class="input">gwcat.getMaxVal("GW150914","M1") + " " + gwcat.paramUnit("M1")</div>// Expect: <span class="expect">40.300000000000004 M_sun</span><br />// Return: <span class="output">ERROR</span></code></li>
 		<li class="unittest"><p>Get the final, combined, mass of the event.</p><code><div class="input">gwcat.getBest("GW170817","Mfinal") + " " + gwcat.paramUnit("Mfinal")</div>// Expect: <span class="expect">2.8 M_sun</span><br />// Return: <span class="output">ERROR</span></code></li>
-        <li class="unittest"><code><div class="input">gwcat.getParamType("GW170817","Mfinal")</div>// Expect: <span class="expect">best</span><br />// Return: <span class="output">ERROR</span></code></li>
-        <!-- <li class="unittest"><p>Get a lower value for an upper limit, to check infinities.</p><code><div class="input">gwcat.getMinVal("GW170817","Mfinal") + " " + gwcat.paramUnit("Mfinal")</div>// Expect: <span class="expect">-Infinity M_sun</span><br />// Return: <span class="output">ERROR</span></code></li>
-        <li class="unittest"><code><div class="input">gwcat.getValue("GW170817","Erad","lower") + " " + gwcat.paramUnit("Erad")</div>// Expect: <span class="expect">0.04 M_sun c^2</span><br />// Return: <span class="output">ERROR</span></code></li> -->
+    <li class="unittest"><code><div class="input">gwcat.getParamType("GW170817","Mfinal")</div>// Expect: <span class="expect">best</span><br />// Return: <span class="output">ERROR</span></code></li>
+    <!-- <li class="unittest"><p>Get a lower value for an upper limit, to check infinities.</p><code><div class="input">gwcat.getMinVal("GW170817","Mfinal") + " " + gwcat.paramUnit("Mfinal")</div>// Expect: <span class="expect">-Infinity M_sun</span><br />// Return: <span class="output">ERROR</span></code></li>
+    <li class="unittest"><code><div class="input">gwcat.getValue("GW170817","Erad","lower") + " " + gwcat.paramUnit("Erad")</div>// Expect: <span class="expect">0.04 M_sun c^2</span><br />// Return: <span class="output">ERROR</span></code></li> -->
 		<li class="unittest"><p>Return a text description of the parameter.</p><code><div class="input">gwcat.paramName("chi")</div>// Expect: <span class="expect">Effective inspiral spin</span><br />// Return: <span class="output">ERROR</span></code></li>
 		<li class="unittest"><code><div class="input">gwcat.paramUnit("lpeak")</div>// Expect: <span class="expect">10^56 erg s^-1</span><br />// Return: <span class="output">ERROR</span></code></li>
-        <li class="unittest"><p>Get the URL of the open data</p><code><div class="input">gwcat.getOpenData("GW150914")['url']</div>// Expect: <span class="expect">https://www.gw-openscience.org/eventapi/html/GWTC-1-confident/GW150914/v3</span><br />// Return: <span class="output">ERROR</span></code></li>
-        <li class="unittest"><p>Get a link to the plain skymap</p><code><div class="input">gwcat.getLink("GW150914",type='skymap-plain')[0]['url']</div>// Expect: <span class="expect">https://data.cardiffgravity.org/gwcat-data/data/gravoscope/GW150914_8192.png</span><br />// Return: <span class="output">ERROR</span></code></li>
+    <li class="unittest"><p>Get the URL of the open data</p><code><div class="input">gwcat.getOpenData("GW150914")['url']</div>// Expect: <span class="expect">https://www.gw-openscience.org/eventapi/html/GWTC-1-confident/GW150914/v3</span><br />// Return: <span class="output">ERROR</span></code></li>
+    <li class="unittest"><p>Get a link to the Cartesian zoomed skymap</p><code><div class="input">gwcat.getSkymapPlot("GW170817","cartzoom")[0]['url']</div>// Expect: <span class="expect">https://data.cardiffgravity.org/gwcat-data/data/png/GW170817_cartzoom.png</span><br />// Return: <span class="output">ERROR</span></code></li>
+		<li class="unittest"><p>Get a link to a plain skymap</p><code><div class="input">gwcat.getSkymapPlot("GW150914","gal_8192",maptype='plain')[0]['url']</div>// Expect: <span class="expect">https://data.cardiffgravity.org/gwcat-data/data/gravoscope/GW150914_8192.png</span><br />// Return: <span class="output">ERROR</span></code></li>
 		<li class="unittest"><p>Get the earliest gravitational wave. To do this we explicitly order the catalogue by the UTC of the event.</p><pre><div class="input">function earliestGW(){
         gwcat.orderData("UTC");
         return gwcat.data[0].name;
@@ -219,9 +250,9 @@
             }
             return('none');
         }
-        mostMassiveGW();</div>// Expect: <span class="expect">GW190521</span><br />// Return: <span class="output">ERROR</span></pre></li>
+        mostMassiveGW();</div>// Expect: <span class="expect">GW190426_190642</span><br />// Return: <span class="output">ERROR</span></pre></li>
         	</ul>
-    
+
 	<script type="text/javascript">
 		function runTests(){
 			var tests,n,pass,rtn,exp;
