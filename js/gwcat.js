@@ -178,7 +178,7 @@ GWCat.prototype.loadData = function(){
 	function parseData(dataIn,attr,_gw,loadGwosc=false,loadGraceDB=false){
 		_gw.loaded++;
 		_gw.datadict=dataIn.datadict;
-        if (dataIn.meta){_gw.meta=dataIn.meta}else{_gw.meta={}}
+    if (dataIn.meta){_gw.meta=dataIn.meta}else{_gw.meta={}}
 		newlinks={}
 		for (e in dataIn.links){
 			// convert links to required format
@@ -191,14 +191,15 @@ GWCat.prototype.loadData = function(){
 					else if (linkIn[l].type.search('open-data')>=0) newlinks[e]['OpenData'] = linkIn[l];
 					// else if (linkIn[l].text.search('GraceDB page')>=0) newlinks[e]['GraceDB'] = { 'text': linkIn[l].text, 'url':linkIn[l].url, 'type': 'web-data' };
 					else if (linkIn[l].type.search('skymap-fits')>=0) newlinks[e]['SkyMapFile'] = linkIn[l];
+          else if (linkIn[l].type.search('skymaps-plot')>=0) newlinks[e]['SkyMapPlots'] = linkIn[l];
 					// else if (linkIn[l].text.search('Skymap View')>=0) newlinks[e]['SkyMapAladin'] = { 'text': linkIn[l].text, 'url': linkIn[l].url, 'type': 'web' };
-                    newlinks[e]['all'].push(linkIn[l]);
+          newlinks[e]['all'].push(linkIn[l]);
 				}
 			}
-            _gw.log('processing links for ',e,newlinks[e]);
+    _gw.log('processing links for ',e,newlinks[e]);
 		}
 		dataIn.links=newlinks;
-        _gw.links=dataIn.links;
+    _gw.links=dataIn.links;
 		for (e in dataIn.data){
 			dataIn.data[e].name=e;
 			// if (dataIn.data[e].type){
@@ -617,7 +618,6 @@ GWCat.prototype.getLink = function(event,ltype='',ltxt='',lfile=''){
         // console.log('no link for',event)
         return[];
     }
-    // console.log('link for',event,'type',ltype,'text',ltxt,'file',lfile);
     // nlink=this.links[event]all.length
     let linksOut=[]
     for (var l in this.links[event].all){
@@ -625,26 +625,30 @@ GWCat.prototype.getLink = function(event,ltype='',ltxt='',lfile=''){
         // match type
         let mtype=(ltype) ? ((link.type.search(ltype)>=0) ? true : false ): true;
         let mtxt=(ltxt) ? ((link.text.search(ltxt)>=0) ? true : false ): true;
-        // console.log(l,link,mtype,mtxt)
         if (mtype && mtxt){
             let linkOut={};
             for (let i in link){
                 linkOut[i]=link[i];
             }
-            // console.log('found',link)
             if ((lfile)&&(linkOut.files)){
-                // console.log('getting file',lfile,'for',event);
-                // console.log(linkOut.files);
+                fileFound=false;
                 if (linkOut.files[lfile]){
                     linkOut.url=linkOut.url+linkOut.files[lfile].file;
                     linkOut.text=(linkOut.files[lfile].text)?linkOut.files[lfile].text:linkOut.text;
+                    fileFound=true;
                 }
+                if (fileFound) delete linkOut.files;
             }
             linksOut.push(linkOut);
             // console.log(linkOut);
         }
     }
     return linksOut;
+}
+GWCat.prototype.getSkymapPlot = function(event,file,maptype='plot'){
+    ltype='skymaps-'+maptype;
+    plot=this.getLink(event,ltype=ltype,ltxt='',lfile=file);
+    return(plot)
 }
 GWCat.prototype.getMeta = function(event,mname=''){
     idx=this.event2idx(event);
