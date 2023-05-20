@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<title>gwcat api</title>
+  </head>
+  <body>
+      Hello world
+      <script type="text/javascript">
+  //     fetch("test-json.json")
+  //     .then(function(response) {
+  //   return response.json()
+  // }).then(function(json) {
+  //   console.log('parsed json', json)
+  // }).catch(function(ex) {
+  //   console.log('parsing failed', ex)
+  // })
+  fetch("test-json.json", {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json, text/plain, */*',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({a: 7, str: 'Some string: &=&'})
+}).then(res => res.json())
+  .then(res => console.log(res));
+      </script>
+  </body>
+</html>
