@@ -68,8 +68,8 @@ GWCat.prototype.setLinks = function(){
 }
 
 GWCat.prototype.filterData = function(){
-    this.log('confirmedOnly, noGraceDB, noMarginal', this.confirmedOnly, this.noGraceDB, this.noMarginal)
-    if ((this.confirmedOnly)||(this.noGraceDB)||(this.noMarginal)){
+    this.log('confirmedOnly, noGraceDB, noMarginal, lowSignificance', this.confirmedOnly, this.noGraceDB, this.noMarginal, this.lowSignificance)
+    if ((this.confirmedOnly)||(this.noGraceDB)||(this.noMarginal)||(!this.lowSignificance)){
         this.log('skipping candidates from ',this.data.length)
         var dataConf=[];
         for (i in this.data){
@@ -79,7 +79,7 @@ GWCat.prototype.filterData = function(){
                 this.log('skipping candidate',this.data[i].name);
             }else if((dconf=='Marginal')&&((this.confirmedOnly)||(this.noMarginal))){
                 this.log('skipping marginal',this.data[i].name);
-            }else if((dsig=='Low')&&!(this.lowSignificance)){
+            }else if((dsig=='Low')&&(!this.lowSignificance)){
                 this.log('skipping low significance',this.data[i].name);
             }else{
                 dataConf.push(this.data[i]);
