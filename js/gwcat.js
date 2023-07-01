@@ -79,7 +79,7 @@ GWCat.prototype.filterData = function(){
                 this.log('skipping candidate',this.data[i].name);
             }else if((dconf=='Marginal')&&((this.confirmedOnly)||(this.noMarginal))){
                 this.log('skipping marginal',this.data[i].name);
-            }else if(){
+            }else if((dsig=='Low')&&!(this.lowSignificance)){
                 this.log('skipping low significance',this.data[i].name);
             }else{
                 dataConf.push(this.data[i]);
