@@ -24,6 +24,7 @@ GWCat.prototype.init = function(){
     this.gwoscFile = (this.inp && this.inp.gwoscFile) ? this.inp.gwoscFile : "data/gwosc.json";
     this.loadMethod = (this.inp && this.inp.loadMethod) ? this.inp.loadMethod : "";
     this.confirmedOnly = (this.inp && this.inp.hasOwnProperty('confirmedOnly')) ? this.inp.confirmedOnly : false;
+    this.lowSignificance = (this.inp && this.inp.hasOwnProperty('lowSignificance')) ? this.inp.lowSignificance : false;
     this.noGraceDB = (this.inp && this.inp.hasOwnProperty('noGraceDB')) ? this.inp.noGraceDB : false;
     this.noMarginal = (this.inp && this.inp.hasOwnProperty('noMarginal')) ? this.inp.noMarginal : false;
     return this;
@@ -73,10 +74,13 @@ GWCat.prototype.filterData = function(){
         var dataConf=[];
         for (i in this.data){
             var dconf=this.getBest(this.data[i].name,'conf');
+            var dsig=this.getBest(this.data[i].name,'Significance');
             if ((dconf=='Candidate')&&((this.confirmedOnly)||(this.noGraceDB))){
                 this.log('skipping candidate',this.data[i].name);
             }else if((dconf=='Marginal')&&((this.confirmedOnly)||(this.noMarginal))){
                 this.log('skipping marginal',this.data[i].name);
+            }else if(){
+                this.log('skipping low significance',this.data[i].name);
             }else{
                 dataConf.push(this.data[i]);
             }
