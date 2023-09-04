@@ -42,8 +42,17 @@
     <p>More info
         <ul>
             <li>Download the catalogue data in <a href="https://data.cardiffgravity.org/gwcat-data/data/gwosc_gracedb.json">JSON</a> or <a href="https://data.cardiffgravity.org/gwcat-data/data/gwosc_gracedb.csv">CSV</a> formats (parameter/columns definitions are <a href="https://data.cardiffgravity.org/gwcat-data/data/parameters.csv">here</a>).</li>
-            <li>See <a href="data.html">this page</a> for links to some data files</li>
-            <li>See <a href="skymaps.html">this page</a> for localisation images</li>
+            <li>For other data files see:<ul>
+			<li><a href="https://data.cardiffgravity.org/gwcat-data/data/gwosc_gracedb.json">[all data (JSON)]</a> (data/gwosc_gracedb.json) (<em>includes parameter definitions and referece links)</em></li>
+			<li><a href="https://data.cardiffgravity.org/gwcat-data/data/gwosc_gracedb.min.json">[all data (JSON, minified)]</a> (data/gwosc_gracedb.min.json) (<em>includes parameter definitions and reference links)</em></li>
+			<li><a href="https://data.cardiffgravity.org/gwcat-data/data/data.json">[data values only (JSON)]</a> (data/data.json)</li>
+			<li><a href="https://data.cardiffgravity.org/gwcat-data/data/parameters.json">[Data parameters only (JSON)]</a> (data/parameters.json)</li>
+			<li><a href="https://data.cardiffgravity.org/gwcat-data/data/links.json">[References/links only (JSON)]</a> (data/links.json)</li>
+			<li><a href="https://data.cardiffgravity.org/gwcat-data/data/gwosc_gracedb.csv">[data values (CSV)]</a> (data/gwosc_gracedb.csv)</li>
+			<li><a href="https://data.cardiffgravity.org/gwcat-data/data/parameters.csv">[data parameters (CSV)]</a> (data/parameters.csv)</li>
+			<li><a href="https://data.cardiffgravity.org/gwcat-data/data/links.csv">[References/links (CSV)]</a> (data/links.csv)</li>
+			</ul></li>
+			<li>See <a href="skymaps.html">this page</a> for localisation images</li>
             <li>See <a href="https://catalog.cardiffgravity.org">this page</a> for a catalog display</li>
             <li>See <a href="https://waveview.cardiffgravity.org">this page</a> for a display of waveforms</li>
         </ul>
@@ -235,9 +244,9 @@
     <li class="unittest"><code><div class="input">gwcat.getValue("GW170817","Erad","lower") + " " + gwcat.paramUnit("Erad")</div>// Expect: <span class="expect">0.04 M_sun c^2</span><br />// Return: <span class="output">ERROR</span></code></li> -->
 		<li class="unittest"><p>Return a text description of the parameter.</p><code><div class="input">gwcat.paramName("chi")</div>// Expect: <span class="expect">Effective inspiral spin</span><br />// Return: <span class="output">ERROR</span></code></li>
 		<li class="unittest"><code><div class="input">gwcat.paramUnit("lpeak")</div>// Expect: <span class="expect">10^56 erg s^-1</span><br />// Return: <span class="output">ERROR</span></code></li>
-    <li class="unittest"><p>Get the URL of the open data</p><code><div class="input">gwcat.getOpenData("GW150914")['url']</div>// Expect: <span class="expect">https://www.gw-openscience.org/eventapi/html/GWTC-1-confident/GW150914/v3</span><br />// Return: <span class="output">ERROR</span></code></li>
-    <li class="unittest"><p>Get a link to the Cartesian zoomed skymap</p><code><div class="input">gwcat.getSkymapPlot("GW170817","cartzoom")[0]['url']</div>// Expect: <span class="expect">https://data.cardiffgravity.org/gwcat-data/data/png/GW170817_cartzoom.png</span><br />// Return: <span class="output">ERROR</span></code></li>
-		<li class="unittest"><p>Get a link to a plain skymap</p><code><div class="input">gwcat.getSkymapPlot("GW150914","gal_8192",maptype='plain')[0]['url']</div>// Expect: <span class="expect">https://data.cardiffgravity.org/gwcat-data/data/gravoscope/GW150914_8192.png</span><br />// Return: <span class="output">ERROR</span></code></li>
+    <li class="unittest"><p>Get the URL of the open data</p><code><div class="input">gwcat.getOpenData("GW150914")['url']</div>// Expect: <span class="expect">https://gwosc.org/eventapi/html/GWTC-1-confident/GW150914/v3</span><br />// Return: <span class="output">ERROR</span></code></li>
+    <li class="unittest"><p>Get a link to the Cartesian zoomed skymap</p><code><div class="input">gwcat.getSkymapPlot("GW170817","cartzoom")[0]['url']</div>// Expect: <span class="expect">https://ligo.gravity.cf.ac.uk/~chris.north/gwcat-data/data/png/GW170817_cartzoom.png</span><br />// Return: <span class="output">ERROR</span></code></li>
+		<li class="unittest"><p>Get a link to a plain skymap</p><code><div class="input">gwcat.getSkymapPlot("GW150914","gal_8192",maptype='plain')[0]['url']</div>// Expect: <span class="expect">https://ligo.gravity.cf.ac.uk/~chris.north/gwcat-data/data/gravoscope/GW150914_8192.png</span><br />// Return: <span class="output">ERROR</span></code></li>
 		<li class="unittest"><p>Get the earliest gravitational wave. To do this we explicitly order the catalogue by the UTC of the event.</p><pre><div class="input">function earliestGW(){
         gwcat.orderData("UTC");
         return gwcat.data[0].name;
