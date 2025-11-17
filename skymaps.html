@@ -65,12 +65,12 @@
     div.button-title{
         display:inline-block;
     }
-    div.button.show-obs, div.button.sort, div.button.dir{
+    div.button.show-obs, div.button.show-type, div.button.sort, div.button.dir{
         background-color:#ccc;
         border-color:#ccc;
         color:black;
     }
-    div.button.show-obs.selected, div.button.sort.selected, div.button.dir.selected{
+    div.button.show-obs.selected, div.button.show-type.selected, div.button.sort.selected, div.button.dir.selected{
         background-color:#662d8f;
         border-color:#662d8f;
         color:white;
@@ -103,8 +103,9 @@
     </div>
     <div class="button grey" id="showall">Show all events</div>
     <div class="button-set">
-        <div class="button-title">Filter:</div>
+        <div class="button-title">Observing Run:</div>
         <div class="button show-obs selected" id="show-obs-all">All</div>
+        <div class="button show-obs unselected" id="show-obs-O4c">O4c</div>
         <div class="button show-obs unselected" id="show-obs-O4b">O4b</div>
         <div class="button show-obs unselected" id="show-obs-O4a">O4a</div>
         <div class="button show-obs unselected" id="show-obs-O3b">O3b</div>
@@ -113,6 +114,11 @@
         <div class="button show-obs unselected" id="show-obs-O1">O1</div>
     </div>
     <div class="button-set">
+        <div class="button-title">Observation Type:</div>
+        <div class="button show-type selected" id="show-type-all">All</div>
+        <div class="button show-type unselected" id="show-type-Candidate">Candidate</div>
+        <div class="button show-type unselected" id="show-type-GW">Confirmed</div>
+    </div><div class="button-set">
         <div class="button-title">Sort by:</div>
         <div class="button sort selected" id="sort-GPS">Date</div>
         <div class="button sort unselected" id="sort-deltaOmega">Sky area</div>
@@ -148,6 +154,16 @@
             }
             return (evList);
         }
+        function showtype(obstype){
+            if (obstype=='all'){return({})}
+            var evList={};
+            for (e in gwcat.data){
+                let ev=gwcat.data[e].name;
+                let evtype=gwcat.getBest(ev,'detType')
+                if (evtype==obstype) evList[ev]=1;
+            }
+            return (evList);
+        }
         d3.selectAll('.button.show-obs')
             .on('click',function(){
                 obs=this.getAttribute('id').split('-')[2]
@@ -156,6 +172,17 @@
                 d3.selectAll('.button.show-obs').classed('selected',false);
                 d3.select(this).classed('selected',true);
                 var evList=showobs(obs);
+                console.log(evList)
+                populateImages(evList);
+            });
+        d3.selectAll('.button.show-type')
+            .on('click',function(){
+                obstype=this.getAttribute('id').split('-')[2]
+                let thisid=this.getAttribute('id');
+                console.log(this,thisid,obstype);
+                d3.selectAll('.button.show-type').classed('selected',false);
+                d3.select(this).classed('selected',true);
+                var evList=showtype(obstype);
                 console.log(evList)
                 populateImages(evList);
             });
