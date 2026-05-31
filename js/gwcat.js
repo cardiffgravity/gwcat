@@ -634,14 +634,32 @@ GWCat.prototype.getLink = function(event,ltype='',ltxt='',lfile=''){
             for (let i in link){
                 linkOut[i]=link[i];
             }
-            if ((lfile)&&(linkOut.files)){
-                fileFound=false;
-                if (linkOut.files[lfile]){
-                    linkOut.url=linkOut.url+linkOut.files[lfile].file;
-                    linkOut.text=(linkOut.files[lfile].text)?linkOut.files[lfile].text:linkOut.text;
-                    fileFound=true;
+            if ((lfile)&&(linkOut.files)&&(linkOut.files.indexOf(lfile) >= 0)){
+                // Check if ltype contains "skymap"
+                console.log('ltype:', ltype, 'contains skymap:', ltype.indexOf('skymap') >= 0);
+                if (ltype && ltype.indexOf('skymap') >= 0) {
+                    // Load metadata for skymap_files
+                    let skymapMeta = this.getCatalogMeta('skymap_files');
+                    console.log('skymapMeta:', skymapMeta);
+                    if (skymapMeta && skymapMeta.filename) {
+                        console.log('Using metadata template:', skymapMeta.filename);
+                        // Replace placeholders in filename
+                        let filename = skymapMeta.filename;
+                        // Use link URL if available, otherwise use base-url from metadata
+                        let baseUrl = linkOut.url || skymapMeta['base-url'] || '';
+                        filename = filename.replace('%URL%', baseUrl);
+                        filename = filename.replace('%EVENT%', event);
+                        filename = filename.replace('%TYPE%', lfile);
+                        console.log('Final URL:', filename);
+                        linkOut.url = filename;
+                    } else {
+                        console.log('No metadata found, using fallback');
+                        linkOut.url=linkOut.url+lfile;
+                    }
+                } else {
+                    linkOut.url=linkOut.url+lfile;
                 }
-                if (fileFound) delete linkOut.files;
+                delete linkOut.files;
             }
             linksOut.push(linkOut);
             // console.log(linkOut);
@@ -661,6 +679,15 @@ GWCat.prototype.getMeta = function(event,mname=''){
             return(this.data[idx].meta);
         }else if (this.data[idx].meta[mname]){
             return(this.data[idx].meta[mname])
+        }else{return}
+    }else{return;}
+}
+GWCat.prototype.getCatalogMeta = function(mname=''){
+    if (this.meta){
+        if (mname==''){
+            return(this.meta);
+        }else if (this.meta[mname]){
+            return(this.meta[mname])
         }else{return}
     }else{return;}
 }
