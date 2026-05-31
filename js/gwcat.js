@@ -645,9 +645,20 @@ GWCat.prototype.getLink = function(event,ltype='',ltxt='',lfile=''){
                         console.log('Using metadata template:', skymapMeta.filename);
                         // Replace placeholders in filename
                         let filename = skymapMeta.filename;
-                        // Use link URL if available, otherwise use base-url from metadata
-                        let baseUrl = linkOut.url || skymapMeta['base-url'] || '';
+                        // Get base-url from specific link type, fall back to top-level, then link URL
+                        let baseUrl = '';
+                        if (linkOut.url) {
+                            baseUrl = linkOut.url;
+                            console.log('Using link URL:', baseUrl);
+                        }else if (skymapMeta[lfile] && skymapMeta[lfile]['base-url']) {
+                            baseUrl = skymapMeta[lfile]['base-url'];
+                            console.log('Using base-url from', lfile, ':', baseUrl);
+                        } else if (skymapMeta['base-url']) {
+                            baseUrl = skymapMeta['base-url'];
+                            console.log('Using top-level base-url:', baseUrl);
+                        }
                         filename = filename.replace('%URL%', baseUrl);
+                        filename = filename.replace('%BASEURL%', baseUrl);
                         filename = filename.replace('%EVENT%', event);
                         filename = filename.replace('%TYPE%', lfile);
                         console.log('Final URL:', filename);
