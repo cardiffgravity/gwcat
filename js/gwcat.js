@@ -676,6 +676,11 @@ GWCat.prototype.getLink = function(event,ltype='',ltxt='',lfile=''){
                         filename = filename.replace('%TYPE%', lfile);
                         console.log('Final URL:', filename);
                         linkOut.url = filename;
+                        // Set linkOut.text from metadata if available
+                        if (skymapMeta[lfile] && skymapMeta[lfile].text) {
+                            linkOut.text = skymapMeta[lfile].text;
+                            console.log('Using text from metadata:', linkOut.text);
+                        }
                     } else {
                         console.log('No metadata found, using fallback');
                         linkOut.url=linkOut.url+lfile;
