@@ -647,7 +647,7 @@ GWCat.prototype.getLink = function(event,ltype='',ltxt='',lfile=''){
                         let filename = skymapMeta.filename;
                         // Get base-url from specific link type, fall back to top-level, then link URL
                         let baseUrl = '';
-                        if (linkOut.url) {
+                        if (linkOut.url && linkOut.url.indexOf('%BASEURL%') < 0 && linkOut.url.indexOf('%URL%') < 0) {
                             baseUrl = linkOut.url;
                             console.log('Using link URL:', baseUrl);
                         }else if (skymapMeta[lfile] && skymapMeta[lfile]['base-url']) {
