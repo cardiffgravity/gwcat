@@ -642,10 +642,16 @@ GWCat.prototype.getLink = function(event,ltype='',ltxt='',lfile=''){
                     let skymapMeta = this.getCatalogMeta('skymap_files');
                     console.log('skymapMeta:', skymapMeta);
                     if (skymapMeta && skymapMeta.filename) {
-                        if (ltype.indexOf('thumb') >= 0 && skymapMeta.filename_thumb) {
-                            console.log('Using metadata template:', skymapMeta.filename_thumb);
-                            // Replace placeholders in filename
-                            let filename = skymapMeta.filename;
+                        if (ltype.indexOf('thumb') >=0)
+                            if (skymapMeta.filename_thumb) {
+                                console.log('Using metadata thumbnail template:', skymapMeta.filename_thumb);
+                                // Replace placeholders in filename
+                                let filename = skymapMeta.filename_thumb;
+                            }else{
+                                console.log('Adapting metadata template for thumbnail (.png > .thumb.png):', skymapMeta.filename);
+                                // Replace placeholders in filename
+                                let filename = skymapMeta.filename.replace('.png', '.thumb.png');
+                            }
                         }else{
                             console.log('Using metadata template:', skymapMeta.filename);
                             // Replace placeholders in filename
